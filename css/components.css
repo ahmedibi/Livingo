@@ -1,0 +1,166 @@
+/* components.css placeholder */
+/* style.css placeholder */
+* {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  scroll-behavior: smooth;
+}
+
+
+ #title{
+     animation: ltr 3s 1;
+ }
+@keyframes ltr{
+    0%{ transform: translateX(-100px);}
+    30%{ transform: translateX(150px);}
+    70%{ transform: translateX(-100px);}
+    100%{ transform: translateX(0);}
+}
+
+.banner {
+  width: 85%;
+}
+/* navbar */
+
+nav input {
+  box-shadow: none !important;
+  background-color: #dfdddd !important;
+ 
+}
+nav .input-group {
+background-color: #dfdddd;
+border-radius: 5px !important;
+}
+nav .input-group .btn:hover{
+background-color: transparent;
+}
+nav {
+  position: relative;
+}
+nav .navbar-toggler {
+  margin-left: 30%;
+}
+
+/* line active  */
+.nav-link {
+  position: relative;
+}
+.nav-link.active {
+  color: crimson !important;
+  transform: scale(1.1);
+  transition: transform 0.5 linear;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: crimson;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+nav .navbar-toggler {
+  position: relative;
+  top: 10%;
+  right: 98%;
+}
+@media (max-width: 990px) {
+  nav .icon_nav {
+    width: 50px;
+    position: absolute;
+    top: 10%;
+    right: 3%;
+  }
+  .nav-link::after {
+    /* width: 0%; */
+    background-color: transparent;
+  }
+  .navbar-brand {
+    margin-left: 15% !important;
+  }
+  nav .navbar-toggler {
+    position: relative;
+    top: 10%;
+    right: 88%;
+  }
+}
+
+/***** End nav *****/
+
+/***** footer style *****/ 
+footer{
+   
+}
+footer input:focus{
+  border: none;
+  outline: none;
+}
+footer p{
+ font-size: 14px;
+  color: #ccc;
+
+}
+footer img{
+  width: 76px;
+  /* display: block; */
+}
+.social-icons a {
+  color: #fff;
+  font-size: 22px;
+  margin-right:5px;
+  transition: 0.3s;
+}
+
+footer .link:hover a{
+border-bottom: 1px solid white;
+margin-bottom: 2px;
+color: white !important;
+}
+/***** End footer style *****/
+
+/***** arrow-up-to-top *****/
+.back-to-top a {
+  color: black;
+  position: fixed;
+  right: 15px;
+  bottom: 10px;
+  z-index: 996;
+  background: #F5F5F5;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  transition: all 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.back-to-top {
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.4s;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+.back-to-top a:hover{
+color: #ffffff !important;
+background-color: crimson;
+}
+/***** End arrow-up-to-top *****/
+
+/***** style hover icon *****/  
+
+/***** End style hover icon *****/
+
+

@@ -1,0 +1,214 @@
+[
+  {
+    "id": "user01",
+    "name": "Customer 1",
+    "email": "customer1@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 1, Cairo, Egypt",
+    "orders": [
+      "order001",
+      "order002"
+    ]
+  },
+  {
+    "id": "user02",
+    "name": "Customer 2",
+    "email": "customer2@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 2, Cairo, Egypt",
+    "orders": [
+      "order003",
+      "order004"
+    ]
+  },
+  {
+    "id": "user03",
+    "name": "Customer 3",
+    "email": "customer3@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 3, Cairo, Egypt",
+    "orders": [
+      "order005",
+      "order006"
+    ]
+  },
+  {
+    "id": "user04",
+    "name": "Customer 4",
+    "email": "customer4@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 4, Cairo, Egypt",
+    "orders": [
+      "order007",
+      "order008"
+    ]
+  },
+  {
+    "id": "user05",
+    "name": "Customer 5",
+    "email": "customer5@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 5, Cairo, Egypt",
+    "orders": [
+      "order009",
+      "order010"
+    ]
+  },
+  {
+    "id": "user06",
+    "name": "Customer 6",
+    "email": "customer6@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 6, Cairo, Egypt",
+    "orders": [
+      "order011",
+      "order012"
+    ]
+  },
+  {
+    "id": "user07",
+    "name": "Customer 7",
+    "email": "customer7@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 7, Cairo, Egypt",
+    "orders": [
+      "order013",
+      "order014"
+    ]
+  },
+  {
+    "id": "user08",
+    "name": "Customer 8",
+    "email": "customer8@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 8, Cairo, Egypt",
+    "orders": [
+      "order015",
+      "order016"
+    ]
+  },
+  {
+    "id": "user09",
+    "name": "Customer 9",
+    "email": "customer9@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 9, Cairo, Egypt",
+    "orders": [
+      "order017",
+      "order018"
+    ]
+  },
+  {
+    "id": "user10",
+    "name": "Customer 10",
+    "email": "customer10@example.com",
+    "password": "password123",
+    "role": "customer",
+    "address": "Street 10, Cairo, Egypt",
+    "orders": [
+      "order019",
+      "order020"
+    ]
+  },
+  {
+    "id": "user11",
+    "name": "Seller 1",
+    "email": "seller1@example.com",
+    "password": "password123",
+    "role": "seller",
+    "storeName": "Store 1",
+    "products": [
+      "p001",
+      "p002",
+      "p003",
+      "p004",
+      "p005",
+      "p006",
+      "p007",
+      "p008",
+      "p009",
+      "p010",
+      "p011",
+      "p012",
+      "p013",
+      "p014",
+      "p015",
+      "p016",
+      "p017",
+      "p018",
+      "p019",
+      "p020",
+      "p021",
+      "p022",
+      "p023",
+      "p024",
+      "p025",
+      "p026",
+      "p027",
+      "p028",
+      "p029",
+      "p030",
+      "p031",
+      "p032",
+      "p033",
+      "p034",
+      "p035",
+      "p036"
+    ]
+  },
+  {
+    "id": "user12",
+    "name": "Seller 2",
+    "email": "seller2@example.com",
+    "password": "password123",
+    "role": "seller",
+    "storeName": "Store 2",
+    "products": [
+      "p037",
+      "p038",
+      "p039",
+      "p040",
+      "p041",
+      "p042",
+      "p043",
+      "p044",
+      "p045",
+      "p046",
+      "p047",
+      "p048",
+      "p049",
+      "p050",
+      "p051",
+      "p052",
+      "p053",
+      "p054",
+      "p055",
+      "p056",
+      "p057",
+      "p058",
+      "p059",
+      "p060",
+      "p061",
+      "p062",
+      "p063",
+      "p064",
+      "p065",
+      "p066",
+      "p067",
+      "p068",
+      "p069",
+      "p070",
+      "p071",
+      "p072"
+    ]
+  }
+]

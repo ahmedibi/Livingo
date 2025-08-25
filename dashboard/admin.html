@@ -1,0 +1,588 @@
+<!-- admin.html placeholder -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duka Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+              background-image: linear-gradient(to right,black, crimson  );
+        }
+
+        .sidebar {
+            width: 250px;
+            border-right: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+
+        .logo {
+            padding: 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 32px;
+            height: 32px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            cursor: pointer;
+            border-right: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #f8f9fa;
+        }
+
+        .nav-item.active {
+            background: #f8f9fa;
+            color: #333;
+            border-right-color: #007bff;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        .create-btn {
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .overview-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .dropdown {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-change {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .welcome-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .user-avatars {
+            display: flex;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            text-align: center;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            object-fit: cover;
+        }
+
+        .avatar-name {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .chart-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .sidebar-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .products-list {
+            margin-bottom: 20px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-icon {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .product-details h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .product-details p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .product-earnings {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comments-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div >
+        <div class="logo">
+            <div class="logo-circle">D</div>
+            <div class="logo-text">Duka</div>
+        </div>
+        
+        <div class="nav-item active">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            Home
+        </div>
+        
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+            Products
+        </div>
+        
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+            </svg>
+            Customers
+        </div>
+        
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+            Shop
+        </div>
+        
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+            </svg>
+            Income
+        </div>
+        
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m3 0v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4m3 0h6m-6 0h6"></path>
+            </svg>
+            Promote
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Dashboard</h1>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search or type a command">
+                <button class="create-btn">+ Create</button>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="overview-section">
+            <div class="section-header">
+                <h2>Overview</h2>
+                <select class="dropdown">
+                    <option>All Time</option>
+                </select>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label">Customers</div>
+                    <div class="stat-value">
+                        10,243
+                        <span class="stat-change">8%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Income</div>
+                    <div class="stat-value">
+                        $39,403,450
+                        <span class="stat-change">8%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-title">Welcome to our new online experience</div>
+            <div class="user-avatars">
+                <div class="user-avatar">
+                    <div class="avatar-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">JD</div>
+                    <div class="avatar-name">Johnson D.</div>
+                </div>
+                <div class="user-avatar">
+                    <div class="avatar-img" style="background: linear-gradient(45deg, #4ecdc4, #45b7d1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">DJ</div>
+                    <div class="avatar-name">Didinya J.</div>
+                </div>
+                <div class="user-avatar">
+                    <div class="avatar-img" style="background: linear-gradient(45deg, #96ceb4, #feca57); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">PL</div>
+                    <div class="avatar-name">Penny L.</div>
+                </div>
+                <div class="user-avatar">
+                    <div class="avatar-img" style="background: linear-gradient(45deg, #ff9ff3, #f368e0); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">EM</div>
+                    <div class="avatar-name">Elon M.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Chart Section -->
+            <div class="chart-section">
+                <div class="section-header">
+                    <h2>Total Income</h2>
+                    <select class="dropdown">
+                        <option>All Time</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="incomeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Sidebar Content -->
+            <div>
+                <!-- Popular Products -->
+                <div class="sidebar-content">
+                    <div class="section-header">
+                        <h3>Popular Products</h3>
+                        <a href="#" style="color: #007bff; text-decoration: none; font-size: 14px;">All Products</a>
+                    </div>
+                    
+                    <div class="products-list">
+                        <div class="product-item">
+                            <div class="product-info">
+                                <div class="product-icon">📱</div>
+                                <div class="product-details">
+                                    <h4>Product A</h4>
+                                    <p>UI Kit</p>
+                                </div>
+                            </div>
+                            <div class="product-earnings">$5461</div>
+                        </div>
+                        
+                        <div class="product-item">
+                            <div class="product-info">
+                                <div class="product-icon">💻</div>
+                                <div class="product-details">
+                                    <h4>Product B</h4>
+                                    <p>UI Kit</p>
+                                </div>
+                            </div>
+                            <div class="product-earnings">$5461</div>
+                        </div>
+                        
+                        <div class="product-item">
+                            <div class="product-info">
+                                <div class="product-icon">🖥️</div>
+                                <div class="product-details">
+                                    <h4>Product C</h4>
+                                    <p>UI Kit</p>
+                                </div>
+                            </div>
+                            <div class="product-earnings">$5461</div>
+                        </div>
+                        
+                        <div class="product-item">
+                            <div class="product-info">
+                                <div class="product-icon">👗</div>
+                                <div class="product-details">
+                                    <h4>Product D</h4>
+                                    <p>UI Kit</p>
+                                </div>
+                            </div>
+                            <div class="product-earnings">$5461</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h3 style="margin-bottom: 15px;">Comments</h3>
+                    <div class="comments-header">
+                        <span>Comments</span>
+                        <span>Date</span>
+                    </div>
+                    <div class="comment-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Chart.js
+        const ctx = document.getElementById('incomeChart').getContext('2d');
+        
+        const incomeChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Income',
+                    data: [300, 150, 350, 250, 50, 180, 100, 200, 180, 25, 350, 320],
+                    backgroundColor: '#4285f4',
+                    borderRadius: 4,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 400,
+                        ticks: {
+                            stepSize: 100,
+                            callback: function(value) {
+                                return value + 'K';
+                            }
+                        },
+                        grid: {
+                            color: '#f0f0f0'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                elements: {
+                    bar: {
+                        borderRadius: 4
+                    }
+                }
+            }
+        });
+
+        // Add interactivity
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.nav-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Dropdown functionality
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.addEventListener('change', function() {
+                console.log('Filter changed:', this.value);
+            });
+        });
+
+        // Create button functionality
+        document.querySelector('.create-btn').addEventListener('click', function() {
+            alert('Create new item functionality would go here!');
+        });
+    </script>
+</body>
+</html>

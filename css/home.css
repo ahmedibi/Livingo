@@ -1,0 +1,162 @@
+/* //////////////////////////////////////////////////////////landing////////////////////////////////////////////////////////////////// */
+
+.carousel .carousel-indicators button {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+}
+
+#carouselExampleIndicators .carousel-indicators button {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    border: 2px solid white;
+    background: rgb(219, 217, 217);
+}
+
+#carouselExampleIndicators .carousel-indicators .active {
+    background: crimson !important;
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+a:hover .arrow-icon {
+    transform: translateX(5px);
+}
+
+/* /////////////////////////////Selling Products//////////////////////////////////// */
+
+.product-card {
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #f0f0f0;
+    gap: 8px !important;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 250px;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 2px 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-actions {
+    top: 15px;
+    right: 15px;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.product-card:hover .product-actions {
+    opacity: 1;
+}
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn:hover {
+    background: crimson !important;
+    fill: white;
+    border-color: crimson;
+}
+
+.card .btn1 {
+    background-color: black;
+    color: aliceblue;
+    font-weight: 700;
+    border-radius: 0 !important;
+    transition: all .3s ease-in-out;
+}
+
+.card .btn1:hover {
+    background-color: #db4444;
+    color: white;
+}
+
+/* @media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .product-image {
+        height: 160px;
+        font-size: 3rem;
+    }
+} */
+
+/* ///////////////////////////////////swipper/////////////////////////////////////////////// */
+.swiper-pagination-bullet-active {
+    background-color: crimson !important;
+}
+
+.swiper {
+    position: relative;
+    /* مهم عشان البجنيشن يتنسّب جواه */
+}
+
+/* الأساس - يخليها في النص */
+.swiper-pagination {
+    position: relative;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* //////Browse By Category////// */
+#cat {
+    position: relative;
+}
+
+#cat::before {
+    position: absolute;
+    content: "";
+    top: -5px;
+    left: -25px;
+    height: 35px;
+    width: 18px;
+    background: crimson;
+    border-radius: 5px;
+}
+
+.category-box:hover {
+    background-color: crimson !important;
+    color: white !important;
+}
+
+/* ///////////////////////////////New arrival/////////////////////////////////////////////// */
+.card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.btn-outline-light:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 150px;
+    }
+}
+
+/* /////////////////////////////////////////////////////////////////////// */

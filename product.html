@@ -1,0 +1,207 @@
+<!-- product.html placeholder --><!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>checkout</title>
+  
+  <script src="../../js/components.js" defer></script>
+   <link rel="stylesheet" href="../../css/components.css">
+  <!-- ========== end of css files ========== -->
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
+        integrity="sha512-oQ1yQwSEIc9CTcK7pffEyS8fxom2iUWQrALk3j3+wfdSDjQ77EZbzGMGe2ZYmfoC8M9vR47apbS1ZYbW05y/pg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link
+        href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="office.css">
+ </head>
+    
+    <style>
+      .product-image {
+        max-height: 500px;
+        width: auto;
+        object-fit: contain;
+        margin: 0 auto;
+        display: block;
+      }
+      .pdp-row {
+        display: flex;
+        align-items: center;
+      }
+      .rating i {
+        color: #ffc107; /* gold stars */
+      }
+      .iconn {
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar placeholder -->
+    <div id="navbar"></div>
+
+    <main class="container my-5 min-vh-100">
+      <div class="row g-5 pdp-row">
+        <!-- Left: Product Image -->
+        <div class="col-md-6 text-center">
+          <img
+            id="product-image"
+            src=""
+            alt="Product Image"
+            class="product-image rounded shadow-sm"
+          />
+        </div>
+
+        <!-- Right: Product Details -->
+        <div class="col-md-6">
+          <h3 id="product-name" class="fw-bold"></h3>
+
+          <!-- Rating + Stock -->
+          <div class="d-flex align-items-center mb-2">
+            <span id="product-rating" class="rating me-2"></span>
+            <small class="text-muted reviews-count"></small>
+            <span id="product-stock" class="text-success ms-3"></span>
+          </div>
+
+          <!-- Price -->
+          <h4 id="product-price" class="fw-bold mb-3"></h4>
+
+          <!-- Description -->
+          <p id="product-description" class="text-muted"></p>
+          <hr />
+
+          <!-- Quantity & Buy -->
+          <div class="d-flex align-items-center mb-4">
+            <button class="btn btn-outline-secondary">-</button>
+            <span class="px-3">1</span>
+            <button class="btn btn-outline-secondary">+</button>
+            <button class="btn btn-danger ms-3 px-4">Buy Now</button>
+            <button class="btn btn-outline-secondary ms-2">
+              <!-- Wishlist Heart (same SVG as navbar) -->
+              <svg
+                class="iconn"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Delivery Info -->
+          <div class="border rounded p-3 mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-truck-fast fa-lg me-3"></i>
+              <div>
+                <strong>Free Delivery</strong><br />
+                <small>Enter your postal code for Delivery Availability</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="border rounded p-3">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-rotate-left fa-lg me-3"></i>
+              <div>
+                <strong>Return Delivery</strong><br />
+                <small
+                  >Free 30 Days Delivery Returns. <a href="#">Details</a></small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer placeholder -->
+    <div id="footer"></div>
+
+    <!-- Dynamic PDP script -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  // Load navbar
+  fetch("partials/navbar.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    })
+    .catch(err => console.error("Error loading navbar:", err));
+
+  // Load footer
+  fetch("partials/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch(err => console.error("Error loading footer:", err));
+
+      });
+      // Get product ID from query param
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id");
+
+      fetch("../json/products.json")
+        .then((res) => res.json())
+        .then((products) => {
+          const product = products.find((p) => p.id === productId);
+
+          if (!product) {
+            document.querySelector("main").innerHTML =
+              "<p>Product not found.</p>";
+            return;
+          }
+
+          // Fill content
+          document.getElementById("product-name").textContent = product.name;
+          document.getElementById("product-price").textContent =
+            product.price + " " + product.currency;
+          document.getElementById("product-description").textContent =
+            product.description;
+          document.getElementById("product-image").src =
+            "../assets/" + product.images[0];
+          document.getElementById("product-stock").textContent =
+            product.stock > 0 ? "In Stock" : "Out of Stock";
+
+          // Reviews fallback
+          const reviews = product.reviews || 0;
+          document.querySelector(".reviews-count").textContent =
+            reviews > 0 ? `(${reviews} Reviews)` : "(No Reviews)";
+
+          // Rating stars
+          const rating = product.rating || 0;
+          const fullStars = Math.floor(rating);
+          const halfStar = rating % 1 >= 0.5;
+          let starsHTML = "";
+          for (let i = 0; i < 5; i++) {
+            if (i < fullStars) starsHTML += '<i class="fas fa-star"></i>';
+            else if (i === fullStars && halfStar)
+              starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            else starsHTML += '<i class="far fa-star"></i>';
+          }
+          document.getElementById("product-rating").innerHTML = starsHTML;
+        })
+        .catch((err) => console.error("Error loading product:", err));
+    </script>
+  </body>
+</html>

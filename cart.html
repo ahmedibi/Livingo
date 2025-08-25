@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .product-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .product-cell {
+      min-width: 250px;
+    }
+    .quantity-input {
+      width: 80px;
+    }
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #dc3545;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .remove-btn:hover {
+      color: #bb2d3b;
+    }
+    .cart-table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .cart-table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+    .product-info {
+      text-align: left;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">Shopping Cart</h2>
+    </div>
+  </div>
+  
+  <!-- Cart Table -->
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle cart-table bg-white">
+          <thead>
+            <tr>
+              <th style="width: 40%;">Product</th>
+              <th style="width: 15%;">Price</th>
+              <th style="width: 15%;">Quantity</th>
+              <th style="width: 15%;">Subtotal</th>
+              <th style="width: 10%;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="cartItems">
+            <!-- Products will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mb-3 mb-md-0">
+        <input type="text" id="coupon" class="form-control d-inline-block me-2" style="width: 200px;" placeholder="Coupon Code">
+        <button class="btn btn-outline-danger" onclick="applyCoupon()">Apply Coupon</button>
+      </div>
+      <div>
+        <button class="btn btn-outline-secondary me-2" onclick="updateCart()">Update Cart</button>
+        <button class="btn btn-primary" onclick="continueShopping()">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Totals -->
+  <div class="row mt-4">
+    <div class="col-12 col-md-6 col-lg-4 ms-auto">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Cart Total</h5>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal:</span>
+            <span>$<span id="subtotal">0</span></span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Shipping:</span>
+            <span class="text-success">Free</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between mb-3">
+            <strong>Total:</strong>
+            <strong class="text-danger">$<span id="total">0</span></strong>
+          </div>
+          <button class="btn btn-danger w-100 py-2" onclick="goToCheckout()">
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// تهيئة السلة من localStorage فقط (بدون بيانات افتراضية)
+let cart = [];
+let subtotal = 0;
+
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get("id");
+
+fetch("../json/products.json")
+  .then((res) => res.json())
+  .then((products) => {
+    // تحميل السلة الحالية
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // لو فيه id في URL أضف المنتج للسلة
+    if (productId) {
+      const product = products.find((p) => p.id.toString() === productId.toString());
+      if (product) {
+        const existing = cart.find((item) => item.id.toString() === product.id.toString());
+        if (!existing) {
+          product.quantity = 1;
+          cart.push(product);
+        }
+      }
+    }
+
+    renderCart(); // اعرض السلة
+  });
+
+function renderCart(){
+  let rows = "";
+  let subtotal = 0;
+
+  if (cart.length === 0) {
+    rows = `
+      <tr>
+        <td colspan="5" class="text-center py-5">
+          <div class="text-muted">
+            <i class="bi bi-cart-x" style="font-size: 3rem;"></i>
+            <h4 class="mt-3">Your cart is empty</h4>
+            <p>Add some products to get started!</p>
+            <button class="btn btn-primary" onclick="continueShopping()">Start Shopping</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  } else {
+    cart.forEach(item => {
+      let sub = item.price * item.quantity;
+      subtotal += sub;
+      
+      rows += `
+        <tr>
+          <td class="product-info">
+            <div class="d-flex align-items-center">
+              <img src="../assets/${item.images && item.images.length ? item.images[0] : 'images/placeholder.jpg'}"
+                   alt="${item.name}" 
+                   class="product-image me-3"
+                   onerror="this.src='assets/images/placeholder.jpg'">
+              <div>
+                <h6 class="mb-1">${item.name}</h6>
+                <small class="text-muted">Product ID: ${item.id}</small>
+              </div>
+            </div>
+          </td>
+          <td>
+            <strong>$${item.price.toFixed(2)}</strong>
+          </td>
+          <td>
+            <div class="d-flex justify-content-center align-items-center">
+              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity - 1})">-</button>
+              <input type="number" 
+                     min="1" 
+                     value="${item.quantity}" 
+                     class="form-control quantity-input mx-2 text-center"
+                     onchange="updateQty('${item.id}', this.value)">
+              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity + 1})">+</button>
+            </div>
+          </td>
+          <td>
+            <strong class="text-success">$${sub.toFixed(2)}</strong>
+          </td>
+          <td>
+            <button class="remove-btn" onclick="removeItem('${item.id}')" title="Remove item">
+              ×
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  document.getElementById("cartItems").innerHTML = rows;
+  document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+  document.getElementById("total").innerText = subtotal.toFixed(2);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function updateQty(id, qty) {
+  const newQty = parseInt(qty);
+  if (newQty > 0) {
+    cart = cart.map(i => i.id.toString() === id.toString() ? {...i, quantity: newQty} : i);
+    renderCart();
+  }
+}
+
+function changeQuantity(id, newQty) {
+  if (newQty > 0) {
+    cart = cart.map(i => i.id.toString() === id.toString() ? {...i, quantity: newQty} : i);
+    renderCart();
+  }
+}
+
+function removeItem(id) {
+  if (confirm('Are you sure you want to remove this item from your cart?')) {
+    cart = cart.filter(i => i.id.toString() !== id.toString());
+    renderCart();
+  }
+}
+
+function updateCart() {
+  renderCart();
+  alert('Cart updated successfully!');
+}
+
+function applyCoupon() {
+  const couponCode = document.getElementById('coupon').value.trim();
+  if (couponCode) {
+    alert('Coupon functionality will be implemented soon!');
+  } else {
+    alert('Please enter a coupon code');
+  }
+}
+
+function continueShopping() {
+  window.location.href = "index.html";
+}
+
+function goToCheckout() {
+  if (cart.length === 0) {
+    alert('Your cart is empty! Add some products first.');
+    return;
+  }
+  window.location.href = "checkout.html";
+}
+
+</script>
+</body>
+</html>

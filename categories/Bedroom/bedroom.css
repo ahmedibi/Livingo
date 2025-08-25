@@ -1,0 +1,66 @@
+/* Bedroom style.css placeholder */
+
+
+.card-img-top {
+    width: 100%;
+    height: 250px;
+}
+
+.card {
+    border: none;
+    background-color: rgb(246, 249, 251);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.04);
+    box-shadow: 5px 5px 5px black;
+}
+
+.card .btn {
+    background-color: black;
+    color: aliceblue;
+    font-weight: 700;
+    border-radius: 0 !important;
+    transition: all .4s ease-in-out;
+}
+
+.card .btn:hover {
+    background-color: #db4444;
+}
+
+.product-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.product-actions button {
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    transition: all .3s ease-in-out;
+}
+
+.product-actions button:hover {
+    background-color: #db4444;
+    border-color: #db4444;
+    color: white;
+    fill: white !important;
+}
+
+
+@media (max-width: 767px) {
+    .card {
+        max-width: 70%;
+        /* الكارد ياخد 90% بس من عرض الشاشة */
+        margin: 0 auto;
+        /* يتوسّط */
+    }
+}
