@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    />
+    <link rel="stylesheet" href="signup.css" />
+    <meta name="viewport" content="width=1100, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="signup-page-wrap">
+      <div class="side-visual">
+        <img
+          src="generated-image.png"
+          class="visual-image"
+          alt="Sign up visual"
+        />
+      </div>
+      <div class="signup-panel">
+        <form id="signupForm" autocomplete="off">
+          <h2 class="signup-title">Create an account</h2>
+          <p class="subtitle">Enter your details below</p>
+          <div class="form-row">
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-row">
+            <input
+              type="text"
+              name="email"
+              placeholder="Email or Phone Number"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-row">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <!-- Radio Button Role Selection -->
+            <div class="dropdown-form" style="padding-top: 25px">
+              <label>
+                <input type="radio" name="role" value="customer" required />
+                Customer
+              </label>
+              <label style="margin-left: 20px">
+                <input type="radio" name="role" value="seller" required />
+                Seller
+              </label>
+            </div>
+          </div>
+          <button class="signup-btn" type="submit">Create Account</button>
+          <button class="google-btn" type="button">
+            <img src="google-logo.png" alt="" width="20" height="20" />
+            <span>Sign up with Google</span>
+          </button>
+
+          <div class="signup-bottom-row">
+            <span>Already have account?</span>
+            <a href="login.html" class="alt-link">Log in</a>
+          </div>
+          <div id="signUpMsg" class="signup-msg"></div>
+        </form>
+      </div>
+    </div>
+    <script src="signup.js"></script>
+  </body>
+</html>
