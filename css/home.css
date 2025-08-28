@@ -67,10 +67,6 @@
 }
 
 
-.card-img-top {
-    width: 100%;
-    height: 250px;
-}
 
 .product-card:hover {
     transform: translateY(-4px);
@@ -140,6 +136,7 @@
 
 .card-img-top {
     height: 200px;
+    width: 100% !important;
     object-fit: cover;
 }
 

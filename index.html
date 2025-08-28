@@ -6,40 +6,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
-        integrity="sha512-oQ1yQwSEIc9CTcK7pffEyS8fxom2iUWQrALk3j3+wfdSDjQ77EZbzGMGe2ZYmfoC8M9vR47apbS1ZYbW05y/pg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
-    <!-- Bootstrap CSS & js -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-        crossorigin="anonymous"></script>
-
+    <!-- Custom Components -->
+    <script src="js/components.js" defer></script>
+    <link rel="stylesheet" href="css/components.css">
     <!-- Iconify -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
         integrity="sha512-oQ1yQwSEIc9CTcK7pffEyS8fxom2iUWQrALk3j3+wfdSDjQ77EZbzGMGe2ZYmfoC8M9vR47apbS1ZYbW05y/pg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
-
-    <!-- Custom CSS & JS -->
+    <!-- Bootstrap CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/home.css">
 
-    <!-- Swiper -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.4/swiper-bundle.min.css" rel="stylesheet">
-<style>
+    <style>
         .glowing-circle {
             border-radius: 50%;
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.7),
@@ -47,10 +38,8 @@
         }
     </style>
 
-
 <body>
     <div id="navbar"></div>
-
     <!--landing-->
     <section id="carouselExampleIndicators" class="carousel slide container-sm-fluid"
         style="background-color:var(--main-color); min-height:60vh;" data-ride="carousel">
@@ -175,25 +164,23 @@
     <section class="container mt-3 mt-lg-5 px-1">
         <div class="row my-4">
             <div class="col-12 text-start ms-4">
-                <p style="color: var(--main-color);" id="cat">Categories</p>
+                <p style="color: var(--main-color)" id="cat">Categories</p>
             </div>
         </div>
         <div class="row">
-            <p class="fs-3" style="color: var(--secondry-color);">Browse By Categories</p>
+            <p class="fs-3">Browse By Categories</p>
         </div>
-
         <div class="row g-3  text-center">
             <div class="col-12 col-md-4 col-lg-2">
-                <a href="categories/Lighting-Decor/lighting.html" class="text-dark text-decoration-none">
+                <a href="categories/Dining Room/diningroom.html" class="text-dark text-decoration-none">
                     <div class="border rounded p-3 category-box ">
                         <img src="./assets/images/categories/roof-lamp.png" class="img-fluid mb-2" style="width:40px">
                         <p class="mb-0">Lighting Room</p>
                     </div>
                 </a>
             </div>
-
             <div class="col-12 col-md-4 col-lg-2">
-                <a href="categories/Dining Room/diningroom.html" class="text-dark text-decoration-none">
+                <a href="categories/Lighting-Decor/lighting.html" class="text-dark text-decoration-none">
                     <div class="border rounded p-3 category-box">
                         <img src="./assets/images/categories/table.png" class="img-fluid mb-2" style="width:40px">
                         <p class="mb-0">Dining Room</p>
@@ -229,7 +216,7 @@
             </div>
 
             <div class="col-12 col-md-4 col-lg-2">
-                <a href="categories/Outdoor/outdoor.html" class="text-dark text-decoration-none">
+                <a href="categories/Office/office.html" class="text-dark text-decoration-none">
                     <div class="border rounded p-3 category-box">
                         <img src="./assets/images/categories/garden.png" class="img-fluid mb-2" style="width:40px">
                         <p class="mb-0">Outdoor</p>
@@ -240,65 +227,65 @@
         </div>
     </section>
     <!--Best Selling-->
-    <div class="container my-4">
+    <section class="container my-4">
         <!-- Section Header -->
         <div class="position-relative mb-4 d-flex justify-content-between align-items-end">
             <div>
-                <div class="mb-4  ms-4" style="color:var(--main-color);" id="cat">This Month</div>
-                <p class="fs-3" style="color: var(--secondry-color);">Best Selling Products</p>
+                <div class=" mb-4  ms-4" style="color: var(--main-color);" id="cat">This Month</div>
+                <p class="fs-3">Best Selling Products</p>
             </div>
-            <button class="btn  px-5 py-3 " style="background-color: var(--secondry-color);"><a href="#" class="text-decoration-none text-light">View
-                    All</a></button>
+            <a href="#" class="text-decoration-none text-light button-all btn  px-5 py-3">View
+                All</a>
         </div>
-        <!-- Products Grid -->
-        <div class="swiper product-slider">
-            <div class="swiper-wrapper" id="product-list">
+        <div class="position-relative d-flex align-items-center">
+            <button class="position-absolute start-0 top-50 translate-middle-y me-3 btnc" type="button"
+                data-bs-target="#productCarousel" data-bs-slide="prev">
+                <i class="bi bi-chevron-left fs-3 text-warning"></i> <!-- custom icon -->
+            </button>
+            <!-- Carousel -->
+            <div id="productCarousel" class="carousel slide flex-grow-1" data-bs-ride="carousel">
+                <div class="carousel-inner" id="product-list"></div>
             </div>
-            <!-- Navigation buttons -->
-            <div class="swiper-button-next  text-danger position-absolute" id="swpr"> </div>
-            <div class="swiper-button-prev  text-danger position-absolute" id="swpl"></div>
-            <!-- Pagination -->
-            <div class="swiper-pagination "></div>
+            <button class=" position-absolute end-0 top-50 translate-middle-y ms-3 btnc" type="button"
+                data-bs-target="#productCarousel" data-bs-slide="next">
+                <i class="bi bi-chevron-right fs-3 text-warning"></i> <!-- custom icon -->
+            </button>
         </div>
-    </div>
+    </section>
     <!--explour our products-->
     <section>
         <div class="container my-4">
             <!-- Section Header -->
             <div class="position-relative mb-4 d-flex justify-content-between align-items-end">
                 <div>
-                    <div class=" mb-4  ms-4" id="cat" style="color: var(--main-color);">Our Products</div>
-                    <p class="fs-3" style="color: var(--secondry-color);">Explore Our Products</p>
+                    <div class=" mb-4  ms-4" style="color:var(--maincolor)" id="cat">Our Products</div>
+                    <p class="fs-3">Explore Our Products</p>
                 </div>
             </div>
         </div>
         <div class="container">
-            <div class="row g-2" id="product-container">
+            <div class="row g-4" id="product-container">
                 <!-- Product cards will be inserted here dynamically -->
             </div>
-            <div class="d-flex justify-content-center align-middle mb-3">
-                <button class="btn px-5 py-3 text-white" style="background-color: var(--secondry-color);">
-                    <a href="shop.html" class="text-decoration-none text-light">View All Products</a>
-                </button>
+            <div class="d-flex justify-content-center align-middle mb-3 mt-2  ">
+                <a href="shop.html" class="text-decoration-none text-light px-5 py-3 button-all">View All
+                    Products</a>
             </div>
         </div>
     </section>
     <!--New arrival-->
-    <div class="container my-4">
-        <!-- Section Header -->
+    <section class="container my-4">
         <div class="position-relative mb-4 d-flex justify-content-between align-items-end">
             <div>
-                <div class="mb-4  ms-4" style="color: var(--main-color);" id="cat">Featured</div>
-                <p class="fs-3" style="color: var(--secondry-color);">New Arrival</p>
+                <div class="mb-4  ms-4" style="color:var(--main-color)" id="cat">Featured</div>
+                <p class="fs-3">New Arrival</p>
             </div>
         </div>
         <div class="row">
-            <!--- Large Card -->
             <div class="col-12 col-lg-6 mb-3">
                 <div class="card h-100 text-white position-relative mb-2">
                     <img src="./assets/images/products/Bedroom/bed3.jpg" alt="img"
                         class="h-100 w-100 object-fit-cover" />
-                    <!-- Text overlay -->
                     <div class="card-img-overlay d-flex flex-column justify-content-end p-3">
                         <h3 class="card-title h4 fw-bold">Bedroom</h3>
                         <p class="card-text">Luxurious neutral bedroom with crystal chandelier.</p>
@@ -308,47 +295,40 @@
             </div>
             <br />
             <br />
-            <!-- Right Column -->
             <div class="col-12 col-lg-6">
                 <div class="row g-4">
                     <div class="col-12">
-                        <div class="card bg-dark text-white position-relative h-100">
-                            <div class=" bg-secondary d-flex align-items-center justify-content-center">
-                                <img src="./assets/images/products/dining-room/diningTable4.jpeg" alt="img"
-                                    class="h-100 w-100 object-fit-cover">
-                            </div>
-                            <div class="card-body card-img-overlay d-flex flex-column justify-content-end p-3">
-                                <h5 class=" card-title fw-bold">Dining Table</h5>
-                                <p class="card-text small">Modern dining room featuring live-edge wood table and leather
-                                    chairs.</p>
+                        <div class="card bg-dark text-white position-relative h-100 border-0 overflow-hidden">
+                            <img src="./assets/images/products/dining-room/diningTable3.jpeg" alt="Dining Table"
+                                class="card-img h-100 object-fit-cover">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end p-3">
+                                <h5 class="fw-bold">Dining Table</h5>
+                                <p class="small">Modern dining room featuring live-edge wood table and leather chairs.
+                                </p>
                                 <a href="#" class="btn btn-outline-light rounded-pill px-4 align-self-start">Shop
                                     Now</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="card bg-dark text-white position-relative h-100">
-                            <div class="bg-info d-flex align-items-center justify-content-center">
-                                <img src="./assets/images/products/dining-room/diningChair3.jpeg" alt="img"
-                                    class="h-100 w-100 object-fit-cover">
-                            </div>
-                            <div class="card-body card-img-overlay d-flex flex-column justify-content-end p-3">
-                                <h6 class="card-title fw-bold">Chair</h6>
-                                <p class="card-text small">Modern wooden accent chair.</p>
+                        <div class="card bg-dark text-white position-relative h-100 border-0 overflow-hidden">
+                            <img src="./assets/images/products/dining-room/diningChair1.jpeg" alt="Chair"
+                                class="card-img h-100 object-fit-cover">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end p-3">
+                                <h6 class="fw-bold">Chair</h6>
+                                <p class="small">Modern wooden accent chair.</p>
                                 <a href="#" class="btn btn-outline-light rounded-pill px-4 align-self-start">Shop
                                     Now</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="card bg-dark text-white position-relative h-100">
-                            <div class="bg-info d-flex align-items-center justify-content-center">
-                                <img src="./assets/images/products/living-room/sofa2.jpg" alt="img"
-                                    class="h-100 w-100 object-fit-cover">
-                            </div>
-                            <div class="card-body card-img-overlay d-flex flex-column justify-content-end p-3">
-                                <h6 class="card-title fw-bold">Sofa</h6>
-                                <p class="card-text small">Beige sectional sofa couch.</p>
+                        <div class="card bg-dark text-white position-relative h-100 border-0 overflow-hidden">
+                            <img src="./assets/images/products/living-room/sofa4.jpg" alt="Sofa"
+                                class="card-img h-100 object-fit-cover">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end p-3">
+                                <h6 class="fw-bold">Sofa</h6>
+                                <p class="small">Beige sectional sofa couch.</p>
                                 <a href="#" class="btn btn-outline-light rounded-pill px-4 align-self-start">Shop
                                     Now</a>
                             </div>
@@ -357,103 +337,103 @@
                 </div>
             </div>
         </div>
-    </div>
-    <br />
-    <br />
-    <!-- About Section -->
-<section id="about" class="py-5 bg-light ">
-  <div class="container">
-    <div class="row align-items-center">
-      
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <h2 class="fw-bold mb-3" style="color: var(--main-color)">About <span style="color: var(--secondry-color);">Our Store</span></h2>
-        <p class="text-muted">
-          Welcome to <strong>Livingo</strong>, your one-stop destination for modern and stylish home furniture.  
-          We believe that every home deserves comfort, beauty, and functionality.  
-          From bedrooms and living rooms to outdoor spaces, we curate collections that combine luxury and practicality at the best value.  
-        </p>
-        <p class="text-muted">
-          Our mission is simple: to make your dream home a reality by offering carefully selected furniture that fits every lifestyle.
-        </p>
-        <a href="#" class="btn px-4 rounded-pill text-white" style="background-color: var(--secondry-color); ">Learn More</a>
-      </div>
-      
-      <div class="col-lg-6 text-center">
-        <img src="assets/images/mainImg/download.jpeg " style="height: 500px;" alt="About Us"
-          class="img-fluid rounded shadow-lg">
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
+    <!--About-->
+    <section id="about" class="py-5 bg-light ">
+        <div class="container">
+            <div class="row align-items-center">
 
-<!-- Contact Section -->
-<section id="contact" class="py-5 text-light pb-5 mb-md-5" style="background-color: var(--main-color)">
-  <div class="container">
-    <div class="row mb-4 text-center">
-      <h2 class="fw-bold">Get in <span style="color: var(--secondry-color);" >Touch</span></h2>
-      <p class="text-muted">We’d love to hear from you! Whether you have a question, feedback, or just want to say hi.</p>
-    </div>
-    <div class="row g-4">
-      <!-- Contact Info -->
-      <div class="col-lg-4">
-        <div class="d-flex align-items-start mb-3">
-          <span class="iconify fs-3 me-3" style="color: var(--secondry-color);" data-icon="mdi:map-marker"></span>
-          <div>
-            <h6 class="fw-bold">Our Address</h6>
-            <p class="mb-0 text-muted">123 Modern Street, Cairo, Egypt</p>
-          </div>
-        </div>
-        <div class="d-flex align-items-start mb-3">
-          <span class="iconify fs-3 me-3" style="color: var(--secondry-color);" data-icon="mdi:phone"></span>
-          <div>
-            <h6 class="fw-bold">Call Us</h6>
-            <p class="mb-0 text-muted">+20 123 456 789</p>
-          </div>
-        </div>
-        <div class="d-flex align-items-start">
-          <span class="iconify fs-3 me-3" style="color: var(--secondry-color);" data-icon="mdi:email"></span>
-          <div>
-            <h6 class="fw-bold">Email Us</h6>
-            <p class="mb-0 text-muted">support@livingo.com</p>
-          </div>
-        </div>
-      </div>
-      <!-- Contact Form -->
-      <div class="col-lg-8">
-        <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <input type="text" class="form-control rounded-3" placeholder="Your Name" required>
-            </div>
-            <div class="col-md-6">
-              <input type="email" class="form-control rounded-3" placeholder="Your Email" required>
-            </div>
-            <div class="col-12">
-              <input type="text" class="form-control rounded-3" placeholder="Subject">
-            </div>
-            <div class="col-12">
-              <textarea rows="4" class="form-control rounded-3" placeholder="Your Message" required></textarea>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn px-5 py-2 text-white rounded-pill" style="background-color: var(--secondry-color);">Send Message</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3" style="color: var(--main-color)">About <span
+                            style="color: var(--secondry-color);">Our Store</span></h2>
+                    <p class="text-muted">
+                        Welcome to <strong>Livingo</strong>, your one-stop destination for modern and stylish home
+                        furniture.
+                        We believe that every home deserves comfort, beauty, and functionality.
+                        From bedrooms and living rooms to outdoor spaces, we curate collections that combine luxury and
+                        practicality at the best value.
+                    </p>
+                    <p class="text-muted">
+                        Our mission is simple: to make your dream home a reality by offering carefully selected
+                        furniture that fits every lifestyle.
+                    </p>
+                    <a href="#" class="btn px-4 rounded-pill text-white"
+                        style="background-color: var(--secondry-color); ">Learn More</a>
+                </div>
 
-
+                <div class="col-lg-6 text-center">
+                    <img src="assets/images/mainImg/download.jpeg " style="height: 500px;" alt="About Us"
+                        class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--contact-->
+    <section id="contact" class="py-5 text-light pb-5 mb-md-5" style="background-color: var(--main-color)">
+        <div class="container">
+            <div class="row mb-4 text-center">
+                <h2 class="fw-bold">Get in <span style="color: var(--secondry-color);">Touch</span></h2>
+                <p class="text-muted">We’d love to hear from you! Whether you have a question, feedback, or just want to
+                    say hi.</p>
+            </div>
+            <div class="row g-4">
+                <!-- Contact Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <span class="iconify fs-3 me-3" style="color: var(--secondry-color);"
+                            data-icon="mdi:map-marker"></span>
+                        <div>
+                            <h6 class="fw-bold">Our Address</h6>
+                            <p class="mb-0 text-muted">123 Modern Street, Cairo, Egypt</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-3">
+                        <span class="iconify fs-3 me-3" style="color: var(--secondry-color);"
+                            data-icon="mdi:phone"></span>
+                        <div>
+                            <h6 class="fw-bold">Call Us</h6>
+                            <p class="mb-0 text-muted">+20 123 456 789</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <span class="iconify fs-3 me-3" style="color: var(--secondry-color);"
+                            data-icon="mdi:email"></span>
+                        <div>
+                            <h6 class="fw-bold">Email Us</h6>
+                            <p class="mb-0 text-muted">support@livingo.com</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contact Form -->
+                <div class="col-lg-8">
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control rounded-3" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control rounded-3" placeholder="Your Email" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-control rounded-3" placeholder="Subject">
+                            </div>
+                            <div class="col-12">
+                                <textarea rows="4" class="form-control rounded-3" placeholder="Your Message"
+                                    required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn px-5 py-2 text-white rounded-pill"
+                                    style="background-color: var(--secondry-color);">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
     <div id="footer"></div>
-    <!-- Custom CSS & JS -->
+    <!-- Custom JS -->
     <script src="./js/main.js" defer></script>
-
-    <!--Swiper-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.4/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- jQuery (required for Bootstrap 4) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
