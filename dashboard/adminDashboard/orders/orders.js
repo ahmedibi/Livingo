@@ -47,7 +47,7 @@ const tbody = document.getElementById("ordersTableBody");
           <td>${order.date || ""}</td>
           <td> 
             <div 
-              class="status-cell ${statusClass} rounded-2 text-center p-1 text-white" 
+              class="status-cell badge ${statusClass} rounded-2 text-center p-1 text-white" 
               style="width: fit-content; min-width: 80px;"
               contenteditable="false"
               onblur="updateStatus(${order.id}, this.innerText)">
@@ -63,7 +63,7 @@ const tbody = document.getElementById("ordersTableBody");
                 </g>
               </svg>
             </button>     
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id})">
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id}, '${item.id}')">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM7 6v13z"/>
               </svg>
@@ -94,13 +94,22 @@ function updateStatus(id, newStatus) {
 }
 
 
- function deleteOrder(id) {
+ function deleteOrder(orderId,itemId) {
      if (confirm("Are you sure to delete this order?")) {
-         orders = orders.filter(o => o.id !== id);
-         localStorage.setItem("orders", JSON.stringify(orders));
-         renderOrders(orders);
-     }
+  // دور على الـ order
+  let order = orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  order.items = order.items.filter(it => it.id !== itemId);
+  if (order.items.length === 0) {
+    orders = orders.filter(o => o.id !== orderId);
+  }
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderOrders(orders);
+  }
  }
+ 
 
  // Filters
  function applyFilters() {

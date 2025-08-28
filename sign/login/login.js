@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         phone: user.phone,
         role: user.role,
         address: user.address || "",
+        orders:[],
         loginTime: new Date().toISOString(),
       };
 
