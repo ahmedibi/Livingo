@@ -42,6 +42,10 @@
     .product-info {
       text-align: left;
     }
+    .loading {
+      text-align: center;
+      padding: 50px 0;
+    }
   </style>
 </head>
 <body class="bg-light">
@@ -53,8 +57,16 @@
     </div>
   </div>
   
+  <!-- Loading State -->
+  <div id="loading" class="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading your cart...</p>
+  </div>
+
   <!-- Cart Table -->
-  <div class="row">
+  <div class="row" id="cartSection" style="display: none;">
     <div class="col-12">
       <div class="table-responsive">
         <table class="table table-bordered align-middle cart-table bg-white">
@@ -75,7 +87,7 @@
     </div>
   </div>
 
-  <div class="row mt-4">
+  <div class="row mt-4" id="cartActions" style="display: none;">
     <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
       <div class="mb-3 mb-md-0">
         <input type="text" id="coupon" class="form-control d-inline-block me-2" style="width: 200px;" placeholder="Coupon Code">
@@ -89,7 +101,7 @@
   </div>
 
   <!-- Totals -->
-  <div class="row mt-4">
+  <div class="row mt-4" id="cartTotals" style="display: none;">
     <div class="col-12 col-md-6 col-lg-4 ms-auto">
       <div class="card">
         <div class="card-body">
@@ -117,35 +129,114 @@
 </div>
 
 <script>
-// تهيئة السلة من localStorage فقط (بدون بيانات افتراضية)
+// متغيرات عامة
 let cart = [];
-let subtotal = 0;
+let allProducts = [];
 
-const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get("id");
+// تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+  initializePage();
+});
 
-fetch("../json/products.json")
-  .then((res) => res.json())
-  .then((products) => {
-    // تحميل السلة الحالية
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
+async function initializePage() {
+  try {
+    // إخفاء loading وإظهار المحتوى
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('cartSection').style.display = 'none';
+    document.getElementById('cartActions').style.display = 'none';
+    document.getElementById('cartTotals').style.display = 'none';
+    
+    // تحميل المنتجات من الـ JSON
+    await loadProducts();
+    
+    // تحميل السلة من localStorage
+    loadCartFromStorage();
+    
+    // التحقق من وجود منتج في الـ URL لإضافته
+    checkForProductInURL();
+    
+    // عرض السلة
+    renderCart();
+    
+    // إخفاء loading وإظهار المحتوى
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('cartSection').style.display = 'block';
+    document.getElementById('cartActions').style.display = 'block';
+    document.getElementById('cartTotals').style.display = 'block';
+    
+  } catch (error) {
+    console.error('Error initializing page:', error);
+    document.getElementById('loading').innerHTML = `
+      <div class="alert alert-danger">
+        <h4>Error Loading Cart</h4>
+        <p>There was an error loading your cart. Please try again.</p>
+        <button class="btn btn-primary" onclick="continueShopping()">Continue Shopping</button>
+      </div>
+    `;
+  }
+}
 
-    // لو فيه id في URL أضف المنتج للسلة
-    if (productId) {
-      const product = products.find((p) => p.id.toString() === productId.toString());
-      if (product) {
-        const existing = cart.find((item) => item.id.toString() === product.id.toString());
-        if (!existing) {
-          product.quantity = 1;
-          cart.push(product);
-        }
-      }
+async function loadProducts() {
+  try {
+    const response = await fetch("../json/products.json");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    allProducts = await response.json();
+    console.log('Products loaded:', allProducts.length);
+  } catch (error) {
+    console.error('Error loading products:', error);
+    throw error;
+  }
+}
 
-    renderCart(); // اعرض السلة
-  });
+function loadCartFromStorage() {
+  const savedCart = localStorage.getItem("cart");
+  if (savedCart) {
+    try {
+      cart = JSON.parse(savedCart);
+      console.log('Cart loaded from storage:', cart);
+    } catch (error) {
+      console.error('Error parsing cart from localStorage:', error);
+      cart = [];
+    }
+  } else {
+    cart = [];
+  }
+}
 
-function renderCart(){
+function checkForProductInURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
+  
+  if (productId && allProducts.length > 0) {
+    const product = allProducts.find((p) => p.id.toString() === productId.toString());
+    if (product) {
+      const existingIndex = cart.findIndex((item) => item.id.toString() === product.id.toString());
+      if (existingIndex === -1) {
+        // إضافة منتج جديد
+        cart.push({
+          ...product,
+          quantity: 1
+        });
+        console.log('Product added to cart:', product.name);
+      } else {
+        // زيادة الكمية للمنتج الموجود
+        cart[existingIndex].quantity += 1;
+        console.log('Product quantity increased:', product.name);
+      }
+      // حفظ السلة المحدثة
+      saveCartToStorage();
+      
+      // إزالة المعامل من الـ URL بدون إعادة تحميل الصفحة
+      const newURL = window.location.href.split('?')[0];
+      window.history.replaceState({}, document.title, newURL);
+    }
+  }
+}
+
+function renderCart() {
+  const cartItemsContainer = document.getElementById("cartItems");
   let rows = "";
   let subtotal = 0;
 
@@ -154,7 +245,7 @@ function renderCart(){
       <tr>
         <td colspan="5" class="text-center py-5">
           <div class="text-muted">
-            <i class="bi bi-cart-x" style="font-size: 3rem;"></i>
+            <div style="font-size: 3rem;">🛒</div>
             <h4 class="mt-3">Your cart is empty</h4>
             <p>Add some products to get started!</p>
             <button class="btn btn-primary" onclick="continueShopping()">Start Shopping</button>
@@ -164,39 +255,54 @@ function renderCart(){
     `;
   } else {
     cart.forEach(item => {
-      let sub = item.price * item.quantity;
-      subtotal += sub;
+      const itemSubtotal = (item.price || 0) * (item.quantity || 1);
+      subtotal += itemSubtotal;
+      
+      // التأكد من وجود الصورة - تجربة عدة مسارات محتملة
+      let imageSrc = '../assets/images/placeholder.jpg'; // الافتراضي
+      
+      if (item.images && item.images.length > 0) {
+        imageSrc = `../assets/${item.images[0]}`;
+      } else if (item.image) {
+        imageSrc = `../assets/${item.image}`;
+      } else if (item.img) {
+        imageSrc = `../assets/${item.img}`;
+      } else if (item.thumbnail) {
+        imageSrc = `../assets/${item.thumbnail}`;
+      }
+      
+      console.log('Image source for', item.name, ':', imageSrc);
       
       rows += `
         <tr>
           <td class="product-info">
             <div class="d-flex align-items-center">
-              <img src="../assets/${item.images && item.images.length ? item.images[0] : 'images/placeholder.jpg'}"
-                   alt="${item.name}" 
+              <img src="../assets/${item.images}"
+                   alt="${item.name || 'Product'}" 
                    class="product-image me-3"
-                   onerror="this.src='assets/images/placeholder.jpg'">
+                   onerror="this.src='../assets/images/placeholder.jpg'">
               <div>
-                <h6 class="mb-1">${item.name}</h6>
+                <h6 class="mb-1">${item.name || 'Unknown Product'}</h6>
                 <small class="text-muted">Product ID: ${item.id}</small>
               </div>
             </div>
           </td>
           <td>
-            <strong>$${item.price.toFixed(2)}</strong>
+            <strong>$${(item.price || 0).toFixed(2)}</strong>
           </td>
           <td>
             <div class="d-flex justify-content-center align-items-center">
-              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity - 1})">-</button>
+              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${(item.quantity || 1) - 1})">-</button>
               <input type="number" 
                      min="1" 
-                     value="${item.quantity}" 
+                     value="${item.quantity || 1}" 
                      class="form-control quantity-input mx-2 text-center"
                      onchange="updateQty('${item.id}', this.value)">
-              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity + 1})">+</button>
+              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${(item.quantity || 1) + 1})">+</button>
             </div>
           </td>
           <td>
-            <strong class="text-success">$${sub.toFixed(2)}</strong>
+            <strong class="text-success">$${itemSubtotal.toFixed(2)}</strong>
           </td>
           <td>
             <button class="remove-btn" onclick="removeItem('${item.id}')" title="Remove item">
@@ -208,31 +314,60 @@ function renderCart(){
     });
   }
 
-  document.getElementById("cartItems").innerHTML = rows;
+  cartItemsContainer.innerHTML = rows;
   document.getElementById("subtotal").innerText = subtotal.toFixed(2);
   document.getElementById("total").innerText = subtotal.toFixed(2);
+  
+  // تحديث عداد السلة في الـ header إذا كان موجود
+  updateCartCounter();
+  
+  console.log('Cart rendered. Items:', cart.length, 'Subtotal:', subtotal);
+}
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+function saveCartToStorage() {
+  try {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log('Cart saved to storage');
+  } catch (error) {
+    console.error('Error saving cart to localStorage:', error);
+  }
+}
+
+function updateCartCounter() {
+  const cartCounter = document.getElementById('cart-counter');
+  if (cartCounter) {
+    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    cartCounter.textContent = totalItems;
+  }
 }
 
 function updateQty(id, qty) {
   const newQty = parseInt(qty);
   if (newQty > 0) {
-    cart = cart.map(i => i.id.toString() === id.toString() ? {...i, quantity: newQty} : i);
-    renderCart();
+    const itemIndex = cart.findIndex(i => i.id.toString() === id.toString());
+    if (itemIndex !== -1) {
+      cart[itemIndex].quantity = newQty;
+      saveCartToStorage();
+      renderCart();
+    }
   }
 }
 
 function changeQuantity(id, newQty) {
   if (newQty > 0) {
-    cart = cart.map(i => i.id.toString() === id.toString() ? {...i, quantity: newQty} : i);
-    renderCart();
+    const itemIndex = cart.findIndex(i => i.id.toString() === id.toString());
+    if (itemIndex !== -1) {
+      cart[itemIndex].quantity = newQty;
+      saveCartToStorage();
+      renderCart();
+    }
   }
 }
 
 function removeItem(id) {
   if (confirm('Are you sure you want to remove this item from your cart?')) {
     cart = cart.filter(i => i.id.toString() !== id.toString());
+    saveCartToStorage();
     renderCart();
   }
 }
@@ -245,6 +380,7 @@ function updateCart() {
 function applyCoupon() {
   const couponCode = document.getElementById('coupon').value.trim();
   if (couponCode) {
+    // هنا يمكنك إضافة منطق الكوبون
     alert('Coupon functionality will be implemented soon!');
   } else {
     alert('Please enter a coupon code');

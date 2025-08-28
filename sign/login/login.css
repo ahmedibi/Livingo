@@ -5,6 +5,7 @@ html {
   background: #fff;
   margin: 0;
   font-family: "Inter", Arial, sans-serif;
+  overflow-x: hidden;
 }
 .login-page-wrap {
   display: flex;
@@ -34,6 +35,7 @@ html {
   border-radius: 0;
 } */
 
+
 .login-panel {
   flex: 1 1 40%;
   display: flex;
@@ -41,6 +43,8 @@ html {
   justify-content: center;
   background: #fff;
   min-width: 370px;
+  
+
 }
 form {
   min-width: 340px;
@@ -65,6 +69,7 @@ h2 {
   font-size: 1.03rem;
   margin-bottom: 31px;
   margin-top: 0;
+  margin-left: 5px;
 }
 .form-row {
   width: 100%;
@@ -83,7 +88,7 @@ input[type="password"] {
 }
 input[type="text"]:focus,
 input[type="password"]:focus {
-  border-bottom: 1.5px solid #e94545;
+  border-bottom: 1.5px solid #a0804d !important;
   outline: none;
 }
 .buttons-row {
@@ -94,7 +99,7 @@ input[type="password"]:focus {
   gap: 20px;
 }
 .login-btn {
-  background: #e94545;
+  background: #a0804d !important;
   color: #fff;
   font-size: 1.07rem;
   border: none;
@@ -106,11 +111,11 @@ input[type="password"]:focus {
   transition: background 0.18s;
 }
 .login-btn:hover {
-  background: #bf2626;
+  background: #82673d !important;
 }
 .forgot-link {
   margin-left: 40px;
-  color: #e94545;
+  color:#a0804d !important;
   text-decoration: none;
   font-size: 1.05em;
   align-self: center;
@@ -120,7 +125,7 @@ input[type="password"]:focus {
   text-decoration: underline;
 }
 .error-msg {
-  color: #e94545;
+  color: #a0804d !important;
   font-size: 1em;
   min-height: 20px;
   margin-top: 10px;
@@ -147,9 +152,9 @@ input[type="password"]:focus {
     height: auto;
   }
   .side-visual img {
-    width: 100%; /* Make image fill the container width */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Prevent image overflow */
+    width: 100%;
+    height: auto;
+    max-width: 100%;
     margin: 0 auto;
   }
   .login-panel {
@@ -169,6 +174,104 @@ input[type="password"]:focus {
   }
 }
 
+.visual-image {
+  width: 100%;
+  max-width: 768px;
+  height: auto;
+  max-height: 792px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0;
+  background: #fff;
+}
 
+/* Animation keyframes */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes buttonPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
+/* Add animated classes to panels on load */
+.side-visual {
+  animation: slideInLeft 0.8s cubic-bezier(0.65, 0.05, 0.36, 1) 0.1s both;
+}
 
+.signup-panel,
+.login-panel {
+  animation: slideInRight 0.8s cubic-bezier(0.65, 0.05, 0.36, 1) 0.2s both;
+}
+
+/* Enhanced focus for inputs */
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-bottom: 1.8px solid #a0804d !important;
+  background: #faf6f2;
+  transition: border 0.18s, background 0.22s;
+  outline: none;
+  transform: scale(1.03);
+  box-shadow: 0 2px 14px -13px #a0804d !important;
+}
+
+/* Animate CTA button on hover */
+.signup-btn,
+.login-btn {
+  transition: background 0.18s, transform 0.13s;
+}
+
+.signup-btn:hover,
+.login-btn:hover {
+  animation: buttonPulse 0.26s cubic-bezier(0.65, 0.05, 0.36, 1);
+  background: #a0804d !important;
+}
+
+/* (Optional): Nice for radio buttons, just a touch */
+.dropdown-form input[type="radio"]:focus + label {
+  outline: 1.6px solid #a0804d !important;
+  outline-offset: 2px;
+}
+
+/* For mobile: allow fade/slide still */
+@media (max-width: 1100px) {
+  .side-visual {
+    animation: slideInLeft 0.7s cubic-bezier(0.65, 0.05, 0.36, 1) both;
+  }
+  .signup-panel,
+  .login-panel {
+    animation: slideInRight 0.7s cubic-bezier(0.65, 0.05, 0.36, 1) both;
+  }
+}
+.side-visual img {
+  transition: transform 0.35s cubic-bezier(0.65, 0.05, 0.36, 1), box-shadow 0.3s;
+}
+.side-visual img:hover {
+  transform: scale(1.025);
+  box-shadow: 0 4px 24px -10px #b0b0b0;
+}

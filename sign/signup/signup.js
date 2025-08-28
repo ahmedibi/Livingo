@@ -21,20 +21,26 @@ const signupForm = document.getElementById("signupForm");
 const signUpMsg = document.getElementById("signUpMsg");
 
 // Add event listener for the login anchor link outside the form submit handler
-document.querySelector(".alt-link").addEventListener("click", function (event) {
-  event.preventDefault();
-  window.location.href = "../login/login.html";
-});
 
 signupForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Collect and normalize inputs
-  const name = e.target.name.value.trim();
-  const email = e.target.email.value.trim().toLowerCase();
-  const phone = e.target.phone ? e.target.phone.value.trim() : "";
-  const password = e.target.password.value;
-  const role = e.target.role.value;
+  const form = e.target;
+  const name = form.name.value.trim();
+  const email = form.email.value.trim().toLowerCase();
+  const phone = ""; // If phone input is not present change accordingly
+  const password = form.password.value;
+
+  // Safely get checked radio button role value
+  const roleRadios = form.querySelectorAll('input[name="role"]');
+  let role = "";
+  for (const radio of roleRadios) {
+    if (radio.checked) {
+      role = radio.value;
+      break;
+    }
+  }
 
   // Validate inputs (email or phone required)
   if (!name || (!email && !phone) || !password || !role) {
@@ -44,6 +50,7 @@ signupForm.addEventListener("submit", function (e) {
     return;
   }
 
+  // Load existing users
   let users = loadUsers();
 
   // Debug: log current users for troubleshooting
@@ -57,7 +64,7 @@ signupForm.addEventListener("submit", function (e) {
         (u.phone && u.phone === phone)
     )
   ) {
-    signUpMsg.style.color = "#e94545";
+    signUpMsg.style.color = "#a0804d";
     signUpMsg.textContent = "Account already exists for this email or phone.";
     return;
   }
@@ -80,9 +87,10 @@ signupForm.addEventListener("submit", function (e) {
 
   // Show success message
   signUpMsg.style.color = "#28a745";
-  signUpMsg.textContent = `Account created as ${role}! You can now log in.`;
+  signUpMsg.textContent = `Account created as ${role}!`;
+  signUpMsg.classList.add("active"); // Make message visible
+  signUpMsg.style.opacity = "1";
 
-  // Optional: clear form inputs
-  // signupForm.reset();
-  
+  // Clear form after successful signup
+  form.reset();
 });

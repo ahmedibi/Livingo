@@ -210,5 +210,12 @@
       "p071",
       "p072"
     ]
-  }
+  },
+  {
+    "id": "user13",
+    "name": "admin",
+    "email": "admin@example.com",
+    "password": "password123",
+    "role": "admin"
+     }
 ]

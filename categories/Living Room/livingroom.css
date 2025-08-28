@@ -1,3 +1,119 @@
+/* living room style.css placeholder */
+
+#header {
+    font-weight: bold;
+    font-size: 40px;
+    padding-bottom: 8px;
+}
+
+.dropdown {
+    color: #acabab;
+    font-size: 18px;
+    border: 1 solid #acabab !important;
+}
+
+.dropdown-menu {
+
+    text-align: center;
+    padding: 10px 0;
+}
+
+.dropdown-item {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #777777 !important;
+    padding: 10px 20px;
+}
+
+.dropdown-item:hover {
+    color: black !important;
+    background-color: white !important;
+}
+
+/* السهم الصغير فوق القايمة */
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    /* يخلي السهم فوق القايمة */
+    right: 20px;
+    /* يتحكم في مكانه (يمين/شمال) */
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent rgb(248, 247, 247) transparent;
+    /* فوق = شفاف ، يمين/شمال شفاف ، تحت = لون الخلفية */
+}
+
+.dropdown-item:active,
+.dropdown-item:focus {
+    background-color: transparent !important;
+    color: inherit !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.offcanvas {
+    width: 300px;
+}
+
+.offcanvas-title {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.form-control {
+    text-align: center;
+}
+
+/* نخلي الـ sliders يتحكموا ببعض */
+input[type=range] {
+    pointer-events: auto !important;
+    background: transparent;
+    position: absolute;
+    top: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    position: relative;
+    z-index: 2;
+    width: 16px;
+    height: 16px;
+    background: black;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+
+/* نخلي المسار يظهر بلون غامق بين الـ min والـ max */
+.range-track {
+    height: 5px;
+    background: #000000 !important;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    border-radius: 3px;
+}
+
+.range-track-fill {
+    height: 5px;
+    background: black !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 3px;
+    z-index: 1;
+}
+
+.section1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+
 .card-img-top {
     width: 100%;
     height: 250px;
@@ -23,7 +139,8 @@
 }
 
 .card .btn:hover {
-    background-color: #db4444;
+    background-color: crimson;
+    color: aliceblue;
 }
 
 .product-actions {

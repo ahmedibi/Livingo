@@ -13,7 +13,11 @@
   <body>
     <div class="signup-page-wrap">
       <div class="side-visual">
-        <img src="../Side Image.jpg" alt="Sign up visual" />
+        <img
+          src="generated-image.png"
+          class="visual-image"
+          alt="Sign up visual"
+        />
       </div>
       <div class="signup-panel">
         <form id="signupForm" autocomplete="off">
@@ -44,28 +48,32 @@
               placeholder="Password"
               required
             />
-            <div class="dropdown-form">
-              <select name="role" id="role" required>
-                <option value="" disabled selected>Select Role</option>
-                <option value="customer">Customer</option>
-                <option value="seller">Seller</option>
-              </select>
+            <!-- Radio Button Role Selection -->
+            <div class="dropdown-form" style="padding-top: 25px">
+              <label>
+                <input type="radio" name="role" value="customer" required />
+                Customer
+              </label>
+              <label style="margin-left: 20px">
+                <input type="radio" name="role" value="seller" required />
+                Seller
+              </label>
             </div>
           </div>
           <button class="signup-btn" type="submit">Create Account</button>
           <button class="google-btn" type="button">
-            <img src="../google-logo.png" alt="" width="20" height="20" />
+            <img src="google-logo.png" alt="" width="20" height="20" />
             <span>Sign up with Google</span>
           </button>
 
           <div class="signup-bottom-row">
             <span>Already have account?</span>
-            <a href="../login/login.html" class="alt-link">Log in</a>
+            <a href="../login/login.html" id="login">Log in</a>
           </div>
           <div id="signUpMsg" class="signup-msg"></div>
         </form>
       </div>
     </div>
-    <script src="signup.js"></script>
+    <script src="signup.js"></script> 
   </body>
 </html>

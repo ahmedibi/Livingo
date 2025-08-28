@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <script src="js/components.js" defer></script>
-    <link rel="stylesheet" href="css/components.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
         integrity="sha512-oQ1yQwSEIc9CTcK7pffEyS8fxom2iUWQrALk3j3+wfdSDjQ77EZbzGMGe2ZYmfoC8M9vR47apbS1ZYbW05y/pg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -42,12 +39,21 @@
 
     <!-- Swiper -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.4/swiper-bundle.min.css" rel="stylesheet">
+<style>
+        .glowing-circle {
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.7),
+                0 0 50px rgba(255, 200, 150, 0.4);
+        }
+    </style>
+
 
 <body>
     <div id="navbar"></div>
 
     <!--landing-->
-    <div id="carouselExampleIndicators" class="carousel slide container-sm-fluid " data-ride="carousel">
+    <section id="carouselExampleIndicators" class="carousel slide container-sm-fluid"
+        style="background-color:var(--main-color); min-height:60vh;" data-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
                 class="active"></button>
@@ -57,10 +63,10 @@
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"></button>
         </div>
-        <div class="carousel-inner bg-black">
+        <div class="carousel-inner">
             <!-- Slide 1 -->
             <div class="carousel-item active">
-                <div class="row align-items-center h-100">
+                <div class="row align-items-center h-100 w-100">
                     <!-- Text Column - Left side on all screen sizes -->
                     <div class="col-6 mobile-text-col">
                         <div class="carousel-caption text-start position-relative">
@@ -68,11 +74,10 @@
                             <div id="shop1"></div>
                         </div>
                     </div>
-
                     <!-- Image Column - Right side on all screen sizes -->
-                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center">
-                        <img src="./assets/images/products/Bedroom/nightstand1.jpg"
-                            class="rounded-start-pill w-50 shadow" alt="Modern Beige Bed">
+                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center p-3">
+                        <img src="./assets/images/products/Bedroom/nightstand1.jpg" class="w-50 glowing-circle"
+                            alt="Modern Beige Bed">
                     </div>
                 </div>
             </div>
@@ -86,11 +91,10 @@
                             <div id="shop2"></div>
                         </div>
                     </div>
-
                     <!-- Image Column - Right side on all screen sizes -->
-                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center">
-                        <img src="./assets/images/products/dining-room/diningChair1.jpeg"
-                            class="rounded-start-pill w-50 shadow" alt="Modern Beige Bed">
+                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center p-3">
+                        <img src="./assets/images/products/dining-room/diningTable4.jpeg" class="w-50 glowing-circle"
+                            alt=" Modern Beige Bed">
                     </div>
                 </div>
             </div>
@@ -106,9 +110,9 @@
                     </div>
 
                     <!-- Image Column - Right side on all screen sizes -->
-                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center">
-                        <img src="./assets/images/products/lighting-decor/mirror1.jpg"
-                            class="rounded-start-pill w-50 shadow" alt="Modern Beige Bed">
+                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center p-3">
+                        <img src="./assets/images/products/lighting-decor/mirror1.jpg" class="w-50 glowing-circle" alt="
+                            Modern Beige Bed">
                     </div>
                 </div>
             </div>
@@ -123,9 +127,9 @@
                         </div>
                     </div>
                     <!-- Image Column - Right side on all screen sizes -->
-                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center">
-                        <img src="./assets/images/products/living-room/tv-unite1.jpg"
-                            class="rounded-start-pill w-50 shadow" alt="Modern Beige Bed">
+                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center p-3">
+                        <img src="./assets/images/products/living-room/tv-unite1.jpg" class="w-50 glowing-circle"
+                            alt="Modern Beige Bed">
                     </div>
                 </div>
             </div>
@@ -141,8 +145,8 @@
                     </div>
 
                     <!-- Image Column - Right side on all screen sizes -->
-                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center">
-                        <img src="./assets/images/products/office/desk2.jpeg" class="rounded-start-pill w-50 shadow"
+                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center p-3">
+                        <img src="./assets/images/products/office/desk2.jpeg" class="w-50 glowing-circle"
                             alt="Modern Beige Bed">
                     </div>
                 </div>
@@ -159,28 +163,28 @@
                     </div>
 
                     <!-- Image Column - Right side on all screen sizes -->
-                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center">
-                        <img src="./assets/images/products/out-door/patio1.jpeg" class="rounded-start-pill w-50 shadow"
+                    <div class="col-6 mobile-img-col d-flex justify-content-center align-items-center p-3">
+                        <img src="./assets/images/products/out-door/patio1.jpeg" class="w-50 glowing-circle"
                             alt="Modern Beige Bed">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!--Browse By Category-->
     <section class="container mt-3 mt-lg-5 px-1">
         <div class="row my-4">
             <div class="col-12 text-start ms-4">
-                <p class="text-danger" id="cat">Categories</p>
+                <p style="color: var(--main-color);" id="cat">Categories</p>
             </div>
         </div>
         <div class="row">
-            <p class="fs-3">Browse By Categories</p>
+            <p class="fs-3" style="color: var(--secondry-color);">Browse By Categories</p>
         </div>
 
         <div class="row g-3  text-center">
             <div class="col-12 col-md-4 col-lg-2">
-                <a href="categories/Dining Room/diningroom.html" class="text-dark text-decoration-none">
+                <a href="categories/Lighting-Decor/lighting.html" class="text-dark text-decoration-none">
                     <div class="border rounded p-3 category-box ">
                         <img src="./assets/images/categories/roof-lamp.png" class="img-fluid mb-2" style="width:40px">
                         <p class="mb-0">Lighting Room</p>
@@ -189,7 +193,7 @@
             </div>
 
             <div class="col-12 col-md-4 col-lg-2">
-                <a href="categories/Lighting-Decor/lighting.html" class="text-dark text-decoration-none">
+                <a href="categories/Dining Room/diningroom.html" class="text-dark text-decoration-none">
                     <div class="border rounded p-3 category-box">
                         <img src="./assets/images/categories/table.png" class="img-fluid mb-2" style="width:40px">
                         <p class="mb-0">Dining Room</p>
@@ -225,7 +229,7 @@
             </div>
 
             <div class="col-12 col-md-4 col-lg-2">
-                <a href="categories/Office/office.html" class="text-dark text-decoration-none">
+                <a href="categories/Outdoor/outdoor.html" class="text-dark text-decoration-none">
                     <div class="border rounded p-3 category-box">
                         <img src="./assets/images/categories/garden.png" class="img-fluid mb-2" style="width:40px">
                         <p class="mb-0">Outdoor</p>
@@ -240,10 +244,10 @@
         <!-- Section Header -->
         <div class="position-relative mb-4 d-flex justify-content-between align-items-end">
             <div>
-                <div class="text-danger mb-4  ms-4" id="cat">This Month</div>
-                <p class="fs-3">Best Selling Products</p>
+                <div class="mb-4  ms-4" style="color:var(--main-color);" id="cat">This Month</div>
+                <p class="fs-3" style="color: var(--secondry-color);">Best Selling Products</p>
             </div>
-            <button class="btn  px-5 py-3  bg-danger"><a href="#" class="text-decoration-none text-light">View
+            <button class="btn  px-5 py-3 " style="background-color: var(--secondry-color);"><a href="#" class="text-decoration-none text-light">View
                     All</a></button>
         </div>
         <!-- Products Grid -->
@@ -263,8 +267,8 @@
             <!-- Section Header -->
             <div class="position-relative mb-4 d-flex justify-content-between align-items-end">
                 <div>
-                    <div class="text-danger mb-4  ms-4" id="cat">Our Products</div>
-                    <p class="fs-3">Explore Our Products</p>
+                    <div class=" mb-4  ms-4" id="cat" style="color: var(--main-color);">Our Products</div>
+                    <p class="fs-3" style="color: var(--secondry-color);">Explore Our Products</p>
                 </div>
             </div>
         </div>
@@ -273,7 +277,7 @@
                 <!-- Product cards will be inserted here dynamically -->
             </div>
             <div class="d-flex justify-content-center align-middle mb-3">
-                <button class="btn px-5 py-3 bg-danger">
+                <button class="btn px-5 py-3 text-white" style="background-color: var(--secondry-color);">
                     <a href="shop.html" class="text-decoration-none text-light">View All Products</a>
                 </button>
             </div>
@@ -284,8 +288,8 @@
         <!-- Section Header -->
         <div class="position-relative mb-4 d-flex justify-content-between align-items-end">
             <div>
-                <div class="text-danger mb-4  ms-4" id="cat">Featured</div>
-                <p class="fs-3">New Arrival</p>
+                <div class="mb-4  ms-4" style="color: var(--main-color);" id="cat">Featured</div>
+                <p class="fs-3" style="color: var(--secondry-color);">New Arrival</p>
             </div>
         </div>
         <div class="row">
@@ -356,6 +360,91 @@
     </div>
     <br />
     <br />
+    <!-- About Section -->
+<section id="about" class="py-5 bg-light ">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2 class="fw-bold mb-3" style="color: var(--main-color)">About <span style="color: var(--secondry-color);">Our Store</span></h2>
+        <p class="text-muted">
+          Welcome to <strong>Livingo</strong>, your one-stop destination for modern and stylish home furniture.  
+          We believe that every home deserves comfort, beauty, and functionality.  
+          From bedrooms and living rooms to outdoor spaces, we curate collections that combine luxury and practicality at the best value.  
+        </p>
+        <p class="text-muted">
+          Our mission is simple: to make your dream home a reality by offering carefully selected furniture that fits every lifestyle.
+        </p>
+        <a href="#" class="btn px-4 rounded-pill text-white" style="background-color: var(--secondry-color); ">Learn More</a>
+      </div>
+      
+      <div class="col-lg-6 text-center">
+        <img src="assets/images/mainImg/download.jpeg " style="height: 500px;" alt="About Us"
+          class="img-fluid rounded shadow-lg">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 text-light pb-5 mb-md-5" style="background-color: var(--main-color)">
+  <div class="container">
+    <div class="row mb-4 text-center">
+      <h2 class="fw-bold">Get in <span style="color: var(--secondry-color);" >Touch</span></h2>
+      <p class="text-muted">We’d love to hear from you! Whether you have a question, feedback, or just want to say hi.</p>
+    </div>
+    <div class="row g-4">
+      <!-- Contact Info -->
+      <div class="col-lg-4">
+        <div class="d-flex align-items-start mb-3">
+          <span class="iconify fs-3 me-3" style="color: var(--secondry-color);" data-icon="mdi:map-marker"></span>
+          <div>
+            <h6 class="fw-bold">Our Address</h6>
+            <p class="mb-0 text-muted">123 Modern Street, Cairo, Egypt</p>
+          </div>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <span class="iconify fs-3 me-3" style="color: var(--secondry-color);" data-icon="mdi:phone"></span>
+          <div>
+            <h6 class="fw-bold">Call Us</h6>
+            <p class="mb-0 text-muted">+20 123 456 789</p>
+          </div>
+        </div>
+        <div class="d-flex align-items-start">
+          <span class="iconify fs-3 me-3" style="color: var(--secondry-color);" data-icon="mdi:email"></span>
+          <div>
+            <h6 class="fw-bold">Email Us</h6>
+            <p class="mb-0 text-muted">support@livingo.com</p>
+          </div>
+        </div>
+      </div>
+      <!-- Contact Form -->
+      <div class="col-lg-8">
+        <form>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <input type="text" class="form-control rounded-3" placeholder="Your Name" required>
+            </div>
+            <div class="col-md-6">
+              <input type="email" class="form-control rounded-3" placeholder="Your Email" required>
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control rounded-3" placeholder="Subject">
+            </div>
+            <div class="col-12">
+              <textarea rows="4" class="form-control rounded-3" placeholder="Your Message" required></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn px-5 py-2 text-white rounded-pill" style="background-color: var(--secondry-color);">Send Message</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
     <div id="footer"></div>
     <!-- Custom CSS & JS -->
     <script src="./js/main.js" defer></script>

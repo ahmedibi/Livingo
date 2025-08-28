@@ -7,21 +7,29 @@
     <link rel="stylesheet" href="login.css" />
   </head>
   <body>
+    <body>
       <div class="login-page-wrap">
         <div class="side-visual">
-          <img src="../Side Image.jpg" alt="Login Visual" />
+          <img
+            src="generated-image.png"
+            class="visual-image"
+            alt="Login Visual"
+          />
         </div>
         <div class="login-panel">
           <form id="loginForm">
             <h2>Log in to Exclusive</h2>
             <p class="subtitle">Enter your details below</p>
             <div class="form-row">
-              <label for="inputEmail" class="form-label text-secondary mb-0 small">Email address</label>
-             <input type="email" class="form-control bg-black bg-opacity-10" id="inputEmail" ><p class="small text-danger" id="emailError"></p>
+              <input id="inputEmail"
+                type="text"
+                name="email"
+                placeholder="Email or Phone Number"
+                required
+              />
             </div>
             <div class="form-row">
-              <input
-              id="inputpass"
+              <input id="inputpass"
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -35,8 +43,8 @@
             <div id="errorMsg" class="error-msg"></div>
           </form>
         </div>
-      </div>
+     </div>
       <script src="login.js"></script>
     </body>
-  
+  </body>
 </html>

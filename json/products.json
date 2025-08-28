@@ -455,7 +455,7 @@
     "price": 350,
     "currency": "EGP",
     "images": [
-      "images/products/dining-room/diningChair1.jpeg"
+      "images/products/dining-room/Chair1.jpg"
     ],
     "stock": 15,
     "sellerId": "seller02",
@@ -483,7 +483,7 @@
     "price": 400,
     "currency": "EGP",
     "images": [
-      "images/products/dining-room/diningChair3.jpeg"
+      "images/products/dining-room/Chair3.jpg"
     ],
     "stock": 12,
     "sellerId": "seller02",
@@ -623,7 +623,7 @@
     "price": 380,
     "currency": "EGP",
     "images": [
-      "images/products/office/chair1.jpeg"
+      "images/products/office/office1.jpg"
     ],
     "stock": 12,
     "sellerId": "seller02",
@@ -637,7 +637,7 @@
     "price": 420,
     "currency": "EGP",
     "images": [
-      "images/products/office/chair2.jpeg"
+      "images/products/office/office2.jpg"
     ],
     "stock": 10,
     "sellerId": "seller02",
@@ -651,7 +651,7 @@
     "price": 460,
     "currency": "EGP",
     "images": [
-      "images/products/office/chair3.jpeg"
+      "images/products/office/office3.jpg"
     ],
     "stock": 9,
     "sellerId": "seller02",
@@ -665,7 +665,7 @@
     "price": 510,
     "currency": "EGP",
     "images": [
-      "images/products/office/chair4.jpeg"
+      "images/products/office/office4.jpg"
     ],
     "stock": 8,
     "sellerId": "seller02",
@@ -679,7 +679,7 @@
     "price": 850,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/chair1.jpeg"
+      "images/products/out-door/chair1.jpg"
     ],
     "stock": 6,
     "sellerId": "seller02",
@@ -693,7 +693,7 @@
     "price": 430,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/chair2.jpeg"
+      "images/products/out-door/chair2.jpg"
     ],
     "stock": 7,
     "sellerId": "seller02",
@@ -707,7 +707,7 @@
     "price": 720,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/chair3.jpeg"
+      "images/products/out-door/chair3.jpg"
     ],
     "stock": 5,
     "sellerId": "seller02",
@@ -721,7 +721,7 @@
     "price": 650,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/chair4.jpeg"
+      "images/products/out-door/chair4.jpg"
     ],
     "stock": 8,
     "sellerId": "seller02",
@@ -805,7 +805,7 @@
     "price": 1020,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/table2.jpeg"
+      "images/products/out-door/tabel2.jpeg"
     ],
     "stock": 6,
     "sellerId": "seller02",
@@ -819,7 +819,7 @@
     "price": 780,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/tabel3.jpeg"
+      "images/products/out-door/tabel3.jpg"
     ],
     "stock": 8,
     "sellerId": "seller02",
@@ -833,7 +833,7 @@
     "price": 1100,
     "currency": "EGP",
     "images": [
-      "images/products/out-door/tabel4.jpeg"
+      "images/products/out-door/tabel4.jpg"
     ],
     "stock": 4,
     "sellerId": "seller02",

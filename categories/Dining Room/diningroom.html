@@ -1,36 +1,91 @@
 <!-- Dining Room index.html placeholder -->
+
+
 <!DOCTYPE html>
- <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>checkout</title>
-  
-  <script src="../../js/components.js" defer></script>
-   <link rel="stylesheet" href="../../css/components.css">
-  <!-- ========== end of css files ========== -->
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkout</title>
+    <script src="diningroom.js" defer></script>
+    <script src="../../js/components.js" defer></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
         integrity="sha512-oQ1yQwSEIc9CTcK7pffEyS8fxom2iUWQrALk3j3+wfdSDjQ77EZbzGMGe2ZYmfoC8M9vR47apbS1ZYbW05y/pg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link
+    <link
         href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="diningroom.css">
- </head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="diningroom.css">
+</head>
 
 <body>
 
     <div id="navbar"></div>
 
-    <div class="container mt-4">
+    <div class="container mt-4 min-vh-100">
+        <div class="section1">
+            <div id="header"></div>
+            <div class="dropdown">
+
+                <!-- Sort -->
+                <button class="dropdown btn  dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Sort
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-sort="featured">Featured</a></li>
+                    <li><a class="dropdown-item" href="#" data-sort="az">Alphabetically. A-Z</a></li>
+                    <li><a class="dropdown-item" href="#" data-sort="za">Alphabetically. Z-A</a></li>
+                    <li><a class="dropdown-item" href="#" data-sort="priceLow">Price. Low to High</a></li>
+                    <li><a class="dropdown-item" href="#" data-sort="priceHigh">Price. High to Low</a></li>
+                </ul>
+
+                <!-- Filter -->
+                <button class="dropdown btn  dropdown-toggle" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#filterPanel">
+                    Filter
+                </button>
+            </div>
+        </div>
+
+        <!-- Offcanvas Filter -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="filterPanel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Filters</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+
+                <!-- Price Filter -->
+                <h6 class="mb-3">Price</h6>
+
+                <div class="position-relative mb-3" style="height: 40px;">
+                    <input type="range" id="rangeMin" min="0" max="1800" step="100" value="0"
+                        class="form-range position-absolute w-100" style="pointer-events: none;">
+                    <input type="range" id="rangeMax" min="0" max="1800" step="100" value="1800"
+                        class="form-range position-absolute w-100" style="pointer-events: none;">
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <input type="number" id="minPrice" class="form-control w-25" value="0">
+                    <span>-</span>
+                    <input type="number" id="maxPrice" class="form-control w-25" value="10000">
+                </div>
+            </div>
+            <!-- Reset Button -->
+            <button id="resetPrice" class="btn btn-secondary mt-3 w-100"
+                style="background-color: #000000; color:white; font-weight:bold; border-radius: 0;">
+                Reset
+            </button>
+
+        </div>
         <div class="row" id="productsList">
             <!-- المنتجات هتظهر هنا -->
         </div>
@@ -41,7 +96,7 @@
 
     <div id="footer"></div>
     <!-- JavaScript -->
-    <script src="diningroom.js"></script>
+
 </body>
 
 </html>

@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         id: user.id,
         name: user.name,
         email: user.email,
+        password:user.password,
         phone: user.phone,
         role: user.role,
         address: user.address || "",
@@ -39,7 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
       console.log("Current user set to:", currentUser);
 
-      if (user.role === "seller") {
+      if (user.role === "admin") {
+        window.location.href = "../../../dashboard/adminDashboard/orders/orders.html";
+      } else if (user.role === "seller") {
         window.location.href = "../../dashboard/seller.html";
       } else {
         window.location.href = "../../index.html";

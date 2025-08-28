@@ -69,19 +69,33 @@ function loadCartData() {
 function displayCartProducts(cartItems) {
   const orderSummary = document.getElementById('orderSummary');
   let productsHTML = '';
-  let subtotal = 0;
+  let subtotal = 0;   
 
   cartItems.forEach(product => {
     const itemTotal = product.price * product.quantity;
     subtotal += itemTotal;
-    
+     let imageSrc = 'assets/images/placeholder.jpg'; // صورة افتراضية
+
+if (product.images && product.images.length > 0) {
+  imageSrc = `assets/${product.images[0]}`;
+} else if (product.image) {
+  imageSrc = `assets/${product.image}`;
+} else if (product.img) {
+  imageSrc = `assets/${product.img}`;
+} else if (product.thumbnail) {
+  imageSrc = `assets/${product.thumbnail}`;
+}
+
     productsHTML += `
       <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center mb-3">
-        <div class="d-flex flex-column flex-lg-row col-12 col-lg-6 justify-content-lg-around align-items-center">
-          <img class="rounded-4" src="${product.image}" alt="${product.name}" width="80" height="80" style="object-fit: cover;">
-          <p class="mb-0">${product.name} × ${product.quantity}</p>
+        <div class="d-flex flex-column flex-lg-row col-12 col-lg-8 justify-content-lg-start align-items-center small ">
+          <img class="rounded-1 me-2 " src="${imageSrc}" alt="${product.name}" width="80" height="80" style="object-fit: stretch;">
+          <div>
+            <p class="mb-0">${product.name} </p>
+            <p class="mb-0 text-secondary">× ${product.quantity} </p>
+          </div>
         </div>
-        <div class=""><p class="mb-0 fw-bold">${itemTotal.toFixed(2)}</p></div>
+        <div class=""><p class="mb-0 fw-bold">${itemTotal.toFixed(2)} EGP</p></div>
       </div>
     `;
   });
@@ -89,8 +103,8 @@ function displayCartProducts(cartItems) {
   orderSummary.innerHTML = productsHTML;
   
   // Update totals
-  document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
-  document.getElementById('total').textContent = `${subtotal.toFixed(2)}`;
+  document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} EGP`;
+  document.getElementById('total').textContent = `${subtotal.toFixed(2)} EGP`;
 }
 
 function showEmptyCart() {
@@ -387,11 +401,13 @@ function saveOrder(paymentMethod) {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   const newOrder = {
     id: Date.now(),
-    customer: { name, company, street, city, phone, email },
+    customer: {  id: currentUser ? currentUser.id : null ,name, company, street, city, phone, email },
     items: cart,
     paymentMethod: paymentMethod,
+    status: "Pending",
     date: new Date().toLocaleString()
   };
   orders.push(newOrder);

@@ -1,9 +1,21 @@
+/* /////////////////////////////////////main color//////////////////////////////////////////////// */
+
+* {
+    --main-color: #a0804d !important;
+    --secondry-color: #284b63 !important;
+    --hover: #223f53;
+    --hover-btn: #cf9a61 !important;
+}
+
+
+
 /* //////////////////////////////////////////////////////////landing////////////////////////////////////////////////////////////////// */
 
 .carousel .carousel-indicators button {
     width: 15px;
     height: 15px;
     border-radius: 100%;
+    background: linear-gradient(#a47148, #82673d);
 }
 
 #carouselExampleIndicators .carousel-indicators button {
@@ -15,15 +27,34 @@
 }
 
 #carouselExampleIndicators .carousel-indicators .active {
-    background: crimson !important;
+    background: var(--hover) !important;
 }
 
-.arrow-icon {
-    transition: transform 0.3s ease;
+.button-all {
+    background-color: var(--secondry-color) !important;
 }
 
-a:hover .arrow-icon {
-    transform: translateX(5px);
+.button-all:hover {
+    background-color: var(--hover) !important;
+}
+
+.button-cart {
+    background-color: var(--secondry-color) !important;
+}
+
+.button-cart:hover {
+    background-color: var(--hover) !important;
+}
+
+/* /////////////////////////////////best selling////////////////////////////////////////////////////////////////////////// */
+.btnc {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.btnc i {
+    color: var(--secondry-color) !important;
 }
 
 /* /////////////////////////////Selling Products//////////////////////////////////// */
@@ -34,6 +65,7 @@ a:hover .arrow-icon {
     border: 1px solid #f0f0f0;
     gap: 8px !important;
 }
+
 
 .card-img-top {
     width: 100%;
@@ -65,50 +97,13 @@ a:hover .arrow-icon {
 }
 
 .action-btn:hover {
-    background: crimson !important;
+    background: var(--secondry-color) !important;
     fill: white;
-    border-color: crimson;
+    border-color: var(--secondry-color);
 }
 
-.card .btn1 {
-    background-color: black;
-    color: aliceblue;
-    font-weight: 700;
-    border-radius: 0 !important;
-    transition: all .3s ease-in-out;
-}
-
-.card .btn1:hover {
-    background-color: #db4444;
-    color: white;
-}
-
-/* @media (max-width: 768px) {
-    .section-title {
-        font-size: 1.5rem;
-    }
-
-    .product-image {
-        height: 160px;
-        font-size: 3rem;
-    }
-} */
-
-/* ///////////////////////////////////swipper/////////////////////////////////////////////// */
-.swiper-pagination-bullet-active {
-    background-color: crimson !important;
-}
-
-.swiper {
-    position: relative;
-    /* مهم عشان البجنيشن يتنسّب جواه */
-}
-
-/* الأساس - يخليها في النص */
-.swiper-pagination {
-    position: relative;
-    margin-top: 30px;
-    text-align: center;
+#productCarousel {
+    margin: 0 4rem;
 }
 
 /* //////Browse By Category////// */
@@ -123,12 +118,12 @@ a:hover .arrow-icon {
     left: -25px;
     height: 35px;
     width: 18px;
-    background: crimson;
+    background: var(--main-color);
     border-radius: 5px;
 }
 
 .category-box:hover {
-    background-color: crimson !important;
+    background-color: var(--hover) !important;
     color: white !important;
 }
 
@@ -158,5 +153,3 @@ a:hover .arrow-icon {
         height: 150px;
     }
 }
-
-/* /////////////////////////////////////////////////////////////////////// */

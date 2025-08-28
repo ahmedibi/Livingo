@@ -264,7 +264,16 @@
             if (existing) {
               existing.quantity += quantity;
             } else {
-              cart.push({ id: product.id, quantity: quantity });
+              cart.push({ 
+               id: product.id,
+               name: product.name,
+               price: product.price,
+               currency: product.currency,
+               images: product.images,  
+               quantity: quantity
+             });
+
+
             }
 
             localStorage.setItem("cart", JSON.stringify(cart));
