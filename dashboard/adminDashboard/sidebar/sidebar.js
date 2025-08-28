@@ -2,7 +2,7 @@ const sidebar = document.getElementById("sideBar");
 const toggler = document.querySelector(".sidebar-toggler");
 const mainContent = document.getElementById("mainContent");
 const links = document.querySelectorAll("#sideBar .menu a");
-
+const currentUser=localStorage.getItem("currentUser");
 // Toggle sidebar functionality
 toggler.addEventListener("click", () => {
   if (window.innerWidth <= 991) {
@@ -28,8 +28,12 @@ links.forEach((link) => {
   
   });
 });
-
-// Update main content function
+const logout= document.getElementById("logOut")
+  logout.addEventListener("click",function(){
+    localStorage.removeItem("currentUser"); 
+         alert("You have been logged out.");
+         window.location.href = "../../../sign/login/login.html"; 
+  })
 
 // Handle window resize
 window.addEventListener("resize", () => {
