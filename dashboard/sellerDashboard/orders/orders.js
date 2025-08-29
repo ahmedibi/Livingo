@@ -65,7 +65,7 @@ function renderOrders(data = orders) {
     });
   });
 
-  container.innerHTML = html || `<tr><td colspan="7">لا يوجد طلبات لمنتجاتك.</td></tr>`;
+  container.innerHTML = html || `<tr><td colspan="7">no orders found</td></tr>`;
 }
 
 function enableEditStatus(orderId) {

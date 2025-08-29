@@ -75,10 +75,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const removeBtn = e.target.closest('.remove-btn');
     if (removeBtn) {
       const id = removeBtn.getAttribute('data-id');
-      const updatedWishlist = wishlist.filter(itemId => itemId !== id);
-      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlist = wishlist.filter(itemId => itemId !== id);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
       const itemEl = removeBtn.closest('[class*="col-"]'); // يمسح الكارد كله
       if (itemEl) itemEl.remove();
+      
       return;
     }
 

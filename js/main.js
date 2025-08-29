@@ -1,5 +1,6 @@
 //// NAVBAR /////
 document.addEventListener("DOMContentLoaded", () => {
+  // Load navbar
   fetch("partials/navbar.html")
     .then(res => res.text())
     .then(data => {
@@ -15,29 +16,54 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => console.error("Error loading footer:", err));
 
-  ////////////////////// Wishlist & Cart Buttons ///////////////////////
+  ////////////////////// Wishlist & Cart Buttons ///////////////////
   document.addEventListener("click", (e) => {
-    // Wishlist button (top-right circle or anywhere with .wishlistBtn)
+    // Wishlist button
     const wishlistBtn = e.target.closest(".wishlistBtn");
     if (wishlistBtn) {
       const productId = wishlistBtn.dataset.id;
       toggleStorageItem("wishlist", productId, "❤️ Added to wishlist", "❌ Removed from wishlist");
-      return; // avoid also catching cartBtn on same click
+      return;
     }
 
-    // Cart button (top-right circle or full-width Add to Cart)
+    // Cart button
     const cartBtn = e.target.closest(".cartBtn");
     if (cartBtn) {
       const productId = cartBtn.dataset.id;
-      toggleStorageItem("cart", productId, "🛒 Added to cart", "❌ Removed from cart");
-      return;
+
+      // Load products from storage
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      const product = products.find(p => p.id === productId);
+
+      if (!product) {
+        alert("⚠️ Product not found!");
+        return;
+      }
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(item => item.id === product.id);
+
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          currency: product.currency,
+          images: product.images,
+          quantity: 1
+        });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("✅ Added to cart!");
     }
   });
 
-  // Generic toggle function for wishlist & cart
+  // Generic toggle function
   function toggleStorageItem(key, productId, addMsg, removeMsg) {
     let items = JSON.parse(localStorage.getItem(key)) || [];
-
     if (items.includes(productId)) {
       items = items.filter(id => id !== productId);
       alert(removeMsg);
@@ -45,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
       items.push(productId);
       alert(addMsg);
     }
-
     localStorage.setItem(key, JSON.stringify(items));
   }
 
@@ -54,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadProductsFromStorage() {
     const productsData = localStorage.getItem("products");
-
     if (productsData) {
       try {
         SellBroducts = JSON.parse(productsData);
@@ -145,23 +169,17 @@ document.addEventListener("DOMContentLoaded", () => {
           ? product.images[0]
           : `assets/${product.images[0]}`;
 
-        // Top-right actions: SAME STYLE + SAME HEART SVG
+        // Wishlist + Cart buttons
         const wishlistButtonHTML = `
           <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn wishlistBtn"
                   data-id="${product.id}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/>
-            </svg>
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/> </svg>
           </button>`;
 
-        // Cart top-right button (keeps your style; using Bootstrap cart SVG)
         const cartTopButtonHTML = `
-          <button class="btn btn-light  btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
+          <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
                   data-id="${product.id}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
-              <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/>
-              <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-            </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"> <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/> <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/> </svg>
           </button>`;
 
         cardsHTML += `
@@ -172,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${cartTopButtonHTML}
               </div>
               <a href="./product.html?id=${product.id}">
-                <img src="${imagePath}" class="card-img-top" alt="${product.name}" 
+                <img src="${imagePath}" class="card-img-top" alt="${product.name}"
                      onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';">
               </a>
               <div class="card-body p-3">
@@ -203,11 +221,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize carousel
   function initializeCarousel() {
     const dataLoaded = loadProductsFromStorage();
+    renderCarousel();
     if (dataLoaded) {
-      renderCarousel();
       window.addEventListener("resize", renderCarousel);
-    } else {
-      renderCarousel();
     }
   }
 
@@ -230,23 +246,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const col = document.createElement("div");
           col.className = "col-lg-3 col-md-6 col-12 mb-3";
 
-          // SAME wishlist SVG + same classes; full-width Add to Cart keeps your style
           col.innerHTML = `
             <div class="shadow-sm gap-5 product-card position-relative">
               <div class="position-absolute top-0 end-0 d-flex flex-column m-2 gap-2 product-actions">
-                <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn wishlistBtn" 
-                        data-id="${product.id}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/>
-                  </svg>
-                </button>
-                <button class="btn btn-light  btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
-                        data-id="${product.id}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
-                    <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/>
-                    <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                  </svg>
-                </button>
+                <button class="btn btn-light btn-sm rounded-circle wishlistBtn action-btn" data-id="${product.id}">  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/> </svg></button>
+                <button class="btn btn-light btn-sm rounded-circle cartBtn action-btn" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"> <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/> <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/> </svg></button>
               </div>
 
               <a href="./product.html?id=${product.id}">
@@ -254,7 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
               </a>
 
               <button class="btn btnc text-light rounded-0 w-100 button-cart cartBtn" data-id="${product.id}">
-             
                 Add to Cart
               </button>
 
