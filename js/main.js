@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => console.error("Error loading footer:", err));
 
-  ////////////////////// Wishlist & Cart Buttons ///////////////////////
+  ////////////////////// Wishlist & Cart Buttons ///////////////////
   document.addEventListener("click", (e) => {
     // Wishlist button
     const wishlistBtn = e.target.closest(".wishlistBtn");
