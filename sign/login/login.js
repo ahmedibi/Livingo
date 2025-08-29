@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (user.role === "admin") {
         window.location.href = "../../../dashboard/adminDashboard/orders/orders.html";
       } else if (user.role === "seller") {
-        window.location.href = "../../dashboard/seller.html";
+        window.location.href = "../../../dashboard/sellerDashboard/orders/orders.html";
       } else {
         window.location.href = "../../index.html";
       }

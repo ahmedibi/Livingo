@@ -34,7 +34,13 @@ const tbody = document.getElementById("ordersTableBody");
                  statusClass = "bg-secondary"; 
                  break;
              case "Delivered":
-                 statusClass= "bg-success"     
+                 statusClass= "bg-success";
+                 break;
+                  case "Processing":
+                 statusClass= "bg-primary";
+                 break;
+                case "Cancelled":
+                 statusClass= "bg-danger";    
          }
 
     tbody.innerHTML += `
@@ -76,12 +82,39 @@ const tbody = document.getElementById("ordersTableBody");
 }
 
 function enableEditStatus(id) {
-  const row = document.querySelector(`tr[data-id="${id}"] .status-cell`);
-  if (row) {
-    row.contentEditable = "true";
-    row.focus();
-  }
+  const td = document.querySelector(`tr[data-id="${id}"] .status-cell`);
+  if (!td) return;
+
+  const order = orders.find(o => o.id === id);
+  if (!order) return;
+
+  // إنشاء select بدل contentEditable
+  const select = document.createElement("select");
+  select.className = "form-select form-select-sm";
+
+  ["Pending","Processing","Delivered","Cancelled"].forEach(status => {
+    const option = document.createElement("option");
+    option.value = status;
+    option.textContent = status;
+    if (status === order.status) option.selected = true;
+    select.appendChild(option);
+  });
+
+  // زر حفظ للتأكيد
+  const saveBtn = document.createElement("button");
+  saveBtn.className = "btn btn-sm btn-success ms-1";
+  saveBtn.textContent = "Save";
+  saveBtn.addEventListener("click", () => {
+    updateStatus(id, select.value);
+  });
+
+  // مسح محتوى td وإضافة select + save button
+  td.innerHTML = "";
+  td.appendChild(select);
+  td.appendChild(saveBtn);
+  select.focus();
 }
+
 
  
 function updateStatus(id, newStatus) {

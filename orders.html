@@ -91,11 +91,17 @@
         const tr = document.createElement("tr");
         let statusClass = "";
          switch (order.status) {
-             case "Pending":
+            case "Pending":
                  statusClass = "bg-secondary"; 
                  break;
              case "Delivered":
-                 statusClass= "bg-success"     
+                 statusClass= "bg-success";
+                 break;
+                  case "Processing":
+                 statusClass= "bg-primary";
+                 break;
+                case "Cancelled":
+                 statusClass= "bg-danger";  
          }
         tr.innerHTML = `
           <td>${order.id}</td>

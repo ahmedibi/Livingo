@@ -1,0 +1,170 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background: #f0f0f0;
+    color: black;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+#sidebar .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #40372e;
+}
+
+#sidebar .logo .cushion-o {
+  color: #a0804d;
+  font-size: 28px;
+  margin-left: 5px;
+}
+
+#sidebar a {
+  gap: 12px;
+  text-decoration: none;
+  color: black;
+  padding: 7px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+.sidebar p{
+    margin-left: 35px;
+}
+
+header{
+      margin-bottom: 20px;  
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+    
+}
+
+.sidebar ul li {
+    margin-left: 15px  ; 
+    margin-top:10px ;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+.sidebar ul li:hover{
+    border-style: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+    background-color: #A0804D;
+}
+
+.sidebar ul li.active {
+    background-color:#A0804D;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+}
+
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    margin-bottom: 20px;
+    
+}
+
+ .sidebar ul li a:hover{
+    color: rgb(255, 255, 255);
+} 
+
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar img{
+    width: 100px;
+    border-radius: 50%;
+    margin-left: 35px;
+    margin-bottom: 10px;
+}
+
+i{
+    margin-right: 10px;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    width: 100%;
+}
+
+.orders-section{
+    margin-top: 20px;
+}
+
+/* sidemenu Button  */
+.sidemenu {
+    display: none;
+    font-size:20px;
+    background: #333333; 
+    color: #ffffff;
+    padding: 5px 10px;   
+    cursor: pointer;
+     position: fixed; 
+     top: 5px; 
+     border-radius: 5px;
+     margin-left: 10px;
+     
+    cursor: pointer;
+}
+
+.btn-close{
+     display: none;     
+     position: absolute;
+     top: 10px;
+     right: 10px;
+     border: none;
+    
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidemenu {
+        display: block;
+    }
+     .btn-close {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+        padding-top: 60px;
+    }
+}
+
