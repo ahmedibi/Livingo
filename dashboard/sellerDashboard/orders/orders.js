@@ -1,0 +1,175 @@
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+const container = document.getElementById("orderTable");
+const searchInput = document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
+const dateFilter = document.getElementById("dateFilter");
+const sortSelect = document.getElementById("sortSelect");
+
+function renderOrders(data = orders) {
+  const seller = users.find(u => u.id === currentUser?.id && u.role === "seller");
+  if (!currentUser || !seller || !seller.products) {
+    container.innerHTML = `<tr><td colspan="7"> no orders found</td></tr>`;
+    return;
+  }
+
+  let sellerProductIds = seller.products;
+  let html = "";
+
+  data.forEach(order => {
+    const sellerItems = order.items.filter(item => sellerProductIds.includes(item.id));
+    sellerItems.forEach(item => {
+      let total = item.price * (item.quantity || 1);
+      let statusClass = "";
+      switch (order.status) {
+        case "Pending": statusClass = "bg-secondary"; break;
+        case "Delivered": statusClass = "bg-success"; break;
+        case "Processing": statusClass = "bg-primary"; break;
+        case "Cancelled": statusClass = "bg-danger"; break;
+        default: statusClass = "bg-dark";
+      }
+
+      html += `
+        <tr data-id="${order.id}">
+          <td>${order.id}</td>
+          <td>${order.customer.name}</td>
+          <td>${item.name}</td>
+          <td>${item.quantity || 1}</td>
+          <td>${total} ${item.currency}</td>
+          <td>${order.date}</td>
+          <td class="status-cell"><span class="badge ${statusClass}">${order.status}</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-warning me-1" onclick="enableEditStatus(${order.id})">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>
+                </g>
+              </svg>            
+            </button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id}, '${item.id}')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM7 6v13z"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  });
+
+  container.innerHTML = html || `<tr><td colspan="7">لا يوجد طلبات لمنتجاتك.</td></tr>`;
+}
+
+function enableEditStatus(orderId) {
+  const td = document.querySelector(`tr[data-id="${orderId}"] .status-cell`);
+  if (!td) return;
+
+  const order = orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  const select = document.createElement("select");
+  select.className = "form-select form-select-sm";
+  ["Pending","Processing","Delivered","Cancelled"].forEach(status => {
+    const option = document.createElement("option");
+    option.value = status;
+    option.textContent = status;
+    if (status === order.status) option.selected = true;
+    select.appendChild(option);
+  });
+
+  select.addEventListener("change", function() {
+    updateStatus(orderId, this.value);
+  });
+
+  select.addEventListener("blur", function() {
+    renderOrders();
+  });
+
+  td.innerHTML = "";
+  td.appendChild(select);
+  select.focus();
+}
+
+function updateStatus(id, newStatus) {
+  let order = orders.find(o => o.id === id);
+  if (!order) return;
+  order.status = newStatus.trim();
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderOrders();
+}
+
+function deleteOrder(orderId, itemId) {
+  if (!confirm("Are you sure to delete this order?")) return;
+
+  let order = orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  order.items = order.items.filter(it => it.id !== itemId);
+  if (order.items.length === 0) {
+    orders = orders.filter(o => o.id !== orderId);
+  }
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderOrders();
+}
+
+// Filters
+function applyFilters() {
+  let searchVal = searchInput.value.toLowerCase();
+  let statusVal = statusFilter.value;
+  let dateVal = dateFilter.value;
+  let filtered = orders.filter(order => {
+    let matchSearch = order.id.toString().includes(searchVal) || (order.customer?.name || "").toLowerCase().includes(searchVal);
+    let matchStatus = statusVal ? order.status === statusVal : true;
+    let matchDate = dateVal ? order.date === dateVal : true;
+    return matchSearch && matchStatus && matchDate;
+  });
+
+  // Sort
+  const sortVal = sortSelect.value;
+  if(sortVal) {
+    filtered.sort((a,b) => {
+      if(sortVal === "date") return new Date(a.date) - new Date(b.date);
+      if(sortVal === "total") {
+        const totalA = a.items.reduce((sum,it) => sum + (it.price*it.quantity),0);
+        const totalB = b.items.reduce((sum,it) => sum + (it.price*it.quantity),0);
+        return totalA - totalB;
+      }
+      if(sortVal === "status") return a.status.localeCompare(b.status);
+    });
+  }
+
+  renderOrders(filtered);
+}
+
+searchInput.addEventListener("input", applyFilters);
+statusFilter.addEventListener("change", applyFilters);
+dateFilter.addEventListener("change", applyFilters);
+sortSelect.addEventListener("change", applyFilters);
+
+// Initial render
+renderOrders();
+ const logout= document.getElementById("logOut")
+  logout.addEventListener("click",function(){
+    localStorage.removeItem("currentUser"); 
+         alert("You have been logged out.");
+         window.location.href = "../../../sign/login/login.html"; 
+  });
+
+    // Active menu management
+function setActiveMenuItem(clickedElement) {
+  document.querySelectorAll('.sidebar ul li').forEach(li => {
+    li.classList.remove('active');
+  });
+  clickedElement.parentElement.classList.add('active');
+}
+
+
