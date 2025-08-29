@@ -285,7 +285,9 @@ nav  .navbar-nav{
 /***** End nav *****/
 
 /***** footer style *****/
-
+footer{
+  background-color: #284B63;
+}
 footer input:focus {
   border: none;
   outline: none;
@@ -342,7 +344,7 @@ footer .link:hover a {
 }
 .back-to-top a:hover {
   color: #ffffff !important;
-  background-color: crimson;
+  background-color: #A0804D;
 }
 /***** End arrow-up-to-top *****/
 
@@ -355,7 +357,7 @@ footer .link:hover a {
   position: absolute;
   top: -8px;
   right: -8px;
-  background-color: crimson;
+  background-color: #A0804D;
   color: white;
   width: 18px;
   height: 18px;
