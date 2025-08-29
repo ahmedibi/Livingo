@@ -1,0 +1,74 @@
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.ml {
+    margin-left: 280px !important;
+    overflow: hidden !important;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.dashboard-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 15px;
+}
+
+.no-data-message {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.data-info {
+    background: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.data-info h6 {
+    color: #0066cc;
+    margin-bottom: 10px;
+}
+
+.data-keys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.data-key {
+    background: #0066cc;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
