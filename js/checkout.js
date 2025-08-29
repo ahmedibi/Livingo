@@ -25,13 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => console.error("Error loading footer:", err));
 
-  // Load cart data
   loadCartData();
-  
-  // Setup card input formatting
+
   setupCardInputs();
 
-  // ✅ استدعاء validateForm()
   validateForm();
 });
 
@@ -143,81 +140,76 @@ var emailError = document.getElementById("emailError");
 
 // Form validation
 function validateForm() {
-  // Clear previous errors
-  nameInput.addEventListener("blur", function ()  {
-    const firstVal=nameInput.value.trim()
-    if (firstVal==""){
-      nameError.textContent="First name is required";
-      nameInput.focus();
+
+  nameInput.addEventListener("blur", function () {
+    const firstVal = nameInput.value.trim();
+    if (firstVal === "") {
+      nameError.textContent = "First name is required";
     } else if (firstVal.includes(" ")) {
-        nameError.textContent = "Please enter only one word";
-        nameInput.focus();
-    }else{
-      firstVal= nameInput.value.trim();
-      nameError.textContent=""
-    };})
-
-  companyInput.addEventListener("blur", function(){
-    if (companyInput.value==""){
-      companyError.textContent="Company Name is required";
-      companyInput.focus();
-    } else{
-      company= companyInput.value;
-      companyError.textContent=""
-    };
-  });
-   
-  streetInput.addEventListener("blur", function(){
-    if (streetInput.value==""){
-      streetError.textContent="Street address is required";
-      streetInput.focus();
-    } else{
-      street= streetInput.value;
-      streetError.textContent=""
-    };
-  });
-  
-  cityInput.addEventListener("blur", function(){
-    if (cityInput.value==""){
-      cityError.textContent="City is required";
-      cityInput.focus();
-    } else{
-      city= cityInput.value;
-      cityError.textContent=""
-    };
-  });
-
-  phoneInput.addEventListener("blur", function(){
-    let phoneVal = phoneInput.value.trim()
-    if (phoneVal==""){
-      phoneError.textContent="Phone number is required";
-      phoneInput.focus();
-    } else if(isNaN(phoneVal) || phoneVal.length !== 11){
-      phoneError.textContent="you must enter only numbers contain 11 number";
-      phoneInput.focus();
+      nameError.textContent = "Please enter only one word";
+    } else {
+      nameError.textContent = "";
     }
-    else{
-      phone= phoneVal;
-      phoneError.textContent=""
-    };
   });
+
+
+  companyInput.addEventListener("blur", function () {
+    if (companyInput.value.trim() === "") {
+      companyError.textContent = "Company Name is required";
+    } else {
+      companyError.textContent = "";
+    }
+  });
+
+  streetInput.addEventListener("blur", function () {
+    if (streetInput.value.trim() === "") {
+      streetError.textContent = "Street address is required";
+    } else {
+      streetError.textContent = "";
+    }
+  });
+
   
-  emailInput.addEventListener("blur", function(){
-    var  myPattern =/^[a-zA-Z0-9]{3,12}@[a-zA-Z]{4,20}\.(com)$/;
-    if(!myPattern.test(emailInput.value)){
-      emailError.textContent="please enter a valid email like this example@gmail.com";
-      emailInput.focus()
-    } else{
-      email=emailInput.value;
-      emailError.textContent=""}
-  })
-  
+  cityInput.addEventListener("blur", function () {
+    if (cityInput.value.trim() === "") {
+      cityError.textContent = "City is required";
+    } else {
+      cityError.textContent = "";
+    }
+  });
+
+
+  phoneInput.addEventListener("blur", function () {
+    const phoneVal = phoneInput.value.trim();
+    if (phoneVal === "") {
+      phoneError.textContent = "Phone number is required";
+    } else if (isNaN(phoneVal) || phoneVal.length !== 11) {
+      phoneError.textContent = "You must enter only numbers (11 digits)";
+    } else {
+      phoneError.textContent = "";
+    }
+  });
+
+
+  emailInput.addEventListener("blur", function () {
+    const myPattern = /^[a-zA-Z0-9]{3,30}@[a-zA-Z]{4,20}\.(com)$/;
+    if (!myPattern.test(emailInput.value.trim())) {
+      emailError.textContent = "Please enter a valid email like example@gmail.com";
+    } else {
+      emailError.textContent = "";
+    }
+  });
 }
+
 
 // Place order function
 function placeOrder(e) {
   e.preventDefault();
-
+ const currentUser=localStorage.getItem("currentUser")
+ if(!currentUser){
+  alert("please login first");
+  return;
+ }
   const name = nameInput.value.trim();
   const company = companyInput.value.trim();
   const street = streetInput.value.trim();
