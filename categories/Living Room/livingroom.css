@@ -1,13 +1,38 @@
 /* living room style.css placeholder */
 
-#header {
-    font-weight: bold;
-    font-size: 40px;
-    padding-bottom: 8px;
+
+
+
+* {
+    --main-color: #a0804d !important;
+    --secondry-color: #284b63 !important;
+    --hover: #223f53;
+    --hover-btn: #cf9a61 !important;
 }
 
-.dropdown {
-    color: #acabab;
+
+#header {
+
+    font-size: 30px;
+    padding-bottom: 8px;
+    color: var(--main-color) !important;
+    position: relative;
+}
+
+
+#header::before {
+    position: absolute;
+    content: "";
+    top: 5px;
+    left: -25px;
+    height: 35px;
+    width: 18px;
+    background: var(--main-color);
+    border-radius: 5px;
+}
+
+.dropdown .btn {
+    color: #284b63 !important;
     font-size: 18px;
     border: 1 solid #acabab !important;
 }
@@ -27,23 +52,10 @@
 }
 
 .dropdown-item:hover {
-    color: black !important;
+    color: var(--hover) !important;
     background-color: white !important;
 }
 
-/* السهم الصغير فوق القايمة */
-.dropdown-menu::before {
-    content: "";
-    position: absolute;
-    top: -20px;
-    /* يخلي السهم فوق القايمة */
-    right: 20px;
-    /* يتحكم في مكانه (يمين/شمال) */
-    border-width: 10px;
-    border-style: solid;
-    border-color: transparent transparent rgb(248, 247, 247) transparent;
-    /* فوق = شفاف ، يمين/شمال شفاف ، تحت = لون الخلفية */
-}
 
 .dropdown-item:active,
 .dropdown-item:focus {
@@ -79,7 +91,7 @@ input[type=range]::-webkit-slider-thumb {
     z-index: 2;
     width: 16px;
     height: 16px;
-    background: black;
+    background: var(--main-color) !important;
     border-radius: 50%;
     cursor: pointer;
     -webkit-appearance: none;
@@ -89,7 +101,7 @@ input[type=range]::-webkit-slider-thumb {
 /* نخلي المسار يظهر بلون غامق بين الـ min والـ max */
 .range-track {
     height: 5px;
-    background: #000000 !important;
+    background: var(--main-color) !important;
     position: absolute;
     top: 50%;
     left: 0;
@@ -100,12 +112,23 @@ input[type=range]::-webkit-slider-thumb {
 
 .range-track-fill {
     height: 5px;
-    background: black !important;
+    background: var(--main-color) !important;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     border-radius: 3px;
     z-index: 1;
+}
+
+#resetPrice {
+    background-color: var(--main-color);
+    color: white;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+#resetPrice:hover {
+    background-color: var(--hover-btn);
 }
 
 .section1 {
@@ -131,7 +154,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .card .btn {
-    background-color: black;
+    background-color: var(--main-color);
     color: aliceblue;
     font-weight: 700;
     border-radius: 0 !important;
@@ -139,7 +162,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .card .btn:hover {
-    background-color: crimson;
+    background-color: var(--hover-btn);
     color: aliceblue;
 }
 

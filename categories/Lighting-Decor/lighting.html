@@ -36,19 +36,20 @@
             <div class="dropdown">
 
                 <!-- Sort -->
-                <button class="dropdown btn  dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    Sort
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" data-sort="featured">Featured</a></li>
-                    <li><a class="dropdown-item" href="#" data-sort="az">Alphabetically. A-Z</a></li>
-                    <li><a class="dropdown-item" href="#" data-sort="za">Alphabetically. Z-A</a></li>
-                    <li><a class="dropdown-item" href="#" data-sort="priceLow">Price. Low to High</a></li>
-                    <li><a class="dropdown-item" href="#" data-sort="priceHigh">Price. High to Low</a></li>
-                </ul>
-
+                <div class="dropdown">
+                    <button class=" btn  dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Sort
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" data-sort="featured">Featured</a></li>
+                        <li><a class="dropdown-item" href="#" data-sort="az">Alphabetically. A-Z</a></li>
+                        <li><a class="dropdown-item" href="#" data-sort="za">Alphabetically. Z-A</a></li>
+                        <li><a class="dropdown-item" href="#" data-sort="priceLow">Price. Low to High</a></li>
+                        <li><a class="dropdown-item" href="#" data-sort="priceHigh">Price. High to Low</a></li>
+                    </ul>
+                </div>
                 <!-- Filter -->
-                <button class="dropdown btn  dropdown-toggle" type="button" data-bs-toggle="offcanvas"
+                <button class=" btn  dropdown-toggle" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#filterPanel">
                     Filter
                 </button>
@@ -58,15 +59,15 @@
         <!-- Offcanvas Filter -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="filterPanel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title">Filters</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <h5 class="offcanvas-title" style="color: var(--secondry-color);">Filters</h5>
+                <button type=" button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
 
                 <!-- Price Filter -->
-                <h6 class="mb-3">Price</h6>
+                <h6 class="mb-3" style="color: var(--secondry-color);">Price</h6>
 
-                <div class="position-relative mb-3" style="height: 40px;">
+                <div class=" position-relative mb-3" style="height: 40px;">
                     <input type="range" id="rangeMin" min="0" max="1800" step="100" value="0"
                         class="form-range position-absolute w-100" style="pointer-events: none;">
                     <input type="range" id="rangeMax" min="0" max="1800" step="100" value="1800"
@@ -74,16 +75,18 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-3">
-                    <input type="number" id="minPrice" class="form-control w-25" value="0">
-                    <span>-</span>
-                    <input type="number" id="maxPrice" class="form-control w-25" value="10000">
+                    <input type="number" id="minPrice" class="form-control w-25" value="0"
+                        style="color: var(--secondry-color);">
+                    <span style="color: var(--secondry-color);">-</span>
+                    <input type="number" id="maxPrice" class="form-control w-25" value="10000"
+                        style="color: var(--secondry-color);">
                 </div>
+                <!-- Reset Button -->
+                <button id="resetPrice" class="btn btn-secondary mt-3 w-100">
+                    Reset
+                </button>
             </div>
-            <!-- Reset Button -->
-            <button id="resetPrice" class="btn btn-secondary mt-3 w-100"
-                style="background-color: #000000; color:white; font-weight:bold; border-radius: 0;">
-                Reset
-            </button>
+
 
         </div>
         <div class="row" id="productsList">
