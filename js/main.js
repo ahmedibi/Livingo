@@ -156,9 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Cart top-right button (keeps your style; using Bootstrap cart SVG)
         const cartTopButtonHTML = `
-          <button class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
+          <button class="btn btn-light  btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
                   data-id="${product.id}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
               <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/>
               <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
             </svg>
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
                 <button class="btn btn-light  btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
                         data-id="${product.id}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
                     <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/>
                     <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                   </svg>
