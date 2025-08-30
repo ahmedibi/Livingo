@@ -1,0 +1,281 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #f6f2e7;
+  font-family: "Inter", Arial, sans-serif;
+ /* إضافة اتجاه RTL للعربية */
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden; /* منع التمرير الأفقي */
+}
+
+.main-content {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+
+  margin-left: 280px; /* مساحة للsidebar */
+  transition: margin-left 0.3s ease;
+}
+
+/* عندما يكون الsidebar مغلق */
+.main-content.sidebar-closed {
+  margin-left: 100px;
+}
+
+#sideBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  z-index: 1000;
+  background: #fdfdfd;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-section {
+  padding: 44px 52px 0 52px;
+}
+
+.header-section h1 {
+  color: #a0804d;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  padding: 0 52px 38px 52px;
+}
+
+.form-control {
+  border-radius: 13px;
+  padding: 18px 22px;
+  font-size: 1.13em;
+  border: 1.5px solid #a0804d33;
+  background: #fff;
+  color: #72684b;
+  max-width: 420px;
+  width: 100%;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #a0804d;
+  box-shadow: 0 0 0 0.2rem rgba(160, 128, 77, 0.25);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: #a0804d99;
+}
+
+.table-wrap {
+  padding: 0 52px 30px 52px;
+}
+
+.table-responsive {
+  margin: 0;
+  background: transparent;
+  border-radius: 19px;
+  overflow: hidden;
+  box-shadow: 0 8px 36px -8px #dac7ad2b;
+}
+
+.custom-table {
+  width: 100%;
+  background: #fff;
+  border-radius: 19px;
+  overflow: hidden;
+  margin: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+.custom-table thead th {
+  background: #f4f1e7;
+  color: #a29573;
+  font-size: 1.08em;
+  font-weight: 700;
+  padding: 20px 15px;
+  border: none;
+  letter-spacing: 0.03em;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.custom-table tbody tr {
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.custom-table tbody tr:hover {
+  background: #f7f6f0;
+  transform: translateY(-1px);
+}
+
+.custom-table td {
+  padding: 22px 15px;
+  font-size: 1.13em;
+  vertical-align: middle;
+  text-align: center;
+  color: #232324;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.32em;
+  color: #b69d6f;
+  margin: 0 8px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.action-btn:hover {
+  color: #fff;
+  background: #a0804d;
+  transform: translateY(-2px);
+}
+
+.action-btn.delete-btn:hover {
+  background: #e94545;
+  color: #fff;
+}
+
+/* إضافة تأثيرات بصرية للجدول الفارغ */
+.custom-table tbody tr td[colspan="5"] {
+  padding: 60px 20px;
+  background: #fafafa;
+}
+
+.custom-table tbody tr td[colspan="5"] i {
+  display: block;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+
+/* تحسينات الاستجابة */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+  
+  .header-section {
+    padding: 20px 20px 0 20px;
+  }
+  
+  .header-section h1 {
+    font-size: 2rem;
+  }
+  
+  .search-box {
+    padding: 0 20px 20px 20px;
+  }
+  
+  .table-wrap {
+    padding: 0 20px 20px 20px;
+  }
+  
+  .form-control {
+    max-width: 100%;
+  }
+  
+  .custom-table {
+    font-size: 0.9rem;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 12px 8px;
+    font-size: 0.95em;
+  }
+  
+  .action-btn {
+    font-size: 1.1em;
+    margin: 0 4px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-table th:nth-child(3),
+  .custom-table td:nth-child(3) {
+    display: none; /* إخفاء عمود كلمة المرور في الشاشات الصغيرة */
+  }
+  
+  .header-section h1 {
+    font-size: 1.8rem;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 10px 5px;
+    font-size: 0.85em;
+  }
+}
+
+/* تحسين شكل شريط التمرير */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #a0804d;
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: #8a6d42;
+}
+
+/* تحسين التوست */
+.toast-message {
+  font-family: "Inter", Arial, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+/* تحسين إحصائيات الصفحة */
+.stats-container {
+  background: linear-gradient(135deg, #fff 0%, #f8f6f0 100%);
+  border: 1px solid #e6dcc9;
+}
+
+/* تأثيرات التحميل */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
