@@ -55,7 +55,7 @@
               <button type="submit" class="btn btn-success">
                 Save Changes
               </button>
-              <a href="dashboard.html" class="btn btn-secondary">Cancel</a>
+              <a href="products.html" class="btn btn-secondary">Cancel</a>
             </form>
           </div>
         </div>
@@ -98,6 +98,7 @@
           }
 
           localStorage.setItem("products", JSON.stringify(products));
+          window.location.href = "products.html";
         });
     </script>
   </body>
