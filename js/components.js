@@ -276,11 +276,11 @@ async function loadDataIntoLocalStorage() {
   try {
     // Only load if not already in localStorage
     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
-      const productsRes = await fetch("../data/products.json");
+      const productsRes = await fetch("../json/products.json");
       const products = await productsRes.json();
       localStorage.setItem("products", JSON.stringify(products));
 
-      const usersRes = await fetch("../data/users.json");
+      const usersRes = await fetch("../json/users.json");
       const users = await usersRes.json();
       localStorage.setItem("users", JSON.stringify(users));
 
