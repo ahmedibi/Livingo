@@ -172,157 +172,134 @@
     <div id="footer"></div>
 
     <!-- Dynamic PDP script -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Load navbar
-        fetch("partials/navbar.html")
-          .then((res) => res.text())
-          .then((data) => {
-            document.getElementById("navbar").innerHTML = data;
-          })
-          .catch((err) => console.error("Error loading navbar:", err));
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Load navbar
+  fetch("partials/navbar.html")
+    .then(res => res.text())
+    .then(data => document.getElementById("navbar").innerHTML = data)
+    .catch(err => console.error("Error loading navbar:", err));
 
-        // Load footer
-        fetch("partials/footer.html")
-          .then((res) => res.text())
-          .then((data) => {
-            document.getElementById("footer").innerHTML = data;
-          })
-          .catch((err) => console.error("Error loading footer:", err));
+  // Load footer
+  fetch("partials/footer.html")
+    .then(res => res.text())
+    .then(data => document.getElementById("footer").innerHTML = data)
+    .catch(err => console.error("Error loading footer:", err));
+
+  // Load currentUser and users
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  function updateUserData(updatedUser) {
+    currentUser = updatedUser;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    const index = users.findIndex(u => u.email === updatedUser.email);
+    if (index !== -1) {
+      users[index] = updatedUser;
+    } else {
+      users.push(updatedUser);
+    }
+    localStorage.setItem("users", JSON.stringify(users));
+  }
+
+  // Get product ID
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
+
+  fetch("../json/products.json")
+    .then(res => res.json())
+    .then(products => {
+      const product = products.find(p => p.id === productId);
+      if (!product) {
+        document.querySelector("main").innerHTML = "<p>Product not found.</p>";
+        return;
+      }
+
+      // Fill product details
+      document.getElementById("product-name").textContent = product.name;
+      document.getElementById("product-price").textContent = product.price + " " + product.currency;
+      document.getElementById("product-description").textContent = product.description;
+      document.getElementById("product-image").src = "../assets/" + product.images[0];
+      document.getElementById("product-stock").textContent = product.stock > 0 ? "In Stock" : "Out of Stock";
+
+      const reviews = product.reviews || 0;
+      document.querySelector(".reviews-count").textContent = reviews > 0 ? `(${reviews} Reviews)` : "(No Reviews)";
+
+      // Rating stars
+      const rating = product.rating || 0;
+      const fullStars = Math.floor(rating);
+      const halfStar = rating % 1 >= 0.5;
+      let starsHTML = "";
+      for (let i = 0; i < 5; i++) {
+        if (i < fullStars) starsHTML += '<i class="fas fa-star"></i>';
+        else if (i === fullStars && halfStar) starsHTML += '<i class="fas fa-star-half-alt"></i>';
+        else starsHTML += '<i class="far fa-star"></i>';
+      }
+      document.getElementById("product-rating").innerHTML = starsHTML;
+
+      // Quantity handlers
+      let quantity = 1;
+      const qtyDisplay = document.getElementById("productQty");
+      document.getElementById("increaseQty").addEventListener("click", () => {
+        quantity++;
+        qtyDisplay.textContent = quantity;
+      });
+      document.getElementById("decreaseQty").addEventListener("click", () => {
+        if (quantity > 1) { quantity--; qtyDisplay.textContent = quantity; }
       });
 
-      // Get product ID from query param
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get("id");
+      // Buy Now button
+      document.getElementById("buyNowBtn").addEventListener("click", () => {
+        if (!currentUser) { alert("⚠ You must be logged in to add to cart!"); return; }
+        if (!Array.isArray(currentUser.cart)) currentUser.cart = [];
 
-      fetch("../json/products.json")
-        .then((res) => res.json())
-        .then((products) => {
-          const product = products.find((p) => p.id === productId);
+        const existing = currentUser.cart.find(item => item.id === product.id);
+        if (existing) existing.quantity += quantity;
+        else currentUser.cart.push({ id: product.id, name: product.name, price: product.price, currency: product.currency, images: product.images, quantity });
 
-          if (!product) {
-            document.querySelector("main").innerHTML =
-              "<p>Product not found.</p>";
-            return;
-          }
+        updateUserData(currentUser);
+        alert("✅ Added to cart!");
+      });
 
-          // Fill content
-          document.getElementById("product-name").textContent = product.name;
-          document.getElementById("product-price").textContent =
-            product.price + " " + product.currency;
-          document.getElementById("product-description").textContent =
-            product.description;
-          document.getElementById("product-image").src =
-            "../assets/" + product.images[0];
-          document.getElementById("product-stock").textContent =
-            product.stock > 0 ? "In Stock" : "Out of Stock";
+      // Wishlist button
+      document.getElementById("wishlistBtn").addEventListener("click", () => {
+        if (!currentUser) { alert("⚠ You must be logged in to add to wishlist!"); return; }
+        if (!Array.isArray(currentUser.wishlist)) currentUser.wishlist = [];
 
-          // Reviews fallback
-          const reviews = product.reviews || 0;
-          document.querySelector(".reviews-count").textContent =
-            reviews > 0 ? `(${reviews} Reviews)` : "(No Reviews)";
+        if (currentUser.wishlist.includes(product.id)) {
+          currentUser.wishlist = currentUser.wishlist.filter(id => id !== product.id);
+          alert("❌ Removed from wishlist");
+        } else {
+          currentUser.wishlist.push(product.id);
+          alert("❤️ Added to wishlist");
+        }
 
-          // Rating stars
-          const rating = product.rating || 0;
-          const fullStars = Math.floor(rating);
-          const halfStar = rating % 1 >= 0.5;
-          let starsHTML = "";
-          for (let i = 0; i < 5; i++) {
-            if (i < fullStars) starsHTML += '<i class="fas fa-star"></i>';
-            else if (i === fullStars && halfStar)
-              starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            else starsHTML += '<i class="far fa-star"></i>';
-          }
-          document.getElementById("product-rating").innerHTML = starsHTML;
+        updateUserData(currentUser);
+      });
 
-          // Quantity handlers
-          let quantity = 1;
-          const qtyDisplay = document.getElementById("productQty");
-
-          document
-            .getElementById("increaseQty")
-            .addEventListener("click", () => {
-              quantity++;
-              qtyDisplay.textContent = quantity;
-            });
-
-          document
-            .getElementById("decreaseQty")
-            .addEventListener("click", () => {
-              if (quantity > 1) {
-                quantity--;
-                qtyDisplay.textContent = quantity;
-              }
-            });
-
-          // Buy Now button → save to localStorage
-          document.getElementById("buyNowBtn").addEventListener("click", () => {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-            // Check if product already in cart
-            const existing = cart.find((item) => item.id === product.id);
-            if (existing) {
-              existing.quantity += quantity;
-            } else {
-              cart.push({ 
-               id: product.id,
-               name: product.name,
-               price: product.price,
-               currency: product.currency,
-               images: product.images,  
-               quantity: quantity
-             });
-
-
-            }
-
-            localStorage.setItem("cart", JSON.stringify(cart));
-            alert("✅ Added to cart!");
-          });
-
-          // Wishlist button → toggle product in wishlist
-          document
-            .getElementById("wishlistBtn")
-            .addEventListener("click", () => {
-              let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-
-              if (wishlist.includes(product.id)) {
-                wishlist = wishlist.filter((id) => id !== product.id); // remove
-                alert("❌ Removed from wishlist");
-              } else {
-                wishlist.push(product.id); // add
-                alert("❤️ Added to wishlist");
-              }
-
-              localStorage.setItem("wishlist", JSON.stringify(wishlist));
-            });
-
-          // Explore More Products
-          const exploreContainer = document.getElementById("explore-products");
-          const related = products
-            .filter((p) => p.id !== productId)
-            .slice(0, 4);
-
-          related.forEach((p) => {
-            exploreContainer.innerHTML += `
-              <div class="col-lg-3 col-md-6 col-12 mb-4">
-                <div class="card shadow-sm h-100">
-                  <a href="product.html?id=${p.id}">
-                    <img src="../assets/${p.images[0]}" class="card-img-top explore-card-img" alt="${p.name}">
-                  </a>
-                  <div class="card-body">
-                    <h6 class="card-title">${p.name}</h6>
-                    <p class="mb-2">
-                      <span class="fw-bold text-danger">${p.price} ${p.currency}</span>
-                    </p>
-                    <a href="product.html?id=${p.id}" class="btn btn-outline-dark btn-sm w-100">View Product</a>
-                  </div>
-                </div>
+      // Explore more products
+      const exploreContainer = document.getElementById("explore-products");
+      const related = products.filter(p => p.id !== productId).slice(0, 4);
+      related.forEach(p => {
+        exploreContainer.innerHTML += `
+          <div class="col-lg-3 col-md-6 col-12 mb-4">
+            <div class="card shadow-sm h-100">
+              <a href="product.html?id=${p.id}">
+                <img src="../assets/${p.images[0]}" class="card-img-top explore-card-img" alt="${p.name}">
+              </a>
+              <div class="card-body">
+                <h6 class="card-title">${p.name}</h6>
+                <p class="mb-2"><span class="fw-bold text-danger">${p.price} ${p.currency}</span></p>
+                <a href="product.html?id=${p.id}" class="btn btn-outline-dark btn-sm w-100">View Product</a>
               </div>
-            `;
-          });
-        })
-        .catch((err) => console.error("Error loading product:", err));
-    </script>
+            </div>
+          </div>
+        `;
+      });
+
+    }).catch(err => console.error("Error loading product:", err));
+});
+</script>
+
   </body>
 </html>
