@@ -1,36 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // تحميل السايد بار
+  fetch("../sidebar/sidebar.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sideBar").innerHTML = data;
+      const script = document.createElement("script");
+      script.src = "../sidebar/sidebar.js";
+      document.body.appendChild(script);
+
+      const fontAwesome = document.createElement("link");
+      fontAwesome.rel = "stylesheet";
+      fontAwesome.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css";
+      document.head.appendChild(fontAwesome);
+    })
+    .catch(err => {
+      console.error("Error loading sidebar:", err);
+      document.getElementById("sideBar").style.display = "none";
+      document.querySelector(".main-content").style.marginLeft = "0";
+    });
+
+  // عناصر الفورم
   const form = document.getElementById("editSellerForm");
   const nameInput = document.getElementById("sellerName");
   const emailInput = document.getElementById("sellerEmail");
   const passwordInput = document.getElementById("sellerPassword");
   const storeInput = document.getElementById("sellerStore");
-  const statusSelect = document.getElementById("sellerStatus");
 
-  // Utility: show error message next to input
+  // تحميل بيانات المستخدم المختار من localStorage
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const userId = localStorage.getItem("editingUserId");
+  let currentUser = users.find(u => u.id === userId);
+
+  if (!currentUser) {
+    alert("لم يتم العثور على البائع!");
+    window.location.href = "sellers.html";
+    return;
+  }
+
+  // تعبئة الفورم بالبيانات الحالية
+  nameInput.value = currentUser.name || "";
+  emailInput.value = currentUser.email || "";
+  passwordInput.value = currentUser.password || "";
+  storeInput.value = currentUser.storeName || "";
+
+  // دوال لعرض/مسح الأخطاء
   function showError(input, message) {
     clearError(input);
     const error = document.createElement("div");
     error.className = "input-error";
-    error.style =
-      "color:#a0804d; font-weight:700; font-size:0.9rem; margin-top:0.2rem; text-align:left;";
+    error.style = "color:#a0804d; font-weight:700; font-size:0.9rem; margin-top:0.2rem;";
     error.textContent = message;
     input.insertAdjacentElement("afterend", error);
     input.classList.add("input-error-border");
   }
 
-  // Utility: clear existing error for input
   function clearError(input) {
     input.classList.remove("input-error-border");
     const next = input.nextElementSibling;
-    if (next && next.classList.contains("input-error")) {
-      next.remove();
-    }
+    if (next && next.classList.contains("input-error")) next.remove();
   }
 
-  // Validate individual fields returning true if valid or false if invalid
+  // التحقق من المدخلات
   function validateName() {
-    const value = nameInput.value.trim();
-    if (!value) {
+    if (!nameInput.value.trim()) {
       showError(nameInput, "Name is required.");
       return false;
     }
@@ -46,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
     if (!emailRegex.test(value)) {
-      showError(emailInput, "Please enter a valid email address.");
+      showError(emailInput, "Please enter a valid email.");
       return false;
     }
     clearError(emailInput);
@@ -54,12 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function validatePassword() {
-    const value = passwordInput.value;
-    if (!value) {
+    if (!passwordInput.value) {
       showError(passwordInput, "Password is required.");
       return false;
     }
-    if (value.length < 6) {
+    if (passwordInput.value.length < 6) {
       showError(passwordInput, "Password must be at least 6 characters.");
       return false;
     }
@@ -68,8 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function validateStore() {
-    const value = storeInput.value.trim();
-    if (!value) {
+    if (!storeInput.value.trim()) {
       showError(storeInput, "Store Name is required.");
       return false;
     }
@@ -77,57 +107,54 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  function validateStatus() {
-    const value = statusSelect.value;
-    if (!value) {
-      showError(statusSelect, "Please select a status.");
-      return false;
-    }
-    clearError(statusSelect);
-    return true;
-  }
-
-  // Validate all fields together; return true if all valid
   function validateForm() {
-    const validName = validateName();
-    const validEmail = validateEmail();
-    const validPassword = validatePassword();
-    const validStore = validateStore();
-    const validStatus = validateStatus();
-
-    return (
-      validName && validEmail && validPassword && validStore && validStatus
-    );
+    return validateName() && validateEmail() && validatePassword() && validateStore();
   }
 
-  // Real-time validation on input/change
+  // تحقق لحظي
   nameInput.addEventListener("input", validateName);
   emailInput.addEventListener("input", validateEmail);
   passwordInput.addEventListener("input", validatePassword);
   storeInput.addEventListener("input", validateStore);
-  statusSelect.addEventListener("change", validateStatus);
 
-  // Handle form submission
+  // عند الحفظ
   form.addEventListener("submit", (event) => {
-    event.preventDefault(); // prevent actual submission for demo or ajax
+    event.preventDefault();
     if (validateForm()) {
-      // Example: simulate form submission or do whatever you want here
-      const formData = {
-        name: nameInput.value.trim(),
-        email: emailInput.value.trim().toLowerCase(),
-        password: passwordInput.value,
-        store: storeInput.value.trim(),
-        status: statusSelect.value,
-      };
-      console.log("Form valid and ready to submit:", formData);
+      let updated = false;
 
-      // Optionally close modal or reset form here
-      // form.reset();
-      // Or trigger your API call etc.
+      if (nameInput.value.trim() !== currentUser.name) {
+        currentUser.name = nameInput.value.trim();
+        updated = true;
+      }
+      if (emailInput.value.trim().toLowerCase() !== currentUser.email) {
+        currentUser.email = emailInput.value.trim().toLowerCase();
+        updated = true;
+      }
+      if (passwordInput.value !== currentUser.password) {
+        currentUser.password = passwordInput.value;
+        updated = true;
+      }
+      if (storeInput.value.trim() !== currentUser.storeName) {
+        currentUser.storeName = storeInput.value.trim();
+        updated = true;
+      }
 
-      alert("Seller info saved successfully!");
+      if (updated) {
+        // حفظ في localStorage
+        const index = users.findIndex(u => u.id === currentUser.id);
+        if (index !== -1) {
+          users[index] = currentUser;
+          localStorage.setItem("users", JSON.stringify(users));
+        }
+        alert("Seller info updated successfully!");
+      } else {
+        alert("No changes were made.");
+      }
+
+      // رجوع لصفحة sellers
+      window.location.href = "sellers.html";
     } else {
-      // Focus first invalid input for accessibility
       const firstErrorField = form.querySelector(".input-error-border");
       if (firstErrorField) firstErrorField.focus();
     }

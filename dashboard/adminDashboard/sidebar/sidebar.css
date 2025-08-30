@@ -11,7 +11,7 @@
   flex-direction: column;
   padding: 1rem;
   transition: all 0.3s ease;
-  /* z-index: 1050; */
+  z-index: 1050;
   margin-right: 4rem !important;
 }
 
