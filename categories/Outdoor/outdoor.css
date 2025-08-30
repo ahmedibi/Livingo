@@ -5,8 +5,8 @@
 
 * {
     --main-color: #a0804d !important;
-    --secondry-color: #284b63 !important;
-    --hover: #223f53;
+    --secondry-color: black !important;
+    --hover: black;
     --hover-btn: #cf9a61 !important;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .dropdown .btn {
-    color: #284b63 !important;
+    color: var(--secondry-color) !important;
     font-size: 18px;
     border: 1 solid #acabab !important;
 }
