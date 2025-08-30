@@ -10,7 +10,9 @@
 
 .ml {
     margin-left: 280px !important;
+    margin-top: 0px !important;
     overflow: hidden !important;
+    width: 80% !important;
 }
 
 @keyframes spin {
@@ -71,4 +73,22 @@
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+.ml {
+    margin-left: 0 !important;
+    padding-top: 50px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+}
+
+@media (min-width: 769px) and (max-width:1300px) {
+.ml {
+    margin-left: 50px !important;
+    padding-top: 50px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
 }
