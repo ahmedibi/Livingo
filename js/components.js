@@ -22,6 +22,29 @@ async function loadDataIntoLocalStorage() {
   }
 }
 
+// async function loadDataIntoLocalStorage() {
+//   try {
+//     // Only load if not already in localStorage
+//     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
+//       const productsRes = await fetch("../json/products.json");
+//       const products = await productsRes.json();
+//       localStorage.setItem("products", JSON.stringify(products));
+
+//       const usersRes = await fetch("../json/users.json");
+//       const users = await usersRes.json();
+//       localStorage.setItem("users", JSON.stringify(users));
+
+//       console.log("✅ Products and Users loaded into localStorage!");
+//     } else {
+//       console.log("ℹ Data already exists in localStorage, skipping load.");
+//     }
+//   } catch (err) {
+//     console.error("❌ Error loading data into localStorage:", err);
+//   }
+// }
+
+// document.addEventListener("DOMContentLoaded", loadDataIntoLocalStorage);
+
 if (window.__components_init) {
   console.debug("components.js: already initialized — skipping re-init.");
 } else {
@@ -42,7 +65,9 @@ if (window.__components_init) {
       // 1) تفعيل/إلغاء تفعيل اللينكات في النافبار
       const navLink = e.target.closest(".nav-link");
       if (navLink) {
-        document.querySelectorAll(".nav-link").forEach((item) => item.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-link")
+          .forEach((item) => item.classList.remove("active"));
         navLink.classList.add("active");
       }
 
@@ -74,59 +99,58 @@ if (window.__components_init) {
 
     // ========== بحث المنتجات ==========
     // ========== بحث المنتجات من localStorage ==========
-function getProductsFromStorage() {
-  try {
-    return JSON.parse(localStorage.getItem("products")) || [];
-  } catch {
-    return [];
-  }
-}
-
-document.addEventListener("keydown", (e) => {
-  if (e.target && e.target.id === "search" && e.key === "Enter") {
-    e.preventDefault();
-
-    const q = e.target.value.toLowerCase().trim();
-    if (!q) return;
-
-    const list = getProductsFromStorage();
-    const found = list.find(
-      (p) =>
-        p.name?.toLowerCase().includes(q) ||
-        p.category?.toLowerCase().includes(q)
-    );
-
-    if (found && found.id) {
-      // روح لصفحة المنتج
-      window.location.assign(`../../product.html?id=${found.id}`);
-    } else {
-      alert("Product not found!");
+    function getProductsFromStorage() {
+      try {
+        return JSON.parse(localStorage.getItem("products")) || [];
+      } catch {
+        return [];
+      }
     }
-  }
-});
 
-// زرار السيرش
-document.addEventListener("click", (e) => {
-  if (e.target.closest("#searchButton")) {
-    const input = document.getElementById("search");
-    const q = input.value.toLowerCase().trim();
-    if (!q) return;
+    document.addEventListener("keydown", (e) => {
+      if (e.target && e.target.id === "search" && e.key === "Enter") {
+        e.preventDefault();
 
-    const list = getProductsFromStorage();
-    const found = list.find(
-      (p) =>
-        p.name?.toLowerCase().includes(q) ||
-        p.category?.toLowerCase().includes(q)
-    );
+        const q = e.target.value.toLowerCase().trim();
+        if (!q) return;
 
-    if (found && found.id) {
-      window.location.assign(`../../product.html?id=${found.id}`);
-    } else {
-      alert("Product not found!");
-    }
-  }
-});
+        const list = getProductsFromStorage();
+        const found = list.find(
+          (p) =>
+            p.name?.toLowerCase().includes(q) ||
+            p.category?.toLowerCase().includes(q)
+        );
 
+        if (found && found.id) {
+          // روح لصفحة المنتج
+          window.location.assign(`../../product.html?id=${found.id}`);
+        } else {
+          alert("Product not found!");
+        }
+      }
+    });
+
+    // زرار السيرش
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("#searchButton")) {
+        const input = document.getElementById("search");
+        const q = input.value.toLowerCase().trim();
+        if (!q) return;
+
+        const list = getProductsFromStorage();
+        const found = list.find(
+          (p) =>
+            p.name?.toLowerCase().includes(q) ||
+            p.category?.toLowerCase().includes(q)
+        );
+
+        if (found && found.id) {
+          window.location.assign(`../../product.html?id=${found.id}`);
+        } else {
+          alert("Product not found!");
+        }
+      }
+    });
 
     // ========== مساعدة آمنة لقراءة JSON ==========
     function safeParse(key) {
@@ -200,11 +224,15 @@ document.addEventListener("click", (e) => {
       if (isLoggedIn) {
         if (signUpLink) signUpLink.style.display = "none";
         if (userDropdown) userDropdown.style.display = "block";
-        console.debug("components.js: user IS logged in -> showing dropdown, hiding signup");
+        console.debug(
+          "components.js: user IS logged in -> showing dropdown, hiding signup"
+        );
       } else {
         if (signUpLink) signUpLink.style.display = "block";
         if (userDropdown) userDropdown.style.display = "none";
-        console.debug("components.js: user NOT logged in -> hiding dropdown, showing signup");
+        console.debug(
+          "components.js: user NOT logged in -> hiding dropdown, showing signup"
+        );
       }
     }
 
@@ -222,18 +250,25 @@ document.addEventListener("click", (e) => {
           document.getElementById("userIcon");
 
         if (found) {
-          console.debug("components.js: ensureElements -> elements found, updating UI");
+          console.debug(
+            "components.js: ensureElements -> elements found, updating UI"
+          );
           try {
             toggleAuthLinks();
             updateCounters();
           } catch (err) {
-            console.warn("components.js: error updating after ensureElements", err);
+            console.warn(
+              "components.js: error updating after ensureElements",
+              err
+            );
           }
           clearInterval(ensureInterval);
           ensureInterval = null;
         } else if (Date.now() - start > timeoutMs) {
           // بعد مهلة قصيرة نبطل البولينج عشان مايسبمش موارد
-          console.debug("components.js: ensureElements -> timeout, stopping polling");
+          console.debug(
+            "components.js: ensureElements -> timeout, stopping polling"
+          );
           clearInterval(ensureInterval);
           ensureInterval = null;
         } else {
@@ -251,7 +286,9 @@ document.addEventListener("click", (e) => {
 
     // ========== تشغيل مبدئي عند التحميل ==========
     document.addEventListener("DOMContentLoaded", () => {
-      console.debug("components.js: DOMContentLoaded -> running initial checks");
+      console.debug(
+        "components.js: DOMContentLoaded -> running initial checks"
+      );
       toggleAuthLinks();
       updateCounters();
       ensureElements();
@@ -259,7 +296,12 @@ document.addEventListener("click", (e) => {
 
     // ========== Storage event (يتحرّك بين التابات) ==========
     window.addEventListener("storage", (e) => {
-      if (!e.key || e.key === "cart" || e.key === "wishlist" || e.key === "currentUser") {
+      if (
+        !e.key ||
+        e.key === "cart" ||
+        e.key === "wishlist" ||
+        e.key === "currentUser"
+      ) {
         console.debug("components.js: storage event for key", e.key);
         toggleAuthLinks();
         updateCounters();
@@ -272,3 +314,26 @@ document.addEventListener("click", (e) => {
     window.__components_debug = true;
   })();
 }
+
+async function loadDataIntoLocalStorage() {
+  try {
+    // Only load if not already in localStorage
+    if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
+      const productsRes = await fetch("../json/products.json");
+      const products = await productsRes.json();
+      localStorage.setItem("products", JSON.stringify(products));
+
+      const usersRes = await fetch("../json/users.json");
+      const users = await usersRes.json();
+      localStorage.setItem("users", JSON.stringify(users));
+
+      console.log("✅ Products and Users loaded into localStorage!");
+    } else {
+      console.log("ℹ️ Data already exists in localStorage, skipping load.");
+    }
+  } catch (err) {
+    console.error("❌ Error loading data into localStorage:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadDataIntoLocalStorage);

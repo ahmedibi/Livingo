@@ -19,22 +19,27 @@
 .banner {
   width: 85%;
 }
+
 /* navbar */
 
 nav input {
   box-shadow: none !important;
   background-color: #ccc !important;
 }
+
 nav .input-group {
   background-color: #ccc;
   border-radius: 5px !important;
 }
+
 nav .input-group .btn:hover {
   background-color: transparent;
 }
+
 nav {
   position: relative;
 }
+
 nav .navbar-toggler {
   margin-left: 30%;
 }
@@ -43,6 +48,7 @@ nav .navbar-toggler {
 .nav-link {
   position: relative;
 }
+
 .nav-link.active {
   color: #a0804d !important;
   transform: scale(1.1);
@@ -65,6 +71,7 @@ nav .navbar-toggler {
 .nav-link.active::after {
   transform: scaleX(1);
 }
+
 nav .navbar-toggler {
   position: relative;
   top: 10%;
@@ -79,11 +86,12 @@ nav .navbar-toggler {
     top: 10%;
     right: 5%;
     margin-left: 15% !important;
-    
+
   }
-nav  .navbar-nav{
-  margin-top: 30px;
-}
+
+  nav .navbar-nav {
+    margin-top: 30px;
+  }
 
 
   .nav-link::after {
@@ -96,9 +104,11 @@ nav  .navbar-nav{
     top: 10%;
     right: 88%;
   }
+
   .icoo {
     position: relative;
   }
+
   .icoo .count {
     position: absolute;
     top: 20px;
@@ -115,7 +125,8 @@ nav  .navbar-nav{
     font-weight: 600;
     line-height: 20px;
   }
-  .livingo-logo{
+
+  .livingo-logo {
     margin-left: 11% !important;
   }
 }
@@ -124,6 +135,7 @@ nav  .navbar-nav{
 .icoo {
   position: relative;
 }
+
 .icoo .count {
   position: absolute;
   top: 15px;
@@ -151,7 +163,8 @@ nav  .navbar-nav{
   font-family: "Montserrat", Arial, sans-serif;
   font-size: 2.4rem;
   color: #40372e;
-  font-weight: 400; /* Thinner look */
+  font-weight: 400;
+  /* Thinner look */
   letter-spacing: 0.02em;
   user-select: none;
 }
@@ -160,6 +173,7 @@ nav  .navbar-nav{
   display: flex;
   align-items: center;
 }
+
 .livingo-word span,
 .livingo-word {
   font-family: inherit;
@@ -174,18 +188,20 @@ nav  .navbar-nav{
   color: #a0804d;
   font-size: 1.11em;
   font-family: inherit;
-  animation: logo-cushion-pop 1.1s cubic-bezier(0.42, 1.56, 0.35, 0.99) 0.5s
-    both;
+  animation: logo-cushion-pop 1.1s cubic-bezier(0.42, 1.56, 0.35, 0.99) 0.5s both;
 }
+
 @keyframes logo-cushion-pop {
   0% {
     transform: scale(0.5) translateY(34px);
     opacity: 0;
   }
+
   60% {
     transform: scale(1.12, 0.77) translateY(-8px);
     opacity: 0.96;
   }
+
   100% {
     transform: scale(1) translateY(0);
     opacity: 1;
@@ -197,25 +213,29 @@ nav  .navbar-nav{
   transform: translateY(24px) scale(0.9);
   animation: lamp-in 0.65s 0.07s cubic-bezier(0.57, 2, 0.34, 0.89) forwards;
 }
+
 @keyframes lamp-in {
   60% {
     opacity: 1;
     transform: translateY(-4px) scale(1.05);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
+
 .lamp-glow {
   opacity: 0;
-  animation: lamp-glow-fadein 0.9s 0.35s cubic-bezier(0.7, 0.2, 0.23, 1)
-    forwards;
+  animation: lamp-glow-fadein 0.9s 0.35s cubic-bezier(0.7, 0.2, 0.23, 1) forwards;
 }
+
 @keyframes lamp-glow-fadein {
   30% {
     opacity: 0.32;
   }
+
   100% {
     opacity: 0.14;
   }
@@ -226,6 +246,7 @@ nav  .navbar-nav{
   transform: scale(1.07);
   transition: filter 0.3s, transform 0.22s;
 }
+
 .livingo-logo:hover .cushion-o {
   color: #d6a76e;
   animation: logo-cushion-pop 0.7s cubic-bezier(0.42, 1.56, 0.35, 0.99);
@@ -285,35 +306,42 @@ nav  .navbar-nav{
 /***** End nav *****/
 
 /***** footer style *****/
-footer{
-  background-color: #284B63;
+footer {
+  background-color: black;
 }
+
 footer input:focus {
   border: none;
   outline: none;
 }
+
 footer p {
   font-size: 14px;
   color: #ccc;
 }
+
 footer img {
   width: 76px;
   /* display: block; */
 }
+
 .social-icons a {
   color: #fff;
   font-size: 22px;
   margin-right: 5px;
   transition: 0.3s;
 }
+
 footer .link a {
   transition: all 3s;
 }
+
 footer .link:hover a {
   border-bottom: 1px solid white;
   margin-bottom: 2px;
   color: white !important;
 }
+
 /***** End footer style *****/
 
 /***** arrow-up-to-top *****/
@@ -332,6 +360,7 @@ footer .link:hover a {
   justify-content: center;
   align-items: center;
 }
+
 .back-to-top {
   opacity: 0;
   visibility: hidden;
@@ -342,10 +371,12 @@ footer .link:hover a {
   opacity: 1;
   visibility: visible;
 }
+
 .back-to-top a:hover {
   color: #ffffff !important;
   background-color: #A0804D;
 }
+
 /***** End arrow-up-to-top *****/
 
 /***** style shopping+heart icon  *****/
@@ -369,4 +400,5 @@ footer .link:hover a {
   font-weight: 600;
   line-height: 20px;
 }
+
 /***** End style shopping+heart icon *****/

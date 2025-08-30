@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../styles/aside.css" />
+    <style>
+      .search-box {
+        position: relative;
+      }
+      .search-box input {
+        padding-left: 2.2rem;
+      }
+      .search-box i {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: gray;
+      }
+      .filters-row .col-md-3 {
+        display: flex;
+        flex-direction: column;
+      }
+      .filters-row label {
+        font-weight: 500;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid vh-100 d-flex p-0">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+
+      <!-- Main Content -->
+      <main class="flex-grow-1 p-3">
+        <h2 class="mb-4">Product Management</h2>
+
+        <!-- Filters -->
+        <div
+          class="row g-3 mb-4 p-3 bg-light rounded shadow-sm align-items-center filters-row"
+        >
+          <div class="col-md-3">
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="Search by name or id"
+            />
+          </div>
+
+          <div class="col-md-3">
+            <select id="categoryFilter" class="form-select">
+              <option value="all">All Categories</option>
+              <option value="living room">Living Room</option>
+              <option value="bedroom">Bedroom</option>
+              <option value="dining room">Dining Room</option>
+              <option value="office">Office</option>
+              <option value="outdoor">Outdoor</option>
+              <option value="lighting & decor">Lighting & Decor</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="priceRange" class="form-label d-block">
+              Max Price: <span id="priceValue">2000</span>
+            </label>
+            <input
+              type="range"
+              id="priceRange"
+              min="0"
+              max="3000"
+              value="2000"
+              class="form-range"
+            />
+          </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+      </main>
+
+      <!-- Mobile menu btn -->
+      <button
+        class="btn btn-primary d-md-none position-fixed m-3"
+        id="mobileMenuBtn"
+      >
+        ☰
+      </button>
+    </div>
+
+    <!-- Offcanvas mobile -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+      <div class="offcanvas-header">
+        <h5>Menu</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+        ></button>
+      </div>
+      <div class="offcanvas-body p-0">
+        <ul id="mobileMenuList" class="list-group list-group-flush"></ul>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/aside.js"></script>
+
+    <script>
+      // Render Products
+      function renderProducts(products = null) {
+        let allProducts = JSON.parse(localStorage.getItem("products")) || [];
+        const tableBody = document.getElementById("productTableBody");
+        tableBody.innerHTML = "";
+
+        (products || allProducts).forEach((p) => {
+          tableBody.innerHTML += `
+            <tr>
+              <td>
+                <img src="../../../assets/${p.images[0]}" alt="${p.name}"
+                  style="width:40px;height:40px;object-fit:cover;border-radius:4px;"/>
+                ${p.name}<br><small>#${p.id}</small>
+              </td>
+              <td>${p.category}</td>
+              <td>${p.price} ${p.currency || "EGP"}</td>
+              <td>${p.stock}</td>
+              <td>
+                <span class="badge bg-${p.stock > 0 ? "success" : "danger"}">
+                  ${p.stock > 0 ? "active" : "out of stock"}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-primary" onclick="editProduct('${
+                  p.id
+                }')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteProduct('${
+                  p.id
+                }')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      // Delete Product
+      function deleteProduct(productId) {
+        let products = JSON.parse(localStorage.getItem("products")) || [];
+        products = products.filter((p) => p.id !== productId);
+        localStorage.setItem("products", JSON.stringify(products));
+        applyFilters();
+      }
+
+      // Edit Redirect
+      function editProduct(productId) {
+        window.location.href = `editproduct.html?id=${productId}`;
+      }
+
+      // Apply Filters
+      function applyFilters() {
+        let searchVal = searchInput.value.toLowerCase();
+        let categoryVal = categoryFilter.value.toLowerCase();
+        let priceVal = parseInt(priceRange.value);
+
+        let products = JSON.parse(localStorage.getItem("products")) || [];
+
+        let filtered = products.filter((p) => {
+          let matchSearch =
+            p.id.toLowerCase().includes(searchVal) ||
+            p.name.toLowerCase().includes(searchVal);
+
+          // Compare only the main category (before "-")
+          let mainCategory = p.category.split(" - ")[0].toLowerCase();
+          let matchCategory =
+            categoryVal === "all" || mainCategory === categoryVal;
+
+          let matchPrice = p.price <= priceVal;
+
+          return matchSearch && matchCategory && matchPrice;
+        });
+
+        renderProducts(filtered);
+      }
+
+      // Event Listeners
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", applyFilters);
+      document
+        .getElementById("categoryFilter")
+        .addEventListener("change", applyFilters);
+      document.getElementById("priceRange").addEventListener("input", () => {
+        document.getElementById("priceValue").textContent =
+          priceRange.value + " EGP";
+        applyFilters();
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProducts();
+      });
+    </script>
+  </body>
+</html>

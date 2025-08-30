@@ -41,14 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
 const productContainer = document.getElementById("productsList");
 let filtered = []; // نخزن المنتجات هنا علشان نستخدمها في الفلترة
 
-fetch("../../json/products.json")
-  .then(response => response.json())
-  .then(products => {
-    filtered = products.filter(product => product.category.startsWith(categoryName));
-    renderProducts(filtered); // نعرض المنتجات أول مرة
-  })
-  .catch(error => console.error("Error loading products:", error));
 
+// نجيب من اللوكال ستوردج
+const productsData = JSON.parse(localStorage.getItem("products")) || [];
+
+// فلترة بالكاتيجوري
+filtered = productsData.filter(product => product.category.startsWith(categoryName));
+
+// عرض أول مرة
+renderProducts(filtered);
 // دالة لعرض المنتجات
 function renderProducts(products) {
   productContainer.innerHTML = ""; // نفرغ الكونتينر الأول

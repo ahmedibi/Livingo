@@ -1,5 +1,54 @@
-/* Bedroom style.css placeholder */
+/* shop style.css placeholder */
 
+* {
+    --main-color: #a0804d !important;
+    --secondry-color: #284b63 !important;
+    --hover: #223f53;
+    --hover-btn: #cf9a61 !important;
+}
+
+
+#resetBtnDesktop,
+#resetBtnMobile {
+    background-color: var(--main-color);
+    color: white;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+
+input[type=range]::-webkit-slider-thumb {
+    position: relative;
+    z-index: 2;
+    width: 16px;
+    height: 16px;
+    background: var(--main-color) !important;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+/* نخلي المسار يظهر بلون غامق بين الـ min والـ max */
+.range-track {
+    height: 5px;
+    background: var(--main-color) !important;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    border-radius: 3px;
+}
+
+.range-track-fill {
+    height: 5px;
+    background: var(--main-color) !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 3px;
+    z-index: 1;
+}
 
 .card-img-top {
     width: 100%;
@@ -18,7 +67,7 @@
 }
 
 .card .btn {
-    background-color: black;
+    background-color: var(--main-color);
     color: aliceblue;
     font-weight: 700;
     border-radius: 0 !important;
@@ -26,7 +75,7 @@
 }
 
 .card .btn:hover {
-    background-color: crimson;
+    background-color: var(--hover-btn);
     color: white !important;
 }
 

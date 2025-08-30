@@ -338,7 +338,7 @@
   {
     "id": "p025",
     "name": "Modern Dark Cabinets",
-    "category": "bedroom - Cabinets",
+    "category": "Dining Room - Cabinets",
     "description": "Modern kitchen with dark cabinets, natural wood surfaces, and elegant hidden lighting.",
     "price": 1200,
     "currency": "EGP",
@@ -455,7 +455,7 @@
     "price": 350,
     "currency": "EGP",
     "images": [
-      "images/products/dining-room/Chair1.jpg"
+      "images/products/dining-room/chair1.jpg"
     ],
     "stock": 15,
     "sellerId": "seller02",
@@ -469,7 +469,7 @@
     "price": 370,
     "currency": "EGP",
     "images": [
-      "images/products/dining-room/diningChair2.jpeg"
+      "images/products/dining-room/chair2.jpeg"
     ],
     "stock": 13,
     "sellerId": "seller02",
@@ -497,7 +497,7 @@
     "price": 450,
     "currency": "EGP",
     "images": [
-      "images/products/dining-room/diningChair4.jpeg"
+      "images/products/dining-room/chair4.jpeg"
     ],
     "stock": 10,
     "sellerId": "seller02",

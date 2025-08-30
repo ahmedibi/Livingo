@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Product</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../styles/aside.css" />
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <h2 class="mb-4">Edit Product</h2>
+
+      <div id="productFormContainer" class="card shadow-sm p-4">
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <img
+              id="productImage"
+              src=""
+              alt="Product Image"
+              class="img-fluid rounded mb-3"
+              style="max-height: 250px; object-fit: cover"
+            />
+          </div>
+          <div class="col-md-8">
+            <form id="editProductForm">
+              <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" id="name" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="number" id="price" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea
+                  id="description"
+                  class="form-control"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Stock</label>
+                <input type="number" id="stock" class="form-control" required />
+              </div>
+              <button type="submit" class="btn btn-success">
+                Save Changes
+              </button>
+              <a href="products.html" class="btn btn-secondary">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get product ID from URL
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+
+      let products = JSON.parse(localStorage.getItem("products")) || [];
+      const product = products.find((p) => p.id === productId);
+
+      if (product) {
+        document.getElementById("name").value = product.name;
+        document.getElementById("price").value = product.price;
+        document.getElementById("description").value = product.description;
+        document.getElementById("stock").value = product.stock;
+        document.getElementById("productImage").src =
+          "../../../assets/" + product.images[0];
+      }
+
+      document
+        .getElementById("editProductForm")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const index = products.findIndex((p) => p.id === productId);
+
+          if (index !== -1) {
+            products[index].name = document.getElementById("name").value;
+            products[index].price = parseFloat(
+              document.getElementById("price").value
+            );
+            products[index].description =
+              document.getElementById("description").value;
+            products[index].stock = parseInt(
+              document.getElementById("stock").value
+            );
+          }
+
+          localStorage.setItem("products", JSON.stringify(products));
+          window.location.href = "products.html";
+        });
+    </script>
+  </body>
+</html>
