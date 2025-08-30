@@ -2,6 +2,29 @@
 // components.js - robust version with debugging & fallbacks
 // ====================================================
 
+// async function loadDataIntoLocalStorage() {
+//   try {
+//     // Only load if not already in localStorage
+//     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
+//       const productsRes = await fetch("../json/products.json");
+//       const products = await productsRes.json();
+//       localStorage.setItem("products", JSON.stringify(products));
+
+//       const usersRes = await fetch("../json/users.json");
+//       const users = await usersRes.json();
+//       localStorage.setItem("users", JSON.stringify(users));
+
+//       console.log("✅ Products and Users loaded into localStorage!");
+//     } else {
+//       console.log("ℹ Data already exists in localStorage, skipping load.");
+//     }
+//   } catch (err) {
+//     console.error("❌ Error loading data into localStorage:", err);
+//   }
+// }
+
+// document.addEventListener("DOMContentLoaded", loadDataIntoLocalStorage);
+
 if (window.__components_init) {
   console.debug("components.js: already initialized — skipping re-init.");
 } else {
