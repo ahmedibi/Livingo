@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- App Layout -->
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <button class="btn-close" aria-label="Close" onclick="toggleSidebar()">&times;</button>
+
+            <div class="sidebar-header">
+                <a href="../../../index.html" class="logo">
+                    <svg width="38" height="38" viewBox="0 0 38 38" class="livingo-icon" aria-hidden="true">
+                        <!-- Lamp shade -->
+                        <ellipse cx="19" cy="13" rx="10" ry="7" fill="#cdbc92" />
+                        <!-- Stand -->
+                        <rect x="17" y="13" width="4" height="13" rx="2" fill="#a0804d" />
+                        <!-- Base -->
+                        <ellipse cx="19" cy="31" rx="7" ry="3" fill="#59442a" />
+                        <!-- Light glow, animated in -->
+                        <ellipse class="lamp-glow" cx="19" cy="20" rx="12" ry="4" fill="#edd67d" opacity="0.14" />
+                    </svg>
+                    <span class="livingo-word">Living<span class="cushion-o">o</span></span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../index/index.html">🏠 Dashboard</a></li>
+                    <li><a href="../products/products.html">🧴 Products</a></li>
+                    <li class="active"><a href="orders.html">📦 Orders</a></li>
+                    <li><a id="logOut" href="#" style="cursor: pointer;">🔓 Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
+                    <div class="breadcrumb">
+                        <span>Dashboard</span>
+                        <span>›</span>
+                        <span>Analytics</span>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="date-picker">
+                        <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <input type="date" id="datePicker" value="2024-05-31">
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Content Container -->
+            <div class="content-container">
+                <!-- Dashboard Header -->
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Analytics Dashboard</h1>
+                        <p style="color: #64748b; margin-top: 0.5rem;">Track your business performance and insights</p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Revenue</span>
+                            <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalRevenue">$45,280</div>
+                        <div class="stat-growth positive" id="revenueGrowth">
+                            <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 14l5-5 5 5z"></path>
+                            </svg>
+                            +12.5%
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Units Sold</span>
+                            <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="unitsSold">1,247</div>
+                        <div class="stat-growth positive" id="unitsGrowth">
+                            <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 14l5-5 5 5z"></path>
+                            </svg>
+                            +8.2%
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Avg Order Value</span>
+                            <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="avgOrderValue">$36.32</div>
+                        <div class="stat-growth positive" id="avgOrderGrowth">
+                            <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 14l5-5 5 5z"></path>
+                            </svg>
+                            +4.1%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Monthly Sales</h2>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #bb9457;"></div>
+                                <span>Sales ($)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h2 class="chart-title">Top Selling Products</h2>
+                        <div class="chart-container">
+                            <canvas id="productsChart"></canvas>
+                        </div>
+                        <div class="legend" id="productsLegend">
+                            <!-- Legend items will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./index.js">
+    </script>
+</body>
+
+</html>
