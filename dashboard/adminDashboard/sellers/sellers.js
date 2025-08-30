@@ -75,11 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <td style="color: #999;">${"*".repeat(Math.min(password?.length || 3, 8))}</td>
         <td style="color: #a0804d; font-weight: 500;">${storeName || " "}</td>
         <td>
-          <a href="selleredit.html">
+        
             <button class="action-btn edit-btn" data-id="${id}" title="تعديل">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
-          </a>
+        
           <button class="action-btn delete-btn" data-id="${id}" title="حذف">
             <i class="fa-solid fa-trash"></i>
           </button>
@@ -117,15 +117,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // أزرار التعديل
-    // document.querySelectorAll(".edit-btn").forEach((btn) => {
-    //   btn.addEventListener("click", (e) => {
-    //     const id = e.currentTarget.dataset.id;
-    //     // يمكن إضافة صفحة تعديل أو modal هنا
-    //     alert(`سيتم توجيهك لصفحة تعديل البائع رقم: ${id}`);
-    //     // window.location.href = `editform.html?id=${encodeURIComponent(id)}`;
-    //   });
-    // });
+document.querySelectorAll(".edit-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const id = e.currentTarget.dataset.id;
+
+    // خزّن الـ id في localStorage عشان نجيبه في صفحة التعديل
+    localStorage.setItem("editingUserId", id);
+
+    // وجّه لصفحة التعديل
+    window.location.href = "selleredit.html";
+  });
+});
   }
 
   // وظيفة البحث
