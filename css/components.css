@@ -71,7 +71,9 @@ nav .navbar-toggler {
   right: 98%;
 }
 
-@media (max-width: 700px) {
+
+
+@media (max-width: 990px) {
   nav .icon_nav {
     position: absolute;
     top: 10%;
@@ -83,11 +85,10 @@ nav  .navbar-nav{
   margin-top: 30px;
 }
 
-  
- 
 
   .nav-link::after {
-    background-color: transparent;
+    background-color: transparent !important;
+    width: 0%;
   }
 
   nav .navbar-toggler {
@@ -118,9 +119,8 @@ nav  .navbar-nav{
     margin-left: 11% !important;
   }
 }
-@media (max-width: 700px){
-  
-}
+
+
 .icoo {
   position: relative;
 }
