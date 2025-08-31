@@ -6,7 +6,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 1, Cairo, Egypt",
-    "orders": ["order001", "order002"]
+    "orders": ["order001", "order002"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user02",
@@ -15,7 +17,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 2, Cairo, Egypt",
-    "orders": ["order003", "order004"]
+    "orders": ["order003", "order004"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user03",
@@ -24,7 +28,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 3, Cairo, Egypt",
-    "orders": ["order005", "order006"]
+    "orders": ["order005", "order006"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user04",
@@ -33,7 +39,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 4, Cairo, Egypt",
-    "orders": ["order007", "order008"]
+    "orders": ["order007", "order008"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user05",
@@ -42,7 +50,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 5, Cairo, Egypt",
-    "orders": ["order009", "order010"]
+    "orders": ["order009", "order010"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user06",
@@ -51,7 +61,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 6, Cairo, Egypt",
-    "orders": ["order011", "order012"]
+    "orders": ["order011", "order012"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user07",
@@ -60,7 +72,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 7, Cairo, Egypt",
-    "orders": ["order013", "order014"]
+    "orders": ["order013", "order014"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user08",
@@ -69,7 +83,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 8, Cairo, Egypt",
-    "orders": ["order015", "order016"]
+    "orders": ["order015", "order016"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user09",
@@ -78,7 +94,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 9, Cairo, Egypt",
-    "orders": ["order017", "order018"]
+    "orders": ["order017", "order018"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user10",
@@ -87,7 +105,9 @@
     "password": "password123",
     "role": "customer",
     "address": "Street 10, Cairo, Egypt",
-    "orders": ["order019", "order020"]
+    "orders": ["order019", "order020"],
+    "cart": [],
+    "wishlist": []
   },
   {
     "id": "user11",

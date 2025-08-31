@@ -1,6 +1,26 @@
 // ====================================================
 // components.js - robust version with debugging & fallbacks
 // ====================================================
+// async function loadDataIntoLocalStorage() {
+//   try {
+//     // Only load if not already in localStorage
+//     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
+//       const productsRes = await fetch("../json/products.json");
+//       const products = await productsRes.json();
+//       localStorage.setItem("products", JSON.stringify(products));
+
+//       const usersRes = await fetch("../json/users.json");
+//       const users = await usersRes.json();
+//       localStorage.setItem("users", JSON.stringify(users));
+
+//       console.log("✅ Products and Users loaded into localStorage!");
+//     } else {
+//       console.log("ℹ Data already exists in localStorage, skipping load.");
+//     }
+//   } catch (err) {
+//     console.error("❌ Error loading data into localStorage:", err);
+//   }
+// }
 
 // async function loadDataIntoLocalStorage() {
 //   try {
@@ -163,34 +183,37 @@ if (window.__components_init) {
     }
 
     // ========== تحديث العدادات بتاعة ال wishlist و cart ==========
-    function updateCounters() {
-      const favEls = document.querySelectorAll(".count-favourite");
-      const cartEls = document.querySelectorAll(".count-product");
+    // ========== تحديث العدادات بتاعة ال wishlist و cart ========== 
+function updateCounters() {
+  const favEls = document.querySelectorAll(".count-favourite");
+  const cartEls = document.querySelectorAll(".count-product");
 
-      const favData = safeParse("wishlist");
-      const cartData = safeParse("cart");
+  const currentUser = safeParse("currentUser");
 
-      const favCount = countItems(favData);
-      const cartCount = countItems(cartData);
+  const favData = currentUser && Array.isArray(currentUser.wishlist) ? currentUser.wishlist : [];
+  const cartData = currentUser && Array.isArray(currentUser.cart) ? currentUser.cart : [];
 
-      if (favEls && favEls.length) {
-        favEls.forEach((el) => {
-          el.textContent = favCount;
-        });
-        console.debug("components.js: updated wishlist counter ->", favCount);
-      } else {
-        console.debug("components.js: no .count-favourite elements found yet");
-      }
+  const favCount = favData.length;
+  const cartCount = cartData.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
-      if (cartEls && cartEls.length) {
-        cartEls.forEach((el) => {
-          el.textContent = cartCount;
-        });
-        console.debug("components.js: updated cart counter ->", cartCount);
-      } else {
-        console.debug("components.js: no .count-product elements found yet");
-      }
-    }
+  if (favEls && favEls.length) {
+    favEls.forEach((el) => {
+      el.textContent = favCount;
+    });
+    console.debug("components.js: updated wishlist counter ->", favCount);
+  } else {
+    console.debug("components.js: no .count-favourite elements found yet");
+  }
+
+  if (cartEls && cartEls.length) {
+    cartEls.forEach((el) => {
+      el.textContent = cartCount;
+    });
+    console.debug("components.js: updated cart counter ->", cartCount);
+  } else {
+    console.debug("components.js: no .count-product elements found yet");
+  }
+}
 
     // ========== إظهار/إخفاء اللينكات ==========
     function toggleAuthLinks() {

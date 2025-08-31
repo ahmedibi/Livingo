@@ -9,56 +9,38 @@ window.scrollTo({
 
 // Load navbar and footer
 document.addEventListener("DOMContentLoaded", () => {
-  // Load navbar
   fetch("partials/navbar.html")
     .then(res => res.text())
-    .then(data => {
-      document.getElementById("navbar").innerHTML = data;
-    })
+    .then(data => { document.getElementById("navbar").innerHTML = data; })
     .catch(err => console.error("Error loading navbar:", err));
 
-  // Load footer
   fetch("partials/footer.html")
     .then(res => res.text())
-    .then(data => {
-      document.getElementById("footer").innerHTML = data;
-    })
+    .then(data => { document.getElementById("footer").innerHTML = data; })
     .catch(err => console.error("Error loading footer:", err));
 
   loadCartData();
-
   setupCardInputs();
-
   validateForm();
 });
 
 // Breadcrumb functionality
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('crumb')) {
-    document.querySelectorAll('.crumb').forEach(item => {
-      item.classList.remove('activebread');
-    });
+    document.querySelectorAll('.crumb').forEach(item => item.classList.remove('activebread'));
     e.target.classList.add('activebread');
   }
 });
 
 // Load cart data and display order summary
 function loadCartData() {
-  const cartData = localStorage.getItem('cart');
-  
-  if (cartData) {
-    try {
-      cart = JSON.parse(cartData);
-      if (cart && cart.length > 0) {
-        displayCartProducts(cart);
-      } else {
-        showEmptyCart();
-      }
-    } catch (error) {
-      console.error('Error parsing cart data:', error);
-      showEmptyCart();
-    }
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+  if (currentUser && currentUser.cart && currentUser.cart.length > 0) {
+    cart = currentUser.cart;
+    displayCartProducts(cart);
   } else {
+    cart = [];
     showEmptyCart();
   }
 }
@@ -71,17 +53,12 @@ function displayCartProducts(cartItems) {
   cartItems.forEach(product => {
     const itemTotal = product.price * product.quantity;
     subtotal += itemTotal;
-     let imageSrc = 'assets/images/placeholder.jpg'; // صورة افتراضية
+    let imageSrc = 'assets/images/placeholder.jpg';
 
-if (product.images && product.images.length > 0) {
-  imageSrc = `assets/${product.images[0]}`;
-} else if (product.image) {
-  imageSrc = `assets/${product.image}`;
-} else if (product.img) {
-  imageSrc = `assets/${product.img}`;
-} else if (product.thumbnail) {
-  imageSrc = `assets/${product.thumbnail}`;
-}
+    if (product.images && product.images.length > 0) imageSrc = `assets/${product.images[0]}`;
+    else if (product.image) imageSrc = `assets/${product.image}`;
+    else if (product.img) imageSrc = `assets/${product.img}`;
+    else if (product.thumbnail) imageSrc = `assets/${product.thumbnail}`;
 
     productsHTML += `
       <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center mb-3">
@@ -98,8 +75,6 @@ if (product.images && product.images.length > 0) {
   });
 
   orderSummary.innerHTML = productsHTML;
-  
-  // Update totals
   document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} EGP`;
   document.getElementById('total').textContent = `${subtotal.toFixed(2)} EGP`;
 }
@@ -114,275 +89,118 @@ function showEmptyCart() {
       <a href="cart.html" class="btn btn-outline-primary">Go to Cart</a>
     </div>
   `;
-  
-  // Reset totals
   document.getElementById('subtotal').textContent = '$0.00';
   document.getElementById('total').textContent = '$0.00';
 }
 
+// Form validation variables
 var nameInput = document.getElementById("firstName");
 var nameError = document.getElementById("nameError");
-
 var companyInput = document.getElementById("companyName");
 var companyError = document.getElementById("companyError");
-
-var streetInput= document.getElementById("streetAddress")
+var streetInput= document.getElementById("streetAddress");
 var streetError = document.getElementById("streetError");
-
-var cityInput= document.getElementById("city")
+var cityInput= document.getElementById("city");
 var cityError = document.getElementById("cityError");
-
-var phoneInput= document.getElementById("phoneNumber")
+var phoneInput= document.getElementById("phoneNumber");
 var phoneError = document.getElementById("phoneError");
-
 var emailInput = document.getElementById("inputEmail");
 var emailError = document.getElementById("emailError");
 
 // Form validation
 function validateForm() {
-
-  nameInput.addEventListener("blur", function () {
+  nameInput.addEventListener("blur", () => {
     const firstVal = nameInput.value.trim();
-    if (firstVal === "") {
-      nameError.textContent = "First name is required";
-    } else if (firstVal.includes(" ")) {
-      nameError.textContent = "Please enter only one word";
-    } else {
-      nameError.textContent = "";
-    }
+    if (firstVal === "") nameError.textContent = "First name is required";
+    else if (firstVal.includes(" ")) nameError.textContent = "Please enter only one word";
+    else nameError.textContent = "";
   });
 
-
-  companyInput.addEventListener("blur", function () {
-    if (companyInput.value.trim() === "") {
-      companyError.textContent = "Company Name is required";
-    } else {
-      companyError.textContent = "";
-    }
+  companyInput.addEventListener("blur", () => {
+    companyError.textContent = companyInput.value.trim() === "" ? "Company Name is required" : "";
   });
 
-  streetInput.addEventListener("blur", function () {
-    if (streetInput.value.trim() === "") {
-      streetError.textContent = "Street address is required";
-    } else {
-      streetError.textContent = "";
-    }
+  streetInput.addEventListener("blur", () => {
+    streetError.textContent = streetInput.value.trim() === "" ? "Street address is required" : "";
   });
 
-  
-  cityInput.addEventListener("blur", function () {
-    if (cityInput.value.trim() === "") {
-      cityError.textContent = "City is required";
-    } else {
-      cityError.textContent = "";
-    }
+  cityInput.addEventListener("blur", () => {
+    cityError.textContent = cityInput.value.trim() === "" ? "City is required" : "";
   });
 
-
-  phoneInput.addEventListener("blur", function () {
+  phoneInput.addEventListener("blur", () => {
     const phoneVal = phoneInput.value.trim();
-    if (phoneVal === "") {
-      phoneError.textContent = "Phone number is required";
-    } else if (isNaN(phoneVal) || phoneVal.length !== 11) {
-      phoneError.textContent = "You must enter only numbers (11 digits)";
-    } else {
-      phoneError.textContent = "";
-    }
+    if (phoneVal === "") phoneError.textContent = "Phone number is required";
+    else if (isNaN(phoneVal) || phoneVal.length !== 11) phoneError.textContent = "You must enter only numbers (11 digits)";
+    else phoneError.textContent = "";
   });
 
-
-  emailInput.addEventListener("blur", function () {
+  emailInput.addEventListener("blur", () => {
     const myPattern = /^[a-zA-Z0-9]{3,30}@[a-zA-Z]{4,20}\.(com)$/;
-    if (!myPattern.test(emailInput.value.trim())) {
-      emailError.textContent = "Please enter a valid email like example@gmail.com";
-    } else {
-      emailError.textContent = "";
-    }
+    emailError.textContent = !myPattern.test(emailInput.value.trim()) ? "Please enter a valid email like example@gmail.com" : "";
   });
 }
-
 
 // Place order function
 function placeOrder(e) {
   e.preventDefault();
- const currentUser=localStorage.getItem("currentUser")
- if(!currentUser){
-  alert("please login first");
-  return;
- }
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if(!currentUser){ alert("please login first"); return; }
+
   const name = nameInput.value.trim();
   const company = companyInput.value.trim();
   const street = streetInput.value.trim();
   const city = cityInput.value.trim();
   const phone = phoneInput.value.trim();
   const email = emailInput.value.trim();
-
   const bankPayment = document.getElementById('bank').checked;
   const cashPayment = document.getElementById('cash').checked;
 
   var emailPattern = /^[a-zA-Z0-9]{3,25}@[a-zA-Z0-9]{4,25}\.(com)$/;
-  if (name == "") {
-    nameError.textContent = "First name is required";
-    nameInput.focus();
-    return;
-  } else if (company == "") {
-    companyError.textContent = "Company Name is required";
-    companyInput.focus();
-    return;
-  } else if (street == "") {
-    streetError.textContent = "Street address is required";
-    streetInput.focus();
-    return;
-  } else if (city == "") {
-    cityError.textContent = "City is required";
-    cityInput.focus();
-    return;
-  } else if (phone == "") {
-    phoneError.textContent = "Phone number is required";
-    phoneInput.focus();
-    return;
-  } else if (!emailPattern.test(email)) {
-    emailError.textContent = "Please enter a valid email like Example@gmail.com";
-    emailInput.focus();
-    return;
-  }
+  if (name == "") { nameError.textContent = "First name is required"; nameInput.focus(); return; }
+  else if (company == "") { companyError.textContent = "Company Name is required"; companyInput.focus(); return; }
+  else if (street == "") { streetError.textContent = "Street address is required"; streetInput.focus(); return; }
+  else if (city == "") { cityError.textContent = "City is required"; cityInput.focus(); return; }
+  else if (phone == "") { phoneError.textContent = "Phone number is required"; phoneInput.focus(); return; }
+  else if (!emailPattern.test(email)) { emailError.textContent = "Please enter a valid email like Example@gmail.com"; emailInput.focus(); return; }
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (cart.length === 0) {
-    alert('Your cart is empty!');
-    return;
-  }
+  cart = currentUser.cart || [];
+  if(cart.length === 0){ alert('Your cart is empty!'); return; }
 
-  if (bankPayment) {
-    const modal = new bootstrap.Modal(document.getElementById('bankPaymentModal'));
-    modal.show();
-  } else if (cashPayment) {
-    const modal = new bootstrap.Modal(document.getElementById('cashPaymentModal'));
-    modal.show();
-  }
+  if(bankPayment) new bootstrap.Modal(document.getElementById('bankPaymentModal')).show();
+  else if(cashPayment) new bootstrap.Modal(document.getElementById('cashPaymentModal')).show();
 }
 
-// Setup card input formatting
-function setupCardInputs() {
-  const cardNumberInput = document.getElementById('cardNumber');
-  const expiryDateInput = document.getElementById('expiryDate');
-  const cvvInput = document.getElementById('cvv');
-  
-  if (cardNumberInput) {
-    cardNumberInput.addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
-      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-      if (formattedValue !== e.target.value) {
-        e.target.value = formattedValue;
-      }
-    });
-  }
-  
-  if (expiryDateInput) {
-    expiryDateInput.addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\D/g, '');
-      if (value.length >= 2) {
-        value = value.substring(0, 2) + '/' + value.substring(2, 4);
-      }
-      e.target.value = value;
-    });
+// Confirm payment functions
+function confirmPayment() { processPayment("Bank"); }
+function confirmCashPayment() { processPayment("Cash"); }
+
+function processPayment(method){
+  if(method === "Bank" && !validateCardDetails()) return;
+
+  saveOrder(method);
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if(currentUser){
+    currentUser.cart = [];
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+    // تحديث users array
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    users = users.map(u => u.id === currentUser.id ? {...u, cart: []} : u);
+    localStorage.setItem("users", JSON.stringify(users));
   }
 
-  if (cvvInput) {
-    cvvInput.addEventListener('input', function(e) {
-      e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    });
-  }
-}
+  loadCartData();
 
-// Validate card details
-function validateCardDetails() {
-  let isValid = true;
-  
-  // Clear previous errors
-  document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
-  document.querySelectorAll('#bankPaymentModal .form-control').forEach(el => el.classList.remove('is-invalid'));
-  
-  // Validate card number
-  const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-  if (!cardNumber) {
-    document.getElementById('cardError').textContent = 'Card number is required';
-    document.getElementById('cardNumber').classList.add('is-invalid');
-    isValid = false;
-  } else if (cardNumber.length !== 16) {
-    document.getElementById('cardError').textContent = 'Card number must be 16 digits';
-    document.getElementById('cardNumber').classList.add('is-invalid');
-    isValid = false;
-  }
-  
-  // Validate expiry date
-  const expiryDate = document.getElementById('expiryDate').value;
-  if (!expiryDate) {
-    document.getElementById('expiryError').textContent = 'Expiry date is required';
-    document.getElementById('expiryDate').classList.add('is-invalid');
-    isValid = false;
-  } else if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
-    document.getElementById('expiryError').textContent = 'Please enter valid expiry date (MM/YY)';
-    document.getElementById('expiryDate').classList.add('is-invalid');
-    isValid = false;
-  }
-  
-  // Validate CVV
-  const cvv = document.getElementById('cvv').value;
-  if (!cvv) {
-    document.getElementById('cvvError').textContent = 'CVV is required';
-    document.getElementById('cvv').classList.add('is-invalid');
-    isValid = false;
-  } else if (cvv.length !== 3) {
-    document.getElementById('cvvError').textContent = 'CVV must be 3 digits';
-    document.getElementById('cvv').classList.add('is-invalid');
-    isValid = false;
-  }
-  
-  // Validate cardholder name
-  const cardName = document.getElementById('cardName').value.trim();
-  if (!cardName) {
-    document.getElementById('cardNameError').textContent = 'Cardholder name is required';
-    document.getElementById('cardName').classList.add('is-invalid');
-    isValid = false;
-  }
-  
-  return isValid;
-}
-
-// Confirm bank payment
-function confirmPayment() {
-  if (!validateCardDetails()) {
-    return;
-  }
-  saveOrder("Bank");
-  
-localStorage.removeItem("cart");
-loadCartData();
-  
-  const modal = bootstrap.Modal.getInstance(document.getElementById('bankPaymentModal'));
+  const modalId = method === "Bank" ? 'bankPaymentModal' : 'cashPaymentModal';
+  const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
   modal.hide();
-  
-  setTimeout(() => {
-    window.location.href = 'cart.html';
-  }, 1000);
+
+  setTimeout(() => { window.location.href = 'cart.html'; }, 1000);
 }
 
-function confirmCashPayment() {
-  saveOrder("Cash"); 
-
-  localStorage.removeItem("cart");
- loadCartData();
-
-  const modal = bootstrap.Modal.getInstance(document.getElementById('cashPaymentModal'));
-  modal.hide();
-  
-  setTimeout(() => {
-    window.location.href = 'cart.html';
-  }, 1000);
-}
-
-
+// Save order function
 function saveOrder(paymentMethod) {
   const name = nameInput.value.trim();
   const company = companyInput.value.trim();
@@ -390,13 +208,13 @@ function saveOrder(paymentMethod) {
   const city = cityInput.value.trim();
   const phone = phoneInput.value.trim();
   const email = emailInput.value.trim();
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  const cart = currentUser ? currentUser.cart : [];
 
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
-  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   const newOrder = {
     id: Date.now(),
-    customer: {  id: currentUser ? currentUser.id : null ,name, company, street, city, phone, email },
+    customer: { id: currentUser ? currentUser.id : null, name, company, street, city, phone, email },
     items: cart,
     paymentMethod: paymentMethod,
     status: "Pending",
@@ -406,10 +224,7 @@ function saveOrder(paymentMethod) {
   localStorage.setItem("orders", JSON.stringify(orders));
 }
 
-
-// Update cart if it changes (useful if user has multiple tabs open)
+// Update cart if it changes
 window.addEventListener('storage', function(e) {
-  if (e.key === 'cart') {
-    loadCartData();
-  }
+  if (e.key === 'currentUser') loadCartData();
 });

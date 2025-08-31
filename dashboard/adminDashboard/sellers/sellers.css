@@ -14,16 +14,16 @@ body {
 
 .main-content {
   min-height: 100vh;
-  width: 100%;
+  width: 84%;
   padding: 0;
 
-  margin-left: 280px; /* مساحة للsidebar */
+  /* مساحة للsidebar */
   transition: margin-left 0.3s ease;
 }
 
 /* عندما يكون الsidebar مغلق */
 .main-content.sidebar-closed {
-  margin-left: 100px;
+  width: 80%;
 }
 
 #sideBar {
@@ -173,6 +173,16 @@ body {
 
 /* تحسينات الاستجابة */
 @media (max-width: 768px) {
+  
+.main-content {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+}
+  .main-content.sidebar-closed {
+  width: 100% !important;
+}
+  
   .main-content {
     margin-left: 0;
     padding-top: 60px;
@@ -216,6 +226,13 @@ body {
 }
 
 @media (max-width: 480px) {
+  
+  .main-content {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+}
+
   .custom-table th:nth-child(3),
   .custom-table td:nth-child(3) {
     display: none; /* إخفاء عمود كلمة المرور في الشاشات الصغيرة */

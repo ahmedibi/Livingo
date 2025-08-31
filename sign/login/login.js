@@ -26,17 +26,35 @@ document.addEventListener("DOMContentLoaded", () => {
       errorMsg.textContent = "";
       alert("Login successful! Welcome, " + user.name);
 
-      const currentUser = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        password:user.password,
-        phone: user.phone,
-        role: user.role,
-        address: user.address || "",
-        orders:[],
-        loginTime: new Date().toISOString(),
-      };
+      
+    // جلب users من localStorage
+const localUsers = JSON.parse(localStorage.getItem("users")) || [];
+const savedUser = localUsers.find(u => u.email === user.email);
+
+const currentUser = {
+  id: user.id,
+  name: user.name,
+  email: user.email,
+  password: user.password,
+  phone: user.phone,
+  role: user.role,
+  address: user.address || "",
+  orders: savedUser?.orders || [],
+  cart: savedUser?.cart || [],
+  wishlist: savedUser?.wishlist || [],
+  loginTime: new Date().toISOString(),
+};
+// تحديث users
+const index = localUsers.findIndex(u => u.email === currentUser.email);
+if (index !== -1) {
+  localUsers[index] = currentUser;
+} else {
+  localUsers.push(currentUser);
+}
+localStorage.setItem("users", JSON.stringify(localUsers));
+
+
+      
 
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
       console.log("Current user set to:", currentUser);

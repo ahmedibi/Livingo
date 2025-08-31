@@ -278,83 +278,108 @@
     </div>
 
     <div id="footer" class="mt-5"></div>
+    
     <script>
-      let cart = [];
+let cart = [];
 
-      //save entire cart in one key
-      function saveCart(cart) {
-        localStorage.setItem("cart", JSON.stringify(cart));
+// === Utilities to handle cart inside currentUser ===
+
+// حفظ الكارت داخل currentUser
+function saveCart(cart) {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (currentUser) {
+    currentUser.cart = cart;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+}
+
+// تحميل الكارت من currentUser
+function loadCart() {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  return (currentUser && currentUser.cart) ? currentUser.cart : [];
+}
+
+// تحديث عداد الكارت (لو عايزه في الـ navbar)
+function updateCartCount() {
+  let cart = loadCart();
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const counterEl = document.getElementById("cart-count");
+  if (counterEl) counterEl.innerText = count;
+}
+
+// تحديث الكمية يدوي
+function updateQty(id, qty) {
+  let cart = loadCart();
+  const index = cart.findIndex((p) => p.id === id);
+  if (index !== -1) {
+    let newQty = parseInt(qty);
+    if (newQty > 0) {
+      cart[index].quantity = newQty;
+    } else {
+      cart.splice(index, 1);
+    }
+    saveCart(cart);
+    renderCart();
+    updateCartCount();
+  }
+}
+
+// تعديل الكمية بالأزرار + و -
+function changeQuantity(id, newQty) {
+  let cart = loadCart();
+  const index = cart.findIndex((p) => p.id === id);
+  if (index !== -1) {
+    if (newQty <= 0) {
+      cart.splice(index, 1);
+    } else {
+      cart[index].quantity = newQty;
+    }
+    saveCart(cart);
+    renderCart();
+    updateCartCount();
+  }
+}
+
+// إزالة منتج من الكارت
+// إزالة منتج من الكارت مع تحديث users
+function removeItem(id) {
+  if (confirm("Are you sure you want to remove this item from your cart?")) {
+    // جلب currentUser و users
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (currentUser && Array.isArray(currentUser.cart)) {
+      // إزالة العنصر من cart الحالي
+      currentUser.cart = currentUser.cart.filter((p) => p.id !== id);
+
+      // تحديث users array
+      const userIndex = users.findIndex(u => u.id === currentUser.id);
+      if (userIndex !== -1) {
+        users[userIndex] = currentUser;
       }
 
-      //upload cart from localStorage
-      function loadCart() {
-        const savedCart = localStorage.getItem("cart");
-        return savedCart ? JSON.parse(savedCart) : [];
-      }
+      // حفظ التحديثات في localStorage
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.setItem("users", JSON.stringify(users));
+    }
 
-      //update cart count
-      // function updateCartCount() {
-      //   let cart = loadCart();
-      //   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-      //   document.getElementById("cart-count").innerText = count;
-      // }
+    // إعادة عرض الكارت وعداد الكارت
+    renderCart();
+    updateCartCount();
+  }
+}
 
-      // update quantity
-      function updateQty(id, qty) {
-        let cart = loadCart();
-        const index = cart.findIndex((p) => p.id === id);
-        if (index !== -1) {
-          let newQty = parseInt(qty);
-          if (newQty > 0) {
-            cart[index].quantity = newQty;
-          } else {
-            cart.splice(index, 1);
-          }
-          saveCart(cart);
-          renderCart();
-          updateCartCount();
-        }
-      }
 
-      //change quantity with + and - buttons
-      function changeQuantity(id, newQty) {
-        let cart = loadCart();
-        const index = cart.findIndex((p) => p.id === id);
-        if (index !== -1) {
-          if (newQty <= 0) {
-            cart.splice(index, 1);
-          } else {
-            cart[index].quantity = newQty;
-          }
-          saveCart(cart);
-          renderCart();
-          updateCartCount();
-        }
-      }
+// عرض الكارت
+function renderCart() {
+  cart = loadCart();
+  const cartItemsContainer = document.getElementById("cartItems");
+  let rows = "";
+  let subtotal = 0;
 
-      // remove item
-      function removeItem(id) {
-        if (
-          confirm("Are you sure you want to remove this item from your cart?")
-        ) {
-          let cart = loadCart();
-          cart = cart.filter((p) => p.id !== id);
-          saveCart(cart);
-          renderCart();
-          updateCartCount();
-        }
-      }
-
-      // عرض الكارت
-      function renderCart() {
-        cart = loadCart();
-        const cartItemsContainer = document.getElementById("cartItems");
-        let rows = "";
-        let subtotal = 0;
-
-        if (cart.length === 0) {
-          document.getElementById("cartActions").style.display = "none";
-          rows = `
+  if (cart.length === 0) {
+    document.getElementById("cartActions").style.display = "none";
+    rows = `
       <tr>
         <td colspan="5" class="text-center py-5">
           <div class="text-muted">
@@ -366,13 +391,13 @@
         </td>
       </tr>
     `;
-        } else {
-          document.getElementById("cartActions").style.display = "flex";
-          cart.forEach((item) => {
-            const itemSubtotal = item.price * item.quantity;
-            subtotal += itemSubtotal;
+  } else {
+    document.getElementById("cartActions").style.display = "flex";
+    cart.forEach((item) => {
+      const itemSubtotal = item.price * item.quantity;
+      subtotal += itemSubtotal;
 
-            rows += `
+      rows += `
         <tr>
           <td style="width: 300px;" class="align-middle">
             <div class="d-flex align-items-center justify-content-center d-image">
@@ -389,93 +414,86 @@
               <small class="text-muted" style="color:#284b63">Product ID: ${item.id}</small>
             </div>
           </td>
-          <td><strong class="text-danger">$${item.price.toFixed(
-            2
-          )}</strong></td>
+          <td><strong class="text-danger">$${item.price.toFixed(2)}</strong></td>
           <td>
             <div class="d-flex justify-content-center align-items-center">
-              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${
-                item.id
-              }', ${item.quantity - 1})">-</button>
+              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity - 1})">-</button>
               <input type="number" min="1" value="${item.quantity}" 
                      class="form-control quantity-input mx-2 text-center"
                      onchange="updateQty('${item.id}', this.value)">
-              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${
-                item.id
-              }', ${item.quantity + 1})">+</button>
+              <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity + 1})">+</button>
             </div>
           </td>
-          <td><strong style="color:#284b63">$${itemSubtotal.toFixed(
-            2
-          )}</strong></td>
-          <td><button class="remove-btn" onclick="removeItem('${
-            item.id
-          }')"><i class="fa-solid fa-trash" style="font-size:16px"></i></button></td>
+          <td><strong style="color:#284b63">$${itemSubtotal.toFixed(2)}</strong></td>
+          <td><button class="remove-btn" onclick="removeItem('${item.id}')"><i class="fa-solid fa-trash" style="font-size:16px"></i></button></td>
         </tr>
       `;
-          });
-        }
+    });
+  }
 
-        cartItemsContainer.innerHTML = rows;
-        document.getElementById("subtotal").innerText = subtotal.toFixed(2);
-        document.getElementById("total").innerText = subtotal.toFixed(2);
-      }
+  cartItemsContainer.innerHTML = rows;
+  document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+  document.getElementById("total").innerText = subtotal.toFixed(2);
+}
 
-      // page to product details
-      function goToProductDetails(productId) {
-        window.location.href = `product-details.html?id=${productId}`;
-      }
+// الانتقال لتفاصيل المنتج
+function goToProductDetails(productId) {
+  window.location.href = `product-details.html?id=${productId}`;
+}
 
-      // go to checkout
-      function goToCheckout() {
-        if (loadCart().length === 0) {
-          alert("Your cart is empty! Add some products first.");
-          return;
-        }
-        window.location.href = "checkout.html";
-      }
+// الذهاب لصفحة الدفع
+function goToCheckout() {
+  if (loadCart().length === 0) {
+    alert("Your cart is empty! Add some products first.");
+    return;
+  }
+  window.location.href = "checkout.html";
+}
 
-      // update cart
-      function updateCart() {
-        renderCart();
-        alert("Cart updated successfully!");
-      }
+// تحديث الكارت
+function updateCart() {
+  renderCart();
+  alert("Cart updated successfully!");
+}
 
-      //apply coupon
-      function applyCoupon() {
-        const couponCode = document.getElementById("coupon").value.trim();
-        if (couponCode) {
-          alert("Coupon functionality will be implemented soon!");
-        } else {
-          alert("Please enter a coupon code");
-        }
-      }
+// تطبيق كوبون (placeholder)
+function applyCoupon() {
+  const couponCode = document.getElementById("coupon").value.trim();
+  if (couponCode) {
+    alert("Coupon functionality will be implemented soon!");
+  } else {
+    alert("Please enter a coupon code");
+  }
+}
 
-      // continue shopping
-      function continueShopping() {
-        window.location.href = "index.html";
-      }
+// استكمال التسوق
+function continueShopping() {
+  window.location.href = "index.html";
+}
 
-      // when page loads
-      document.addEventListener("DOMContentLoaded", () => {
-        renderCart();
-        // updateCartCount();
-        fetch("partials/navbar.html")
-          .then((res) => res.text())
-          .then((data) => {
-            document.getElementById("navbar").innerHTML = data;
-          })
-          .catch((err) => console.error("Error loading navbar:", err));
+// عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+  updateCartCount();
 
-        // Load footer
-        fetch("partials/footer.html")
-          .then((res) => res.text())
-          .then((data) => {
-            document.getElementById("footer").innerHTML = data;
-          })
-          .catch((err) => console.error("Error loading footer:", err));
-      });
-    </script>
+  // تحميل الـ navbar
+  fetch("partials/navbar.html")
+    .then((res) => res.text())
+    .then((data) => {
+      document.getElementById("navbar").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading navbar:", err));
+
+  // تحميل الـ footer
+  fetch("partials/footer.html")
+    .then((res) => res.text())
+    .then((data) => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading footer:", err));
+});
+</script>
+
     <script src="js/components.js"></script>
   </body>
 </html>
