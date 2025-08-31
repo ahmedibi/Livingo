@@ -23,36 +23,167 @@
         min-height: 100vh;
         overflow-x: hidden;
       }
-      aside.sidebar {
+      .sidebar {
         width: 250px;
-        background: #f8f9fa;
-        border-right: 1px solid #dee2e6;
+        background: #f0f0f0;
+        color: black;
+        height: 100vh;
         padding: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease;
+        z-index: 1000;
       }
-      aside.sidebar img {
-        width: 100%;
+      #sidebar .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 2rem;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+        color: #40372e;
+      }
+
+      #sidebar .logo .cushion-o {
+        color: #a0804d;
+        font-size: 28px;
+        margin-left: 5px;
+      }
+
+      #sidebar a {
+        gap: 12px;
+        text-decoration: none;
+        color: black;
+        padding: 7px;
         border-radius: 8px;
-        margin-bottom: 10px;
+        transition: all 0.3s;
       }
-      aside.sidebar ul {
+      .sidebar p {
+        margin-left: 35px;
+      }
+
+      header {
+        margin-bottom: 20px;
+      }
+
+      .sidebar ul {
         list-style: none;
         padding: 0;
+        margin-top: 15px;
       }
-      aside.sidebar ul li {
-        margin: 10px 0;
+
+      .sidebar ul li {
+        margin-left: 15px;
+        margin-top: 10px;
+        padding-top: 5px;
+        padding-left: 10px;
       }
-      aside.sidebar ul li a {
+
+      .sidebar ul li:hover {
+        border-style: none;
+        border-radius: 10px;
+        width: 200px;
+        height: 40px;
+        background-color: #a0804d;
+      }
+
+      .sidebar ul li.active {
+        background-color: #a0804d;
+        border-radius: 10px;
+        width: 200px;
+        height: 40px;
+      }
+
+      .sidebar ul li.active a {
+        color: white;
+        font-weight: bold;
+      }
+
+      .sidebar ul li a {
+        color: rgb(0, 0, 0);
         text-decoration: none;
-        color: #333;
-        font-weight: 500;
+        margin-bottom: 20px;
       }
-      aside.sidebar ul li.active a {
-        color: #0d6efd;
+
+      .sidebar ul li a:hover {
+        color: rgb(255, 255, 255);
       }
-      main {
-        flex-grow: 1;
+
+      .sidebar ul li.active a {
+        color: white;
+        font-weight: bold;
+      }
+
+      .sidebar img {
+        width: 100px;
+        border-radius: 50%;
+        margin-left: 35px;
+        margin-bottom: 10px;
+      }
+
+      i {
+        margin-right: 10px;
+      }
+
+      .content {
+        margin-left: 250px;
         padding: 20px;
+        width: 100%;
       }
+
+      .orders-section {
+        margin-top: 20px;
+      }
+
+      /* sidemenu Button  */
+      .sidemenu {
+        display: none;
+        font-size: 20px;
+        background: #333333;
+        color: #ffffff;
+        padding: 5px 10px;
+        cursor: pointer;
+        position: fixed;
+        top: 5px;
+        border-radius: 5px;
+        margin-left: 10px;
+
+        cursor: pointer;
+      }
+
+      .btn-close {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: none;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .sidemenu {
+          display: block;
+        }
+        .btn-close {
+          display: block;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .content {
+          margin-left: 0;
+          padding-top: 60px;
+        }
+      }
+
       .table img {
         width: 40px;
         height: 40px;
@@ -63,24 +194,50 @@
   </head>
   <body>
     <!-- Sidebar -->
-    <aside class="sidebar">
-      <img
-        src="https://marketplace.canva.com/EAGSec-fmik/2/0/1600w/canva-pink-elegant-special-sale-perfume-instagram-post-Uvwn1uyqzaM.jpg"
-        alt="Store Logo"
-      />
-      <p class="text-muted" id="storeName">My Store</p>
+    <div class="sidemenu" onclick="toggleSidebar()">&#9776;</div>
+
+    <aside class="sidebar" id="sidebar">
+      <button
+        class="btn-close btn-close-black"
+        aria-label="Close"
+        onclick="toggleSidebar()"
+      ></button>
+      <a href="../../../index.html" class="logo">
+        <svg
+          width="38"
+          height="38"
+          viewBox="0 0 38 38"
+          class="livingo-icon"
+          aria-hidden="true"
+        >
+          <!-- Lamp shade -->
+          <ellipse cx="19" cy="13" rx="10" ry="7" fill="#cdbc92" />
+          <!-- Stand -->
+          <rect x="17" y="13" width="4" height="13" rx="2" fill="#a0804d" />
+          <!-- Base -->
+          <ellipse cx="19" cy="31" rx="7" ry="3" fill="#59442a" />
+          <!-- Light glow, animated in -->
+          <ellipse
+            class="lamp-glow"
+            cx="19"
+            cy="20"
+            rx="12"
+            ry="4"
+            fill="#edd67d"
+            opacity="0.14"
+          />
+        </svg>
+        <span class="livingo-word">Living<span class="cushion-o">o</span></span>
+      </a>
       <ul>
-        <li><a href="sellerDashboard.html">🏠 Dashboard</a></li>
-        <li class="active"><a href="sellerproducts.html">🧴 Products</a></li>
-        <li><a href="sellerorders.html">📦 Orders</a></li>
-        <li><a href="selleranalytics.html">📈 Analytics</a></li>
-        <li><a href="selleraccount.html">👤 Account Settings</a></li>
-        <li><a href="#" id="logout-link">🔓 Logout</a></li>
+        <li><a href="../index/index.html">🏠 Dashboard</a></li>
+        <li><a href="../products/products.html">🧴 Products</a></li>
+        <li class="active"><a href="orders.html">📦 Orders</a></li>
+        <li><a id="logOut">🔓 Logout</a></li>
       </ul>
     </aside>
-
     <!-- Main Content -->
-    <main>
+    <main class="content">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>My Products</h2>
         <a href="selleraddproduct.html" class="btn btn-primary">
@@ -97,7 +254,6 @@
               <th>Product</th>
               <th>Price</th>
               <th>Stock</th>
-              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -129,7 +285,7 @@
           return;
         }
 
-        document.getElementById("storeName").textContent = seller.storeName;
+        // document.getElementById("storeName").textContent = seller.storeName;
 
         // Filter products belonging to seller
         const sellerProducts = products.filter((p) =>
@@ -146,11 +302,7 @@
             <td>${p.name} <br><small>#${p.id}</small></td>
             <td>${p.price} ${p.currency || "EGP"}</td>
             <td>${p.stock}</td>
-            <td>
-              <span class="badge bg-${p.stock > 0 ? "success" : "danger"}">
-                ${p.stock > 0 ? "Active" : "Out of Stock"}
-              </span>
-            </td>
+            
             <td>
               <button class="btn btn-sm btn-primary" onclick="editSellerProduct('${
                 p.id
@@ -180,6 +332,16 @@
       }
 
       document.addEventListener("DOMContentLoaded", renderSellerProducts);
+
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("active");
+      }
+      function setActiveMenuItem(clickedElement) {
+        document.querySelectorAll(".sidebar ul li").forEach((li) => {
+          li.classList.remove("active");
+        });
+        clickedElement.parentElement.classList.add("active");
+      }
     </script>
   </body>
 </html>
