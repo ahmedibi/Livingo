@@ -115,7 +115,7 @@
 }
 
 .category-box:hover {
-  background-color: var(--hover) !important;
+  background-color: var(--hover-btn) !important;
   color: white !important;
 }
 
