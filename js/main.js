@@ -17,11 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((err) => console.error("Error loading footer:", err));
 
   // === Helper لتحديث اليوزر في currentUser و users ===
-  // Load currentUser safely
   let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
-  // تأكد أن currentUser دائماً متزامن مع users
   function updateUserData(updatedUser) {
     currentUser = updatedUser;
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
@@ -54,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cartBtn) {
       const productId = cartBtn.dataset.id;
 
-      // Load products from storage
       const products = JSON.parse(localStorage.getItem("products")) || [];
       const product = products.find((p) => p.id === productId);
 
@@ -86,16 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // ✅ تحديث في users كمان
       updateUserData(currentUser);
-
       alert("✅ Added to cart!");
     }
   });
 
   // === Helpers ===
-
-  // Wishlist toggle
   function toggleWishlist(productId, addMsg, removeMsg) {
     let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
     if (!currentUser) {
@@ -115,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(addMsg);
     }
 
-    // ✅ تحديث في users كمان
     updateUserData(currentUser);
   }
 
@@ -139,7 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Generate stars
   function generateStars(rating) {
     let stars = "";
     const fullStars = Math.floor(rating);
@@ -150,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return stars;
   }
 
-  // Check if a name contains exactly three words
   function hasExactlyThreeWords(name) {
     const words = name
       .trim()
@@ -159,18 +149,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return words.length === 3;
   }
 
-  // Filter products with three-word names
   function getThreeWordProducts() {
     return SellBroducts.filter((product) => hasExactlyThreeWords(product.name));
   }
 
-  // Render responsive carousel
   const productList = document.getElementById("product-list");
 
   function getItemsPerSlide() {
-    if (window.innerWidth >= 992) return 4; // large
-    if (window.innerWidth >= 768) return 2; // medium
-    return 1; // small
+    if (window.innerWidth >= 992) return 4;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
   }
 
   function renderCarousel() {
@@ -202,14 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productList.innerHTML = "";
     const perSlide = getItemsPerSlide();
-
-    // Take the second 8 products (skip first 8, take next 8)
     const productsToShow = threeWordProducts.slice(8, 16);
-
-    console.log(
-      `Showing ${productsToShow.length} products:`,
-      productsToShow.map((p) => p.name)
-    );
 
     for (let i = 0; i < productsToShow.length; i += perSlide) {
       const isActive = i === 0 ? "active" : "";
@@ -221,17 +202,26 @@ document.addEventListener("DOMContentLoaded", () => {
           ? product.images[0]
           : `assets/${product.images[0]}`;
 
-        // Wishlist + Cart buttons
         const wishlistButtonHTML = `
-            <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn wishlistBtn"
+            <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center  wishlistBtn"
                     data-id="${product.id}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/> </svg>
+             <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
             </button>`;
 
         const cartTopButtonHTML = `
-            <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
+            <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center cartBtn"
                     data-id="${product.id}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"> <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/> <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 0 0 1 2 0z"/> </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1h1
+                         a.5.5 0 0 1 .485.379L2.89 6H14.5
+                         a.5.5 0 0 1 .491.592l-1.5 7
+                         A.5.5 0 0 1 13 14H4
+                         a.5.5 0 0 1-.491-.408L1.01 2H.5
+                         a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"></path>
+                <path d="M5.5 16a1 1 0 1 0 0-2
+                         1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2
+                         0 1 1 0 0 1 2 0z"></path>
+              </svg>
             </button>`;
 
         cardsHTML += `
@@ -242,15 +232,11 @@ document.addEventListener("DOMContentLoaded", () => {
                   ${cartTopButtonHTML}
                 </div>
                 <a href="./product.html?id=${product.id}">
-                  <img src="${imagePath}" class="card-img-top" alt="${
-          product.name
-        }"
+                  <img src="${imagePath}" class="card-img-top" alt="${product.name}"
                       onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';">
                 </a>
                 <div class="card-body p-3">
-                  <h6 class="card-title mb-3 border-bottom border-2  pb-1">${
-                    product.name
-                  }</h6>
+                  <h6 class="card-title mb-3 border-bottom border-2 pb-1">${product.name}</h6>
                   <div class="d-flex align-items-center gap-2 mb-2">
                     <div>${generateStars(product.rating)}</div>
                     <small>(${product.rating})</small>
@@ -270,11 +256,10 @@ document.addEventListener("DOMContentLoaded", () => {
               ${cardsHTML}
             </div>
           </div>`;
-      productList.innerHTML += slideHTML;
+      productList.insertAdjacentHTML("beforeend", slideHTML);
     }
   }
 
-  // Initialize carousel
   function initializeCarousel() {
     const dataLoaded = loadProductsFromStorage();
     renderCarousel();
@@ -307,26 +292,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
           col.innerHTML = `
               <div class="shadow-sm gap-5 product-card position-relative">
-                <div class="position-absolute top-0 end-0 d-flex  m-2 product-actions ">
-                  <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn wishlistBtn" data-id="${
-                    product.id
-                  }">  
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> 
-                      <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/> 
-                    </svg>
+                <div class="position-absolute top-0 end-0 d-flex m-2 product-actions">
+                  <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center wishlistBtn" data-id="${product.id}">  
+                  <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
                   </button>
-             
                 </div>
 
                 <a href="./product.html?id=${product.id}">
-                  <img src="assets/${
-                    product.images[0]
-                  }" class="card-img-top" alt="${product.name}">
+                  <img src="assets/${product.images[0]}" class="card-img-top" alt="${product.name}">
                 </a>
 
-                <button class="btn btnc text-light rounded-0 w-100 button-cart cartBtn" data-id="${
-                  product.id
-                }">
+                <button class="btn btnc text-light rounded-0 w-100 button-cart cartBtn" data-id="${product.id}">
                   Add to Cart
                 </button>
 
@@ -336,9 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="text-danger fw-bold border border-1 d-inline px-2 py-1 shadow-sm">
                       ${product.currency} ${product.price}
                     </span>
-                    <div>
-                      ${generateStars(product.rating)}
-                    </div>
+                    <div>${generateStars(product.rating)}</div>
                   </p>
                 </div>
               </div>`;
@@ -375,15 +349,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
 window.addEventListener("load", () => {
   const overlay = document.getElementById("loading-overlay");
   overlay.style.opacity = "0";
-  // After fade-out transition, hide overlay and show page
   overlay.addEventListener("transitionend", () => {
     overlay.style.display = "none";
-    document.documentElement.classList.add("loaded"); // trigger fade in if you use earlier CSS
+    document.documentElement.classList.add("loaded");
   });
 });
+
 window.addEventListener("load", () => {
   document.documentElement.classList.add("loaded");
 });
