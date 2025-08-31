@@ -252,4 +252,22 @@ document.addEventListener("DOMContentLoaded", () => {
       dashboard = new DashboardDataManager();
     });
 
+function setActiveMenuItem(clickedElement) {
+  document.querySelectorAll('.sidebar ul li').forEach(li => {
+    li.classList.remove('active');
+  });
+  clickedElement.parentElement.classList.add('active');
+}
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+
+const logout= document.getElementById("logOut")
+  logout.addEventListener("click",function(){
+    localStorage.removeItem("currentUser"); 
+         alert("You have been logged out.");
+         window.location.href = "../../../sign/login/login.html"; 
+  })
 

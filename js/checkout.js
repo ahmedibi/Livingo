@@ -171,8 +171,65 @@ function placeOrder(e) {
   else if(cashPayment) new bootstrap.Modal(document.getElementById('cashPaymentModal')).show();
 }
 
+function setupCardInputs() {
+  const cardNumber = document.getElementById("cardNumber");
+  const expiryDate = document.getElementById("expiryDate");
+  const cvv = document.getElementById("cvv");
+  const cardName = document.getElementById("cardName");
+
+  cardNumber.addEventListener("input", () => {
+    cardNumber.value = cardNumber.value.replace(/\D/g, "").substring(0, 16);
+  });
+
+  expiryDate.addEventListener("input", () => {
+    expiryDate.value = expiryDate.value.replace(/[^0-9/]/g, "").substring(0,5);
+  });
+
+  cvv.addEventListener("input", () => {
+    cvv.value = cvv.value.replace(/\D/g, "").substring(0,3);
+  });
+}
+
+function validateCardDetails() {
+  const cardNumber = document.getElementById("cardNumber");
+  const expiryDate = document.getElementById("expiryDate");
+  const cvv = document.getElementById("cvv");
+  const cardName = document.getElementById("cardName");
+
+  let valid = true;
+
+  if(cardNumber.value.trim().length !== 16) {
+    document.getElementById("cardError").textContent = "Card number must be 16 digits";
+    valid = false;
+  } else document.getElementById("cardError").textContent = "";
+
+  if(!/^\d{2}\/\d{2}$/.test(expiryDate.value.trim())) {
+    document.getElementById("expiryError").textContent = "Expiry must be MM/YY";
+    valid = false;
+  } else document.getElementById("expiryError").textContent = "";
+
+  if(cvv.value.trim().length !== 3) {
+    document.getElementById("cvvError").textContent = "CVV must be 3 digits";
+    valid = false;
+  } else document.getElementById("cvvError").textContent = "";
+
+  if(cardName.value.trim() === "") {
+    document.getElementById("cardNameError").textContent = "Cardholder name is required";
+    valid = false;
+  } else document.getElementById("cardNameError").textContent = "";
+
+  return valid;
+}
+
+
 // Confirm payment functions
-function confirmPayment() { processPayment("Bank"); }
+function confirmPayment() { processPayment("Bank"); 
+  
+  if(!validateCardDetails()) return;
+  processPayment("Bank"); 
+}
+
+
 function confirmCashPayment() { processPayment("Cash"); }
 
 function processPayment(method){

@@ -99,6 +99,8 @@ input[type="radio"] {
 }
 .signup-btn:hover {
   background: #82673d !important;
+    box-shadow: 5px 5px 5px black;
+
 }
 
 .google-btn {
@@ -122,6 +124,8 @@ input[type="radio"] {
 }
 .google-btn:hover {
   border-color: #a0804d;
+    box-shadow: 5px 5px 5px black;
+
 }
 
 .signup-bottom-row {
