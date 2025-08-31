@@ -35,7 +35,6 @@ html {
   border-radius: 0;
 } */
 
-
 .login-panel {
   flex: 1 1 40%;
   display: flex;
@@ -43,8 +42,6 @@ html {
   justify-content: center;
   background: #fff;
   min-width: 370px;
-  
-
 }
 form {
   min-width: 340px;
@@ -112,10 +109,11 @@ input[type="password"]:focus {
 }
 .login-btn:hover {
   background: #82673d !important;
+  box-shadow: 5px 5px 5px black;
 }
 .forgot-link {
   margin-left: 40px;
-  color:#a0804d !important;
+  color: #a0804d !important;
   text-decoration: none;
   font-size: 1.05em;
   align-self: center;

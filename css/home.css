@@ -1,152 +1,148 @@
 /* /////////////////////////////////////main color//////////////////////////////////////////////// */
 
 * {
-    --main-color: #a0804d !important;
-    --secondry-color: #284b63 !important;
-    --hover: #223f53;
-    --hover-btn: #cf9a61 !important;
+  --main-color: #a0804d !important;
+  --secondry-color: black !important;
+  --hover: #cf9a61 !important;
+  --hover-btn: rgb(47, 46, 46) !important;
 }
-
-
 
 /* //////////////////////////////////////////////////////////landing////////////////////////////////////////////////////////////////// */
 
 .carousel .carousel-indicators button {
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    background: linear-gradient(#a47148, #82673d);
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  background: linear-gradient(#a47148, #82673d);
 }
 
 #carouselExampleIndicators .carousel-indicators button {
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    border: 2px solid white;
-    background: rgb(219, 217, 217);
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  border: 2px solid white;
+  background: rgb(219, 217, 217);
 }
 
 #carouselExampleIndicators .carousel-indicators .active {
-    background: var(--hover) !important;
+  background: var(--hover) !important;
 }
 
 .button-all {
-    background-color: var(--secondry-color) !important;
+  background-color: var(--secondry-color) !important;
 }
 
 .button-all:hover {
-    background-color: var(--hover) !important;
+  background-color: var(--hover-btn) !important;
 }
 
 .button-cart {
-    background-color: var(--secondry-color) !important;
+  background-color: #a0804d !important;
 }
 
 .button-cart:hover {
-    background-color: var(--hover) !important;
+  background-color: var(--hover) !important;
 }
 
 /* /////////////////////////////////best selling////////////////////////////////////////////////////////////////////////// */
 .btnc {
-    background-color: transparent;
-    border: none;
-    outline: none;
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
 
 .btnc i {
-    color: var(--secondry-color) !important;
+  color: var(--secondry-color) !important;
 }
 
 /* /////////////////////////////Selling Products//////////////////////////////////// */
 
 .product-card {
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid #f0f0f0;
-    gap: 8px !important;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #f0f0f0;
+  gap: 8px !important;
 }
 
-
-
 .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 2px 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 2px 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .product-actions {
-    top: 15px;
-    right: 15px;
-    gap: 8px;
-    opacity: 0;
-    transition: opacity 0.3s;
+  top: 15px;
+  right: 15px;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .product-card:hover .product-actions {
-    opacity: 1;
+  opacity: 1;
 }
 
 .action-btn {
-    width: 36px;
-    height: 36px;
-    transition: all 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .action-btn:hover {
-    background: var(--secondry-color) !important;
-    fill: white;
-    border-color: var(--secondry-color);
+  background: crimson !important;
+  fill: white;
+  border-color: crimson !important;
 }
 
 #productCarousel {
-    margin: 0 4rem;
+  margin: 0 4rem;
 }
 
 /* //////Browse By Category////// */
 #cat {
-    position: relative;
+  position: relative;
 }
 
 #cat::before {
-    position: absolute;
-    content: "";
-    top: -5px;
-    left: -25px;
-    height: 35px;
-    width: 18px;
-    background: var(--main-color);
-    border-radius: 5px;
+  position: absolute;
+  content: "";
+  top: -5px;
+  left: -25px;
+  height: 35px;
+  width: 18px;
+  background: var(--main-color);
+  border-radius: 5px;
 }
 
 .category-box:hover {
-    background-color: var(--hover) !important;
-    color: white !important;
+  background-color: var(--hover-btn) !important;
+  color: white !important;
 }
 
 /* ///////////////////////////////New arrival/////////////////////////////////////////////// */
 .card {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    transition: transform 0.3s ease;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .card-img-top {
-    height: 200px;
-    width: 100% !important;
-    object-fit: cover;
+  height: 200px;
+  width: 100% !important;
+  object-fit: cover;
 }
 
 .btn-outline-light:hover {
-    background-color: #fff;
-    color: #000;
+  background-color: #fff;
+  color: #000;
 }
 
 @media (max-width: 768px) {
-    .card-img-top {
-        height: 150px;
-    }
+  .card-img-top {
+    height: 150px;
+  }
 }
