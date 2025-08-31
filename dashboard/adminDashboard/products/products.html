@@ -11,8 +11,19 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="../styles/aside.css" />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js"
+      integrity="sha512-oQ1yQwSEIc9CTcK7pffEyS8fxom2iUWQrALk3j3+wfdSDjQ77EZbzGMGe2ZYmfoC8M9vR47apbS1ZYbW05y/pg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link rel="stylesheet" href="../sidebar/sidebar.css" />
+
     <style>
       .search-box {
         position: relative;
@@ -34,104 +45,148 @@
       .filters-row label {
         font-weight: 500;
       }
+      #sideBar.closed {
+        width: 80px;
+      }
+
+      #sideBar.closed .menu a p,
+      #sideBar.closed .logo span {
+        display: none;
+      }
     </style>
   </head>
 
   <body>
-    <div class="container-fluid vh-100 d-flex p-0">
-      <!-- Sidebar -->
-      <div id="sidebar-container"></div>
-
-      <!-- Main Content -->
-      <main class="flex-grow-1 p-3">
-        <h2 class="mb-4">Product Management</h2>
-
-        <!-- Filters -->
-        <div
-          class="row g-3 mb-4 p-3 bg-light rounded shadow-sm align-items-center filters-row"
+    <!-- Sidebar -->
+    <section id="sideBar">
+      <div class="row"></div>
+      <button class="sidebar-toggler">☰</button>
+      <a href="../../../index.html" class="logo">
+        <svg
+          width="38"
+          height="38"
+          viewBox="0 0 38 38"
+          class="livingo-icon"
+          aria-hidden="true"
         >
-          <div class="col-md-3">
-            <input
-              type="text"
-              id="searchInput"
-              class="form-control"
-              placeholder="Search by name or id"
-            />
-          </div>
+          <ellipse cx="19" cy="13" rx="10" ry="7" fill="#cdbc92" />
+          <rect x="17" y="13" width="4" height="13" rx="2" fill="#a0804d" />
+          <ellipse cx="19" cy="31" rx="7" ry="3" fill="#59442a" />
+          <ellipse
+            class="lamp-glow"
+            cx="19"
+            cy="20"
+            rx="12"
+            ry="4"
+            fill="#edd67d"
+            opacity="0.14"
+          />
+        </svg>
+        <span class="livingo-word">Living<span class="cushion-o">o</span></span>
+      </a>
+      <ul class="menu">
+        <li>
+          <a href="../index/admin.html">
+            <i class="fas fa-home"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li>
+          <a href="../products/products.html" class="active">
+            <i class="fas fa-box-open"></i>
+            <p>Products</p>
+          </a>
+        </li>
+        <li>
+          <a href="../users/users.html">
+            <i class="fas fa-user"></i>
+            <p>Users</p>
+          </a>
+        </li>
+        <li>
+          <a href="../sellers/sellers.html">
+            <i class="fas fa-users"></i>
+            <p>Sellers</p>
+          </a>
+        </li>
+        <li>
+          <a href="../orders/orders.html">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Orders</p>
+          </a>
+        </li>
+        <li class="logout">
+          <a id="logOut" style="cursor: pointer">
+            <i class="fas fa-sign-out-alt"></i>
+            <p>Logout</p>
+          </a>
+        </li>
+      </ul>
+    </section>
 
-          <div class="col-md-3">
-            <select id="categoryFilter" class="form-select">
-              <option value="all">All Categories</option>
-              <option value="living room">Living Room</option>
-              <option value="bedroom">Bedroom</option>
-              <option value="dining room">Dining Room</option>
-              <option value="office">Office</option>
-              <option value="outdoor">Outdoor</option>
-              <option value="lighting & decor">Lighting & Decor</option>
-            </select>
-          </div>
+    <!-- Main Content -->
+    <main id="mainContent" class="main-content">
+      <h2 class="mb-4">Product Management</h2>
 
-          <div class="col-md-3">
-            <label for="priceRange" class="form-label d-block">
-              Max Price: <span id="priceValue">2000</span>
-            </label>
-            <input
-              type="range"
-              id="priceRange"
-              min="0"
-              max="3000"
-              value="2000"
-              class="form-range"
-            />
-          </div>
-        </div>
-
-        <!-- Products Table -->
-        <div class="table-responsive">
-          <table class="table table-hover align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="productTableBody"></tbody>
-          </table>
-        </div>
-      </main>
-
-      <!-- Mobile menu btn -->
-      <button
-        class="btn btn-primary d-md-none position-fixed m-3"
-        id="mobileMenuBtn"
+      <!-- Filters -->
+      <div
+        class="row g-3 mb-4 p-3 bg-light rounded shadow-sm align-items-center filters-row"
       >
-        ☰
-      </button>
-    </div>
+        <div class="col-md-3">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="Search by name or id"
+          />
+        </div>
+        <div class="col-md-3">
+          <select id="categoryFilter" class="form-select">
+            <option value="all">All Categories</option>
+            <option value="living room">Living Room</option>
+            <option value="bedroom">Bedroom</option>
+            <option value="dining room">Dining Room</option>
+            <option value="office">Office</option>
+            <option value="outdoor">Outdoor</option>
+            <option value="lighting & decor">Lighting & Decor</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="priceRange" class="form-label d-block">
+            Max Price: <span id="priceValue">2000</span>
+          </label>
+          <input
+            type="range"
+            id="priceRange"
+            min="0"
+            max="3000"
+            value="2000"
+            class="form-range"
+          />
+        </div>
+      </div>
 
-    <!-- Offcanvas mobile -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
-      <div class="offcanvas-header">
-        <h5>Menu</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="offcanvas"
-        ></button>
+      <!-- Products Table -->
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="productTableBody"></tbody>
+        </table>
       </div>
-      <div class="offcanvas-body p-0">
-        <ul id="mobileMenuList" class="list-group list-group-flush"></ul>
-      </div>
-    </div>
+    </main>
 
     <!-- Scripts -->
     <script src="../../bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/aside.js"></script>
-
+    <script src="../js/sidebar.js"></script>
     <script>
       // Render Products
       function renderProducts(products = null) {
@@ -159,12 +214,12 @@
                 <button class="btn btn-sm btn-primary" onclick="editProduct('${
                   p.id
                 }')">
-                  <i class="fas fa-edit"></i>
+                  <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 <button class="btn btn-sm btn-danger" onclick="deleteProduct('${
                   p.id
                 }')">
-                  <i class="fas fa-trash"></i>
+                  <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
             </tr>
@@ -172,7 +227,6 @@
         });
       }
 
-      // Delete Product
       function deleteProduct(productId) {
         let products = JSON.parse(localStorage.getItem("products")) || [];
         products = products.filter((p) => p.id !== productId);
@@ -180,12 +234,10 @@
         applyFilters();
       }
 
-      // Edit Redirect
       function editProduct(productId) {
         window.location.href = `editproduct.html?id=${productId}`;
       }
 
-      // Apply Filters
       function applyFilters() {
         let searchVal = searchInput.value.toLowerCase();
         let categoryVal = categoryFilter.value.toLowerCase();
@@ -198,7 +250,6 @@
             p.id.toLowerCase().includes(searchVal) ||
             p.name.toLowerCase().includes(searchVal);
 
-          // Compare only the main category (before "-")
           let mainCategory = p.category.split(" - ")[0].toLowerCase();
           let matchCategory =
             categoryVal === "all" || mainCategory === categoryVal;
@@ -211,7 +262,6 @@
         renderProducts(filtered);
       }
 
-      // Event Listeners
       document
         .getElementById("searchInput")
         .addEventListener("input", applyFilters);
@@ -226,6 +276,13 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         renderProducts();
+      });
+
+      const sideBar = document.getElementById("sideBar");
+      const toggler = document.querySelector(".sidebar-toggler");
+
+      toggler.addEventListener("click", () => {
+        sideBar.classList.toggle("closed");
       });
     </script>
   </body>
