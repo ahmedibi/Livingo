@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
       script.src = "../sidebar/sidebar.js";
       document.body.appendChild(script);
 
+      const style = document.createElement("link");
+      style.href = "../sidebar/sidebar.css";
+      style.rel="stylesheet"
+      document.head.appendChild(style);
+
       const fontAwesome = document.createElement("link");
       fontAwesome.rel = "stylesheet";
       fontAwesome.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css";
@@ -18,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("sideBar").style.display = "none";
       document.querySelector(".main-content").style.marginLeft = "0";
     });
-
+    const editModal = new bootstrap.Modal(document.getElementById('editSellerModal'));
+  editModal.show();
   // عناصر الفورم
   const form = document.getElementById("editSellerForm");
   const nameInput = document.getElementById("sellerName");
