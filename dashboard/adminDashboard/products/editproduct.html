@@ -200,6 +200,12 @@
           localStorage.setItem("products", JSON.stringify(products));
           window.location.href = "products.html";
         });
+      const sideBar = document.getElementById("sideBar");
+      const toggler = document.querySelector(".sidebar-toggler");
+
+      toggler.addEventListener("click", () => {
+        sideBar.classList.toggle("closed");
+      });
     </script>
   </body>
 </html>
