@@ -19,13 +19,16 @@ const tbody = document.getElementById("ordersTableBody");
  const priceValue = document.getElementById("priceValue");
 
 function renderOrders(list) {
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // مسح المحتوى القديم أولاً
     if (list.length === 0) {
         tbody.innerHTML = `<tr><td colspan="8" class="text-center">No Orders Found</td></tr>`;
         return;
     }
 
     list.forEach(order => {
+        // تجاهل أي order مفيهوش منتجات
+        if (!order.items || order.items.length === 0) return;
+
         // المنتجات مع الكمية لكل منتج
         const itemsText = order.items.map(item => `${item.name || "No product"} (x${item.quantity || 0})`).join(", ");
         // المجموع الكلي للكمية لكل الطلب
@@ -58,7 +61,7 @@ function renderOrders(list) {
                 </div>
             </td>
             <td>
-                <button class="btn btn-sm btn-outline-warning me-1" onclick="enableEditStatus(${order.id})">
+                  <button class="btn btn-sm btn-outline-warning me-1" onclick="enableEditStatus(${order.id})">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                   <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -70,11 +73,20 @@ function renderOrders(list) {
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM7 6v13z"/>
               </svg>
-            </button>     
+            </button>
             </td>
         </tr>
         `;
     });
+}
+
+function deleteOrder(orderId) {
+    if (!confirm("Are you sure to delete this order?")) return;
+
+    // دور على الـ order
+    orders = orders.filter(o => o.id !== orderId); // حذف الـ order بالكامل
+    localStorage.setItem("orders", JSON.stringify(orders));
+    renderOrders(orders);
 }
 
 
@@ -124,21 +136,7 @@ function updateStatus(id, newStatus) {
 }
 
 
- function deleteOrder(orderId,itemId) {
-     if (confirm("Are you sure to delete this order?")) {
-  // دور على الـ order
-  let order = orders.find(o => o.id === orderId);
-  if (!order) return;
-
-  order.items = order.items.filter(it => it.id !== itemId);
-  if (order.items.length === 0) {
-    orders = orders.filter(o => o.id !== orderId);
-  }
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-  renderOrders(orders);
-  }
- }
+ 
  
 
  // Filters
