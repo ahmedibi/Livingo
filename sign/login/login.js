@@ -43,6 +43,7 @@ const currentUser = {
   cart: savedUser?.cart || [],
   wishlist: savedUser?.wishlist || [],
   loginTime: new Date().toISOString(),
+   products: savedUser?.products || (user.role === "seller" ? [] : undefined)
 };
 // تحديث users
 const index = localUsers.findIndex(u => u.email === currentUser.email);
@@ -60,7 +61,7 @@ localStorage.setItem("users", JSON.stringify(localUsers));
       console.log("Current user set to:", currentUser);
 
       if (user.role === "admin") {
-        window.location.href = "../../../dashboard/adminDashboard/orders/orders.html";
+        window.location.href = "../../../dashboard/adminDashboard/index/admin.html";
       } else if (user.role === "seller") {
         window.location.href = "../../../dashboard/sellerDashboard/orders/orders.html";
       } else {
