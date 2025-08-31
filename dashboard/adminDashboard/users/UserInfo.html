@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .card-header {
+            background-color: #af995d;
+        }
+
+        .btn:hover {
+            box-shadow: 5px 5px 5px black;
+            background-color: rgb(228, 197, 160) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid vh-100 d-flex p-0">
+
+        <!-- Sidebar (نفس اللي عندك) -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="flex-grow-1 p-3">
+            <h1 class="text-center">User Information</h1>
+
+
+
+            <!-- User Details -->
+            <div class="card mb-4">
+                <div class="card-header text-black fw-bold fs-4">Personal Details</div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> <span id="userName"></span></p>
+                    <p><strong>Email:</strong> <span id="userEmail"></span></p>
+                    <p><strong>Role:</strong> <span id="userRole"></span></p>
+                    <p><strong>Gender:</strong> <span id="userGender"></span></p>
+
+                    <!-- Update Location -->
+                    <form id="locationForm" class="mb-3">
+                        <label class="form-label"><strong>Location:</strong></label>
+                        <input type="text" id="userLocation" class="form-control mb-2">
+                        <button type="submit" class="btn btn-sm p-2"
+                            style="background-color: rgb(244, 215, 180);color: black; font-weight: bold;">Update
+                            Location</button>
+                    </form>
+
+                    <!-- Reset Password -->
+                    <form id="passwordForm">
+                        <label class="form-label"><strong>Change Password:</strong></label>
+                        <input type="password" id="newPassword" class="form-control mb-2" placeholder="New Password">
+                        <input type="password" id="confirmPassword" class="form-control mb-2"
+                            placeholder="Confirm Password">
+                        <button type="submit" class="btn btn-sm p-2"
+                            style="background-color: rgb(244, 215, 180); color: black; font-weight: bold;">Reset
+                            Password</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order History -->
+            <div class="card">
+                <div class="card-header fw-bold fs-4 text-black" style="background-color: #af995d;">Order History</div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderHistory">
+                            <tr>
+                                <td colspan="5" class="text-center">No orders found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+        </main>
+
+        <!-- Mobile Menu Button -->
+        <button class="btn btn-primary d-md-none position-fixed m-3" id="mobileMenuBtn">☰</button>
+    </div>
+
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header">
+            <h5>Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul id="mobileMenuList" class="list-group list-group-flush"></ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script>
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let selectedId = localStorage.getItem("selectedUser");
+        let user = users.find(u => u.id === selectedId);
+
+        // عناصر الصفحة
+        document.getElementById("userName").textContent = user.name;
+        document.getElementById("userEmail").textContent = user.email;
+        document.getElementById("userRole").textContent = user.role;
+        document.getElementById("userGender").textContent = user.gender || "-";
+        document.getElementById("userLocation").value = user.address || "";
+
+        // تعديل العنوان
+        document.getElementById("locationForm").addEventListener("submit", e => {
+            e.preventDefault();
+            user.address = document.getElementById("userLocation").value;
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("Location updated!");
+        });
+
+        // تغيير الباسورد
+        document.getElementById("passwordForm").addEventListener("submit", e => {
+            e.preventDefault();
+            let newPass = document.getElementById("newPassword").value;
+            let confirmPass = document.getElementById("confirmPassword").value;
+            if (newPass !== confirmPass) {
+                alert("Passwords do not match!");
+                return;
+            }
+            user.password = newPass;
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("Password updated!");
+        });
+
+        // عرض الطلبات (لو فيه)
+        const orderTable = document.getElementById("orderHistory");
+        if (user.orders && user.orders.length > 0) {
+            orderTable.innerHTML = "";
+            user.orders.forEach((order, i) => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${order}</td>
+      <td>2024-05-01</td>
+      <td>Completed</td>
+      <td>$100</td>
+    `;
+                orderTable.appendChild(tr);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
