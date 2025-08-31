@@ -212,35 +212,66 @@
         };
 
         // Buy now
-        document.getElementById("buyNowBtn").onclick = () => {
-          let cart = JSON.parse(localStorage.getItem("cart")) || [];
-          const existing = cart.find((item) => item.id === product.id);
-          if (existing) existing.quantity += quantity;
-          else
-            cart.push({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              currency: product.currency,
-              images: product.images,
-              quantity: quantity,
-            });
-          localStorage.setItem("cart", JSON.stringify(cart));
-          alert("✅ Added to cart!");
-        };
+      document.addEventListener("click", (e) => {
+  // Wishlist button
+  const wishlistBtn = e.target.closest("#wishlistBtn");
+  if (wishlistBtn) {
+    toggleUserList(
+      "wishlist",
+      product.id,
+      "❤️ Added to wishlist",
+      "❌ Removed from wishlist"
+    );
+    return;
+  }
 
-        // Wishlist
-        document.getElementById("wishlistBtn").onclick = () => {
-          let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-          if (wishlist.includes(product.id)) {
-            wishlist = wishlist.filter((id) => id !== product.id);
-            alert("❌ Removed from wishlist");
-          } else {
-            wishlist.push(product.id);
-            alert("❤️ Added to wishlist");
-          }
-          localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        };
+  // Cart button
+  const cartBtn = e.target.closest("#buyNowBtn");
+  if (cartBtn) {
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    if (!currentUser) { alert("⚠ You must be logged in!"); return; }
+
+    if (!currentUser.cart) currentUser.cart = [];
+    const existing = currentUser.cart.find(item => String(item.id) === String(product.id));
+    if (existing) existing.quantity += quantity;
+    else currentUser.cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      currency: product.currency,
+      images: product.images,
+      quantity: quantity
+    });
+
+    updateUserData(currentUser);
+    alert("✅ Added to cart!");
+  }
+});
+
+function toggleUserList(key, productId, addMsg, removeMsg) {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (!currentUser) { alert("⚠ You must be logged in!"); return; }
+
+  if (!currentUser[key]) currentUser[key] = [];
+  if (currentUser[key].includes(productId)) {
+    currentUser[key] = currentUser[key].filter(id => id !== productId);
+    alert(removeMsg);
+  } else {
+    currentUser[key].push(productId);
+    alert(addMsg);
+  }
+
+  updateUserData(currentUser);
+}
+
+function updateUserData(currentUser) {
+  // تحديث currentUser
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  // تحديث users array
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  users = users.map(u => u.id === currentUser.id ? {...u, ...currentUser} : u);
+  localStorage.setItem("users", JSON.stringify(users));
+}
 
         // Explore more products
         const exploreContainer = document.getElementById("explore-products");

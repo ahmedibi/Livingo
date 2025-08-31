@@ -223,7 +223,7 @@
           const cartTopButtonHTML = `
             <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn cartBtn"
                     data-id="${product.id}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"> <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/> <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 0 0 1 2 0z"/> </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"> <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/> <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 0 0 1 2 0z"/> </svg>
             </button>`;
 
           cardsHTML += `
@@ -238,7 +238,7 @@
                       onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';">
                 </a>
                 <div class="card-body p-3">
-                  <h6 class="card-title mb-3 border-bottom border-2 pb-1">${product.name}</h6>
+                  <h6 class="card-title mb-3 border-bottom border-2  pb-1">${product.name}</h6>
                   <div class="d-flex align-items-center gap-2 mb-2">
                     <div>${generateStars(product.rating)}</div>
                     <small>(${product.rating})</small>
@@ -292,18 +292,13 @@
 
             col.innerHTML = `
               <div class="shadow-sm gap-5 product-card position-relative">
-                <div class="position-absolute top-0 end-0 d-flex flex-column m-2 gap-2 product-actions">
-                  <button class="btn btn-light btn-sm rounded-circle wishlistBtn action-btn" data-id="${product.id}">  
+                <div class="position-absolute top-0 end-0 d-flex  m-2 product-actions ">
+                  <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center action-btn wishlistBtn" data-id="${product.id}">  
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> 
                       <path d="M4.24 12.25a4.2 4.2 0 0 1-1.24-3A4.25 4.25 0 0 1 7.25 5c1.58 0 2.96.86 3.69 2.14h1.12A4.24 4.24 0 0 1 15.75 5A4.25 4.25 0 0 1 20 9.25c0 1.17-.5 2.25-1.24 3L11.5 19.5zm15.22.71C20.41 12 21 10.7 21 9.25A5.25 5.25 0 0 0 15.75 4c-1.75 0-3.3.85-4.25 2.17A5.22 5.22 0 0 0 7.25 4A5.25 5.25 0 0 0 2 9.25c0 1.45.59 2.75 1.54 3.71l7.96 7.96z"/> 
                     </svg>
                   </button>
-                  <button class="btn btn-light btn-sm rounded-circle cartBtn action-btn" data-id="${product.id}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"> 
-                      <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 6H14.5a.5.5 0 0 1 .491.592l-1.5 7A.5.5 0 0 1 13 14H4a.5.5 0 0 1-.491-.408L1.01 2H.5a.5.5 0 0 1-.5-.5zM3.14 7l1.25 6h8.22l1.25-6H3.14z"/> 
-                      <path d="M5.5 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7-1a1 1 0 1 1-2 0 1 0 0 1 2 0z"/> 
-                    </svg>
-                  </button>
+             
                 </div>
 
                 <a href="./product.html?id=${product.id}">
@@ -322,7 +317,6 @@
                     </span>
                     <div>
                       ${generateStars(product.rating)}
-                      <small class="text-muted">(65)</small>
                     </div>
                   </p>
                 </div>

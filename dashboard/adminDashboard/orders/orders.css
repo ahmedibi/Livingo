@@ -1,6 +1,33 @@
+html,body{
+    background: #f6f2e7;
+  font-family: "Inter", Arial, sans-serif ;
+}
+
 #edit{
   border-color:  #ba6931 !important;
 }
 main{
 transition: all 0.3s ease;
 }
+.custom-table thead th {
+  background: #f4f1e7;
+  color: #a29573;
+  font-size: 1.08em;
+  font-weight: 700;
+  padding: 20px 15px;
+  border: none;
+  letter-spacing: 0.03em;
+  
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-responsive {
+  margin: 0;
+  background: transparent;
+  border-radius: 19px;
+  overflow: hidden;
+  
+}
+

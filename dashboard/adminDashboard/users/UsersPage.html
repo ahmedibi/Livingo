@@ -10,7 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 
 
 
@@ -19,8 +21,35 @@
             background-color: #af995d;
         }
 
+      .main-content {
+  min-height: 100vh;
+  width: 81% !important ;
+  padding: 0;
+margin-left: 280px !important;
+  /* مساحة للsidebar */
+  transition: margin-left 0.3s ease;
+}
+.main-content.sidebar-closed {
+  width: 80%;
+}
 
+@media (max-width: 768px) {
+.main-content {
+    margin-left: 0 !important;
+    padding-top: 50px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+}
 
+@media (min-width: 769px) and (max-width:1300px) {
+.main-content {
+    margin-left: 0 !important;
+    margin-top: 50px !important;
+    overflow: hidden !important;
+    width: 100vw !important;
+}
+}
         .btn-info {
             border: none;
             background-color: black;
@@ -65,7 +94,8 @@
 </head>
 
 <body>
-    <div class="container-fluid vh-100 d-flex p-0">
+  <div id="sideBar"></div>
+    <div class="container-fluid vh-100 d-flex p-0 main-content">
 
 
         <main class="flex-grow-1 p-3">
@@ -74,11 +104,12 @@
                 <table class="table table-hover text-center align-middle">
                     <thead class="table-light table-cell-padding-x: 0.5rem">
                         <tr>
+                            <th scope="col" class="text-blue-800  fs-4 ">User ID</th>
                             <th scope="col" class="text-blue-800  fs-4 ">User</th>
                             <th scope="col" class="text-blue-800 fs-4 ">email</th>
-                            <th scope="col" class="text-blue-800 fs-4 ">gender</th>
+                            
                             <th scope="col" class="text-blue-800 fs-4 ">role</th>
-                            <th scope="col" class="text-blue-800 fs-4 ">status</th>
+                        
                             <th scope="col" class="text-blue-800 fs-4 ">actions</th>
                         </tr>
                     </thead>
@@ -100,10 +131,15 @@
                 fetch("../sidebar/sidebar.html")
                     .then(res => res.text())
                     .then(data => {
-                        document.getElementById("sidebar").innerHTML = data;
+                        document.getElementById("sideBar").innerHTML = data;
                         const script = document.createElement("script");
                         script.src = "../sidebar/sidebar.js";
                         document.body.appendChild(script);
+
+                        const style = document.createElement("link");
+                         style.href = "../sidebar/sidebar.css";
+                         style.rel="stylesheet"
+                         document.head.appendChild(style);
                     })
                     .catch(err => console.error("Error loading sidebar:", err));
             });
@@ -121,11 +157,12 @@
                 users.forEach(user => {
                     const tr = document.createElement("tr");
                     tr.innerHTML = `
+                    <td>${user.id}</td>
       <td>${user.name}</td>
       <td>${user.email}</td>
-      <td>${user.gender || "-"}</td>
+  
       <td>${user.role}</td>
-      <td>${user.status || "active"}</td>
+      
       <td>
         <button class="btn btn-info btn-sm" onclick="viewUser('${user.id}')">
           <i class="fa-solid fa-eye"></i>
