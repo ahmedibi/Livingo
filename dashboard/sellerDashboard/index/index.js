@@ -46,9 +46,6 @@ function getCurrentUser() {
         });
 
 
-
-
-
 // Load seller data for the current authenticated user only
 function loadSellerData() {
     try {
@@ -172,14 +169,13 @@ function calculateSellerMetrics(sellers) {
         }
 
         // Calculate actual sales from orders
-        if (seller.orders && Array.isArray(seller.orders)) {
-            console.log('Processing seller orders:', seller.orders);
-            
-            seller.orders.forEach(order => {
-                // Find the product for this order to get accurate revenue
-                const product = findProductById(order.productId, productsData);
-                
-                if (product && product.price) {
+        const orders=loadOrdersData();
+        if (orders && Array.isArray(orders)) {
+            console.log('Processing seller orders:', orders);
+           orders.forEach(order => {
+            order.items.forEach((item)=>{
+                           const product = findProductById(item.id, productsData);
+                 if (product && product.price) {
                     const orderValue = parseFloat(product.price);
                     totalRevenue += orderValue;
                     totalUnitsSold += 1;
@@ -201,6 +197,11 @@ function calculateSellerMetrics(sellers) {
                     
                     console.log(`Order processed: ${productName} - $${orderValue} in ${monthKey}`);
                 }
+            })
+                // Find the product for this order to get accurate revenue
+     
+                
+               
             });
         } else if (ordersData && Object.keys(ordersData).length > 0) {
             console.log('Processing from global orders data');
@@ -380,8 +381,8 @@ function loadProductsData() {
 // Enhanced helper function to load orders data
 function loadOrdersData() {
     try {
-        const ordersData = JSON.parse(localStorage.getItem('orders') || '{}');
-        console.log('Loaded orders data:', Object.keys(ordersData).length, 'orders');
+        const ordersData = JSON.parse(localStorage.getItem('orders') || '[]');
+        console.log('Loaded orders data:',ordersData.length, 'orders');
         return ordersData;
     } catch (error) {
         console.log('No orders data found in localStorage');
@@ -456,12 +457,11 @@ function formatNumber(num) {
 }
 
 function updateStatsCards(data) {
-    if (!data) return;
+    // if (!data) return;
 
     document.getElementById('totalRevenue').textContent = `$${formatNumber(data.totalRevenue)}`;
     document.getElementById('unitsSold').textContent = formatNumber(data.unitsSold);
     document.getElementById('avgOrderValue').textContent = `$${data.avgOrderValue}`;
-
     // Update growth percentages
     updateGrowth('revenueGrowth', data.revenueGrowth);
     updateGrowth('unitsGrowth', data.unitsGrowth);
@@ -498,3 +498,67 @@ function setActiveMenuItem(clickedElement) {
 }
 
 
+// // Monthly Sales Chart (Line)
+function createSalesChart(data) {
+    const ctx = document.getElementById('salesChart');
+    if (!ctx) return;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.monthlySales.map(m => m.month),
+            datasets: [{
+                label: 'Monthly Sales ($)',
+                data: data.monthlySales.map(m => m.sales),
+                borderColor: '#bb9457',
+                backgroundColor: 'rgba(187, 148, 87, 0.2)',
+                fill: true,
+                tension: 0.3,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+
+// // Top Products Chart (Doughnut)
+function createProductsChart(data) {
+    const ctx = document.getElementById('productsChart');
+    if (!ctx) return;
+    console.log("hello",data)
+ 
+new Chart(ctx, {
+        type: 'doughnut',
+ 
+        data :{
+            //  labels: data.topProducts.map(p => p.name),
+
+  datasets: [{
+    label: 'My First Dataset',
+   data: data.topProducts.map(p => p.revenue),
+    backgroundColor:data.topProducts.map(p=>p.color),
+    hoverOffset: 4,
+   options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  }]
+}
+
+    });
+
+
+
+    // Custom legend
+    const legendContainer = document.getElementById('productsLegend');
+    legendContainer.innerHTML = '';
+    data.topProducts.forEach((p, i) => {
+        const item = document.createElement('div');
+        item.className = 'legend-item';
+        item.innerHTML = `
+            <div class="legend-color" style="background-color:${p.color};"></div>
+            <span>${p.name} </span>
+        `;
+        legendContainer.appendChild(item);
+    });
+}
