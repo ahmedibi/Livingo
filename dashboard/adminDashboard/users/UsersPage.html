@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+
+    <style>
+        body {
+            background-color: #af995d;
+        }
+
+
+
+        .btn-info {
+            border: none;
+            background-color: black;
+            color: #af995d;
+
+        }
+
+        .btn-info:hover {
+            box-shadow: 5px 5px 5px gray;
+            background-color: rgb(39, 38, 39);
+            color: rgb(239, 213, 178);
+            transform: scale(1.05);
+        }
+
+        .btn-warning {
+            background-color: #af995d;
+            border: none;
+        }
+
+        .btn-warning:hover {
+            background-color: #d2b667 !important;
+            color: black;
+            box-shadow: 5px 5px 5px gray !important;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            border: none;
+            background-color: black;
+            color: #af995d;
+            transition: all .09s;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 5px 5px 5px gray;
+            background-color: rgb(39, 38, 39);
+            color: rgb(239, 213, 178);
+            transform: scale(1.05);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container-fluid vh-100 d-flex p-0">
+
+
+        <main class="flex-grow-1 p-3">
+            <h1 class="text-2xl font-bold  text-gray-800 text-center">User Management</h1>
+            <div class="table-responsive">
+                <table class="table table-hover text-center align-middle">
+                    <thead class="table-light table-cell-padding-x: 0.5rem">
+                        <tr>
+                            <th scope="col" class="text-blue-800  fs-4 ">User</th>
+                            <th scope="col" class="text-blue-800 fs-4 ">email</th>
+                            <th scope="col" class="text-blue-800 fs-4 ">gender</th>
+                            <th scope="col" class="text-blue-800 fs-4 ">role</th>
+                            <th scope="col" class="text-blue-800 fs-4 ">status</th>
+                            <th scope="col" class="text-blue-800 fs-4 ">actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                fetch("../sidebar/sidebar.html")
+                    .then(res => res.text())
+                    .then(data => {
+                        document.getElementById("sidebar").innerHTML = data;
+                        const script = document.createElement("script");
+                        script.src = "../sidebar/sidebar.js";
+                        document.body.appendChild(script);
+                    })
+                    .catch(err => console.error("Error loading sidebar:", err));
+            });
+
+
+
+            // بجيب الداتا من localStorage
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            const tbody = document.querySelector("tbody");
+
+            // دالة عرض المستخدمين
+            function renderUsers() {
+                tbody.innerHTML = "";
+                users.forEach(user => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+      <td>${user.name}</td>
+      <td>${user.email}</td>
+      <td>${user.gender || "-"}</td>
+      <td>${user.role}</td>
+      <td>${user.status || "active"}</td>
+      <td>
+        <button class="btn btn-info btn-sm" onclick="viewUser('${user.id}')">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button class="btn btn-warning btn-sm" onclick="editUser('${user.id}')">
+          <i class="fa-solid fa-pen"
+          ></i>
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.id}')">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>
+    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // عرض
+            renderUsers();
+
+            // فتح صفحة Info
+            function viewUser(id) {
+                localStorage.setItem("selectedUser", id);
+                window.location.href = "userInfo.html";
+            }
+
+            // فتح صفحة Edit
+            function editUser(id) {
+                localStorage.setItem("selectedUser", id);
+                window.location.href = "userEdit.html";
+            }
+
+            // حذف
+            function deleteUser(id) {
+                if (confirm("هل أنت متأكد من حذف هذا المستخدم؟")) {
+                    users = users.filter(u => u.id !== id);
+                    localStorage.setItem("users", JSON.stringify(users));
+                    renderUsers();
+                }
+            }
+
+
+
+        </script>
+
+</body>
+
+</html>
