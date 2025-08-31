@@ -29,11 +29,13 @@
     <div class="container py-5">
       <div class="card p-4">
         <h2 class="mb-4">Add New Product</h2>
-        <form id="addProductForm">
+
+        <form id="addProductForm" autocomplete="off">
           <div class="mb-3">
             <label class="form-label">Product Name</label>
             <input type="text" id="productName" class="form-control" required />
           </div>
+
           <div class="mb-3">
             <label class="form-label">Price (EGP)</label>
             <input
@@ -41,8 +43,11 @@
               id="productPrice"
               class="form-control"
               required
+              min="0"
+              step="0.01"
             />
           </div>
+
           <div class="mb-3">
             <label class="form-label">Stock</label>
             <input
@@ -50,8 +55,11 @@
               id="productStock"
               class="form-control"
               required
+              min="0"
+              step="1"
             />
           </div>
+
           <div class="mb-3">
             <label class="form-label">Category</label>
             <select id="productCategory" class="form-select" required>
@@ -63,35 +71,71 @@
               <option value="Lighting & Decor">Lighting & Decor</option>
             </select>
           </div>
+
           <div class="mb-3">
-            <label class="form-label">Image URL</label>
+            <label class="form-label">Image (filename or full URL)</label>
             <input
               type="text"
               id="productImage"
               class="form-control"
-              placeholder="assets/img.jpg"
+              placeholder="e.g. sofa-rose.jpg or https://.../img.jpg"
               required
             />
+            <div class="form-text">
+              If you enter a filename only (e.g. <code>sofa-rose.jpg</code>), it
+              will be read from your <code>assets/</code> folder.
+            </div>
           </div>
+
           <button type="submit" class="btn btn-primary w-100">
             Add Product
           </button>
         </form>
-        <div id="message" class="mt-3 text-success fw-bold"></div>
+
+        <div id="message" class="mt-3 fw-bold"></div>
       </div>
     </div>
 
     <script>
-      // Generate ID like p073, p074...
+      // --- Helpers ---
+      function readLS(key, fallback) {
+        try {
+          const v = JSON.parse(localStorage.getItem(key));
+          return v ?? fallback;
+        } catch {
+          return fallback;
+        }
+      }
+      function writeLS(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+
+      // Generate next ID like p073, p074... from existing products in LS
       function generateNewProductId() {
-        const products = JSON.parse(localStorage.getItem("products")) || [];
-        let maxId = 0;
-        products.forEach((p) => {
-          const num = parseInt(p.id.replace("p", ""), 10);
-          if (!isNaN(num) && num > maxId) maxId = num;
-        });
-        const newNum = maxId + 1;
-        return "p" + newNum.toString().padStart(3, "0");
+        const products = readLS("products", []);
+        let maxNum = 0;
+
+        for (const p of products) {
+          if (!p?.id) continue;
+          const m = /^p(\d+)$/.exec(p.id);
+          if (m) {
+            const n = parseInt(m[1], 10);
+            if (!Number.isNaN(n) && n > maxNum) maxNum = n;
+          }
+        }
+        const next = maxNum + 1;
+        return "p" + String(next).padStart(3, "0");
+      }
+
+      // Normalize image value:
+      // - If it starts with http(s) or a slash or contains '/', keep as-is.
+      // - If it's just a filename, we'll store it as filename and renderers can prefix with assets/.
+      function normalizeImageInput(raw) {
+        const val = raw.trim();
+        if (!val) return "";
+        if (/^https?:\/\//i.test(val)) return val; // full URL
+        if (val.startsWith("/") || val.includes("/")) return val; // relative path given
+        return val; // filename only; renderers should handle prefix
       }
 
       document
@@ -99,7 +143,7 @@
         .addEventListener("submit", function (e) {
           e.preventDefault();
 
-          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+          const currentUser = readLS("currentUser", null);
           if (!currentUser || currentUser.role !== "seller") {
             alert("You must be logged in as a seller to add products.");
             return;
@@ -109,9 +153,13 @@
           const price = parseFloat(
             document.getElementById("productPrice").value
           );
-          const stock = parseInt(document.getElementById("productStock").value);
+          const stock = parseInt(
+            document.getElementById("productStock").value,
+            10
+          );
           const category = document.getElementById("productCategory").value;
-          const image = document.getElementById("productImage").value.trim();
+          const imageRaw = document.getElementById("productImage").value;
+          const img = normalizeImageInput(imageRaw);
 
           const newProduct = {
             id: generateNewProductId(),
@@ -119,26 +167,33 @@
             price,
             stock,
             category,
-            images: [image],
+            images: [img],
             sellerId: currentUser.id,
             currency: "EGP",
+            description: "", // optional
           };
 
-          let products = JSON.parse(localStorage.getItem("products")) || [];
+          // Save into products
+          const products = readLS("products", []);
           products.push(newProduct);
-          localStorage.setItem("products", JSON.stringify(products));
+          writeLS("products", products);
 
-          // also push to seller's products list
-          let users = JSON.parse(localStorage.getItem("users")) || [];
-          const sellerIndex = users.findIndex((u) => u.id === currentUser.id);
-          if (sellerIndex !== -1) {
-            users[sellerIndex].products = users[sellerIndex].products || [];
-            users[sellerIndex].products.push(newProduct.id);
-            localStorage.setItem("users", JSON.stringify(users));
+          // Also add the product id to the seller's record
+          const users = readLS("users", []);
+          const idx = users.findIndex((u) => u.id === currentUser.id);
+          if (idx !== -1) {
+            users[idx].products = users[idx].products || [];
+            if (!users[idx].products.includes(newProduct.id)) {
+              users[idx].products.push(newProduct.id);
+            }
+            writeLS("users", users);
           }
 
-          document.getElementById("message").textContent =
-            "✅ Product added successfully!";
+          const msg = document.getElementById("message");
+          msg.classList.remove("text-danger");
+          msg.classList.add("text-success");
+          msg.textContent = `✅ Product ${newProduct.id} added successfully!`;
+          window.location.href = "sellerproducts.html";
           this.reset();
         });
     </script>
