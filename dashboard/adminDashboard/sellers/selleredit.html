@@ -1,142 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Seller</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Seller</title>
 
-    <!-- Sidebar CSS -->
-    <link rel="stylesheet" href="../sidebar/sidebar.css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" 
+        rel="stylesheet" crossorigin="anonymous" />
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" 
-          rel="stylesheet" crossorigin="anonymous" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f6f2e7;
+      font-family: 'Inter', sans-serif;
+    }
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    .modal-content {
+      border: 2.5px solid #a0804d;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #fffefa, #f0eddd);
+    }
 
-    <!-- Iconify -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/3.1.1/iconify.min.js" crossorigin="anonymous"></script>
+    #editSellerForm input {
+      width: 100%;
+      border-radius: 13px;
+      border: 1.5px solid #a0804d33;
+      padding: 16px 20px;
+      font-size: 1.13em;
+      background: #fff;
+      color: #5a4828;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
 
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: #f6f2e7;
-      }
-      .modal-dialog {
-        width: 100vw !important;
-        max-width: 100vw;
-        margin: 0;
-      }
-      .modal-content {
-        width: 100vw;
-        min-height: 100vh;
-        border: 2.5px solid #a0804d;
-        background: linear-gradient(135deg, #fffefa, #f0eddd);
-        display: flex;
-        flex-direction: column;
-      }
-      .modal-header {
-        border: none;
-        padding-left: 2rem;
-      }
-      .modal-title {
-        color: #a0804d;
-        font-weight: 700;
-        font-size: 2.4rem;
-        text-transform: uppercase;
-        padding-top: 15px;
-      }
-      .modal-body {
-        padding: 2rem;
-        width: 100%;
-      }
-      #editSellerForm {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        min-height: 70vh;
-      }
-      #editSellerForm input {
-        width: 100%;
-        border-radius: 13px;
-        border: 1.5px solid #a0804d33;
-        padding: 16px 20px;
-        font-size: 1.13em;
-        background: #fff;
-        color: #5a4828;
-        font-weight: 600;
-      }
-      #editSellerForm input:focus {
-        border-color: #a0804d;
-        box-shadow: 0 0 8px #a0804dcc;
-        outline: none;
-      }
+    #editSellerForm input:focus {
+      border-color: #a0804d;
+      box-shadow: 0 0 8px #a0804dcc;
+      outline: none;
+    }
+
+    .btn-cancel,
+    .btn-save {
+      flex: 1 1 45%;
+      background: #fff;
+      border: 2px solid #a0804d;
+      color: #a0804d;
+      font-weight: 700;
+      border-radius: 13px;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-cancel:hover {
+      background: #e94545;
+      color: #fff;
+    }
+
+    .btn-save:hover {
+      background: #a0804d;
+      color: #fff;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 576px) {
       .form-actions {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: flex-end;
-        padding-top: 2rem;
+        flex-direction: column;
       }
       .btn-cancel,
       .btn-save {
-        flex: 1;
-        background: #fff;
-        border: 2px solid #a0804d;
-        color: #a0804d;
-        font-weight: 700;
-        border-radius: 13px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        cursor: pointer;
+        flex: 1 1 100%;
       }
-      .btn-cancel:hover {
-        background: #e94545;
-        color: #fff;
-      }
-      .btn-save:hover {
-        background: #a0804d;
-        color: #fff;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Sidebar -->
-    <div id="sideBar"></div>
+    }
+  </style>
+</head>
+<body>
 
-    <!-- Modal -->
-    <div class="modal fade show" id="editSellerModal" tabindex="-1" aria-modal="true" style="display:block;">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Seller</h5>
-          </div>
-          <div class="modal-body">
-            <form id="editSellerForm">
-              <input type="text" id="sellerName" name="name" placeholder="Name" required />
-              <input type="email" id="sellerEmail" name="email" placeholder="Email" required />
-              <input type="password" id="sellerPassword" name="password" placeholder="Password (min 6 characters)" minlength="6" required />
-              <input type="text" id="sellerStore" name="store" placeholder="Store Name" required />
+  <!-- Sidebar -->
+  <div id="sideBar"></div>
 
-              <div class="form-actions">
-                <button type="button" class="btn-cancel" onclick="window.location.href='users.html'">Cancel</button>
-                <button type="submit" class="btn-save">Save</button>
-              </div>
-            </form>
-          </div>
+  <!-- Modal trigger button (يمكنك إخفاؤه إذا تريد فتح modal مباشرة بالـ JS) -->
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editSellerModal">Edit Seller</button> -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="editSellerModal" tabindex="-1" aria-labelledby="editSellerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4">
+        <div class="modal-header border-0">
+          <h5 class="modal-title text-uppercase" id="editSellerLabel" style="color:#a0804d; font-weight:700;">Edit Seller</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editSellerForm">
+            <input type="text" id="sellerName" name="name" placeholder="Name" required />
+            <input type="email" id="sellerEmail" name="email" placeholder="Email" required />
+            <input type="password" id="sellerPassword" name="password" placeholder="Password (min 6 characters)" minlength="6" required />
+            <input type="text" id="sellerStore" name="store" placeholder="Store Name" required />
+
+            <div class="form-actions mt-3">
+              <button type="button" class="btn-cancel" onclick="window.location.href='sellers.html'" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn-save">Save</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-    <!-- Page script -->
-    <script src="selleredit.js"></script>
-  </body>
+  <!-- Page script -->
+  <script src="selleredit.js"></script>
+
+  <script>
+    // فتح الـ modal تلقائيًا عند تحميل الصفحة
+    var myModal = new bootstrap.Modal(document.getElementById('editSellerModal'), {
+      backdrop: 'static', 
+      keyboard: false     
+    });
+    myModal.show();
+  </script>
+</body>
 </html>

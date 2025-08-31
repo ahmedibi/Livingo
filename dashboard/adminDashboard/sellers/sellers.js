@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
       script.src = "../sidebar/sidebar.js";
       document.body.appendChild(script);
       
+      const style = document.createElement("link");
+      style.href = "../sidebar/sidebar.css";
+      style.rel="stylesheet"
+      document.head.appendChild(style);
       // إضافة Font Awesome للايكونات
       const fontAwesome = document.createElement("link");
       fontAwesome.rel = "stylesheet";
@@ -208,7 +212,7 @@ document.querySelectorAll(".edit-btn").forEach((btn) => {
     const statsDiv = document.createElement("div");
     statsDiv.innerHTML = `
       <div style="background: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; display: inline-block;">
-        <span style="color: #666;"> Total Customers: </span>
+        <span style="color: #666;"> Total Sellers: </span>
         <span class="stats-count" style="color: #a0804d; font-weight: bold; font-size: 1.2em;">${sellers.length}</span>
       </div>
     `;
