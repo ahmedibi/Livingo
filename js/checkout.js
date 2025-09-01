@@ -229,6 +229,7 @@ function validateForm() {
 }
 
 // Place order function
+// Place order function
 function placeOrder(e) {
   e.preventDefault();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -253,10 +254,21 @@ function placeOrder(e) {
 
   cart = currentUser.cart || [];
   if(cart.length === 0){ alert('Your cart is empty!'); return; }
+  
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+  for (let item of cart) {
+    let prod = products.find(p => p.id === item.id);
+    if (prod && prod.stock < item.quantity) {
+      alert(`  the quantity that you want of  "${prod.name}" not available now  : ${prod.stock}`);
+      return; 
+    }
+  }
 
+  // لو كل حاجة تمام يكمل
   if(bankPayment) new bootstrap.Modal(document.getElementById('bankPaymentModal')).show();
   else if(cashPayment) new bootstrap.Modal(document.getElementById('cashPaymentModal')).show();
 }
+
 
 // Confirm payment functions
 function confirmPayment() { processPayment("Bank"); }
@@ -287,6 +299,7 @@ function processPayment(method){
 }
 
 // Save order function
+// Save order function
 function saveOrder(paymentMethod) {
   const name = nameInput.value.trim();
   const company = companyInput.value.trim();
@@ -308,7 +321,23 @@ function saveOrder(paymentMethod) {
   };
   orders.push(newOrder);
   localStorage.setItem("orders", JSON.stringify(orders));
+
+  // ------------------- تحديث المخزون -------------------
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+  cart.forEach(cartItem => {
+    products = products.map(prod => {
+      if (prod.id === cartItem.id) {
+        return {
+          ...prod,
+          stock: Math.max(0, prod.stock - cartItem.quantity) // تقليل المخزون
+        };
+      }
+      return prod;
+    });
+  });
+  localStorage.setItem("products", JSON.stringify(products));
 }
+
 
 // Update cart if it changes
 window.addEventListener('storage', function(e) {
