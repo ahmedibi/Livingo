@@ -18,171 +18,301 @@
     />
 
     <style>
-      body {
-        display: flex;
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-      .sidebar {
-        width: 250px;
+    /* Global */
+html,
+body {
+    background: #f6f2e7;
+    font-family: "Inter", Arial, sans-serif;
+    margin: 0;
+    display: flex;
+}
+
+#edit {
+    border-color: #ba6931 !important;
+}
+
+main {
+    transition: all 0.3s ease;
+}
+
+.custom-table thead th {
+    background: #000000;
+    color: #f1e1b7;
+    font-size: 1.08em;
+    font-weight: 700;
+    padding: 20px 15px;
+    border: none;
+    letter-spacing: 0.03em;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-section {
+    padding: 0px 0px 0 25px;
+}
+
+.header-section h1 {
+    color: #a0804d;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    margin-top: 15px !important;
+}
+
+
+.table-responsive {
+    margin: 0;
+    background: transparent;
+    border-radius: 19px;
+
+
+}
+
+
+.sidebar {
+    width: 250px;
+    background: #f0f0f0;
+    color: black;
+    height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+
+}
+
+#sidebar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #40372e;
+    padding: 20px;
+}
+
+#sidebar .logo .cushion-o {
+    color: #a0804d;
+    font-size: 2.5rem;
+    margin-left: 5px;
+}
+
+#sidebar a {
+    gap: 12px;
+    text-decoration: none;
+    color: black;
+    padding: 7px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.sidebar p {
+    margin-left: 35px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+
+}
+
+.sidebar ul li {
+    margin-left: 15px;
+    margin-top: 30px;
+    padding-top: 5px;
+    padding-left: 10px;
+
+}
+
+.sidebar ul li:hover {
+    border-style: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+    background-color: #A0804D;
+}
+
+.sidebar ul li.active {
+    background-color: #A0804D;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+}
+
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    margin-bottom: 20px;
+
+}
+
+.sidebar ul li a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar img {
+    width: 100px;
+    border-radius: 50%;
+    margin-left: 35px;
+    margin-bottom: 10px;
+}
+
+i {
+    margin-right: 20px;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    width: 82vw !important;
+}
+
+.orders-section {
+    margin-top: 20px;
+}
+
+/* sidemenu Button  */
+.sidemenu {
+    display: none;
+    font-size: 20px;
+    background: #333333;
+    color: #ffffff;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: fixed;
+    top: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+
+    cursor: pointer;
+}
+
+.btn-close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+
+}
+
+.edit {
+    background-color: #af995d;
+    border: none;
+    color: black;
+}
+
+.edit:hover {
+    background-color: #d2b667 !important;
+    color: black;
+    box-shadow: 2px 2px 2px gray !important;
+    transform: scale(1.02);
+}
+
+.delete {
+    background-color: black;
+    border: none;
+    color: #af995d;
+    transition: all .09s;
+}
+
+.delete:hover {
+    box-shadow: 2px 2px 2px gray;
+    background-color: rgb(39, 38, 39);
+    color: rgb(239, 213, 178);
+    transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidemenu {
+        display: block;
+    }
+
+    .btn-close {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+        padding-top: 60px;
+        width: 100vw !important;
+    }
+}
+
+
+@media (min-width: 769px) and (max-width:1300px) {
+    .content {
+        margin-left: 110px;
+        padding-top: 60px;
+        width: 85% !important;
+    }
+
+    .livingo-icon {
+        width: 100px !important;
+        margin-right: .2rem;
+    }
+
+    .sidebar {
+        width: 100px;
         background: #f0f0f0;
         color: black;
         height: 100vh;
-        padding: 20px;
+
         position: fixed;
         top: 0;
         left: 0;
         transition: transform 0.3s ease;
         z-index: 1000;
-      }
-      #sidebar .logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 2rem;
-        text-decoration: none;
-        font-size: 24px;
-        font-weight: bold;
-        color: #40372e;
-      }
 
-      #sidebar .logo .cushion-o {
-        color: #a0804d;
-        font-size: 28px;
-        margin-left: 5px;
-      }
+    }
 
-      #sidebar a {
-        gap: 12px;
-        text-decoration: none;
-        color: black;
-        padding: 7px;
-        border-radius: 8px;
-        transition: all 0.3s;
-      }
-      .sidebar p {
-        margin-left: 35px;
-      }
+    span {
+        display: none;
+    }
 
-      header {
-        margin-bottom: 20px;
-      }
-
-      .sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin-top: 15px;
-      }
-
-      .sidebar ul li {
-        margin-left: 15px;
-        margin-top: 10px;
-        padding-top: 5px;
-        padding-left: 10px;
-      }
-
-      .sidebar ul li:hover {
+    .sidebar ul li:hover {
         border-style: none;
         border-radius: 10px;
-        width: 200px;
+        width: 70px;
         height: 40px;
-        background-color: #a0804d;
-      }
+        background-color: #A0804D;
+    }
 
-      .sidebar ul li.active {
-        background-color: #a0804d;
-        border-radius: 10px;
-        width: 200px;
-        height: 40px;
-      }
+    .sidebar ul li.active {
+        width: 70%;
+    }
 
-      .sidebar ul li.active a {
-        color: white;
-        font-weight: bold;
-      }
-
-      .sidebar ul li a {
-        color: rgb(0, 0, 0);
-        text-decoration: none;
-        margin-bottom: 20px;
-      }
-
-      .sidebar ul li a:hover {
-        color: rgb(255, 255, 255);
-      }
-
-      .sidebar ul li.active a {
-        color: white;
-        font-weight: bold;
-      }
-
-      .sidebar img {
-        width: 100px;
-        border-radius: 50%;
-        margin-left: 35px;
-        margin-bottom: 10px;
-      }
-
-      i {
-        margin-right: 10px;
-      }
-
-      .content {
-        margin-left: 250px;
-        padding: 20px;
-        width: 100%;
-      }
-
-      .orders-section {
-        margin-top: 20px;
-      }
-
-      /* sidemenu Button  */
-      .sidemenu {
-        display: none;
-        font-size: 20px;
-        background: #333333;
-        color: #ffffff;
-        padding: 5px 10px;
-        cursor: pointer;
-        position: fixed;
-        top: 5px;
-        border-radius: 5px;
-        margin-left: 10px;
-
-        cursor: pointer;
-      }
-
-      .btn-close {
-        display: none;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        border: none;
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .sidemenu {
-          display: block;
-        }
-        .btn-close {
-          display: block;
-        }
-
-        .sidebar {
-          transform: translateX(-100%);
-        }
-
-        .sidebar.active {
-          transform: translateX(0);
-        }
-
-        .content {
-          margin-left: 0;
-          padding-top: 60px;
-        }
-      }
+}
 
       .table img {
         width: 40px;
@@ -229,12 +359,44 @@
         </svg>
         <span class="livingo-word">Living<span class="cushion-o">o</span></span>
       </a>
-      <ul>
-        <li><a href="../index/index.html">🏠 Dashboard</a></li>
-        <li><a href="../products/products.html">🧴 Products</a></li>
-        <li class="active"><a href="orders.html">📦 Orders</a></li>
-        <li><a id="logOut">🔓 Logout</a></li>
-      </ul>
+        <ul >
+            <li >
+                <a href="../index/index.html" >
+                    <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z" />
+                    </svg>
+                    <span style="margin-left: 10px;">Dashboard</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#">
+                  
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#000" d="M5 21q-.425 0-.712-.288T4 20v-1q-1.25 0-2.125-.875T1 16v-5q0-.825.588-1.412T3 9t1.413.588T5 11v4h14v-4q0-.825.588-1.412T21 9t1.413.588T23 11v5q0 1.25-.875 2.125T20 19v1q0 .425-.288.713T19 21t-.712-.288T18 20v-1H6v1q0 .425-.288.713T5 21m2-8v-2q0-1.375-.837-2.463T4 7V6q0-1.25.875-2.125T7 3h10q1.25 0 2.125.875T20 6v1q-1.35.35-2.175 1.463T17 11v2z"/></svg>
+                    <span style="margin-left: 10px;">Products</span>
+                </a>
+            </li>
+            <li>
+                <a href="../orders/orders.html">
+                      <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+                    <span style="margin-left: 10px;">Orders</span>
+                </a>
+            </li>
+            <li>
+                <a id="logOut">
+                    <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                        <path fill-rule="evenodd"
+                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                    </svg>
+                    <span style="margin-left: 10px;">Logout</sp>
+                </a>
+            </li>
+        </ul>
     </aside>
     <!-- Main Content -->
     <main class="content">
@@ -332,16 +494,25 @@
       }
 
       document.addEventListener("DOMContentLoaded", renderSellerProducts);
-
-      function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("active");
-      }
+      
       function setActiveMenuItem(clickedElement) {
-        document.querySelectorAll(".sidebar ul li").forEach((li) => {
-          li.classList.remove("active");
-        });
-        clickedElement.parentElement.classList.add("active");
-      }
+         document.querySelectorAll('.sidebar ul li').forEach(li => {
+           li.classList.remove('active');
+         });
+         clickedElement.parentElement.classList.add('active');
+       }
+       
+       function toggleSidebar() {
+         document.getElementById("sidebar").classList.toggle("active");
+       }
+       
+       
+       const logout = document.getElementById("logOut")
+       logout.addEventListener("click", function () {
+         localStorage.removeItem("currentUser");
+         alert("You have been logged out.");
+         window.location.href = "../../../sign/login/login.html";
+       })
     </script>
   </body>
 </html>
