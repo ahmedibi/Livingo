@@ -1,7 +1,9 @@
 /* Global */
+html,
 body {
+    background: #f6f2e7;
+    font-family: "Inter", Arial, sans-serif;
     margin: 0;
-    font-family: Arial, sans-serif;
     display: flex;
 }
 
@@ -11,12 +13,13 @@ body {
     background: #f0f0f0;
     color: black;
     height: 100vh;
-    padding: 20px;
+
     position: fixed;
     top: 0;
     left: 0;
     transition: transform 0.3s ease;
     z-index: 1000;
+
 }
 
 #sidebar .logo {
@@ -25,14 +28,15 @@ body {
     gap: 10px;
     margin-bottom: 2rem;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 2rem;
     font-weight: bold;
     color: #40372e;
+    padding: 20px;
 }
 
 #sidebar .logo .cushion-o {
     color: #a0804d;
-    font-size: 28px;
+    font-size: 2.5rem;
     margin-left: 5px;
 }
 
@@ -49,39 +53,62 @@ body {
     margin-left: 35px;
 }
 
+header {
+    margin-bottom: 20px;
+}
+
 .sidebar ul {
     list-style: none;
     padding: 0;
     margin-top: 15px;
+
 }
 
 .sidebar ul li {
     margin-left: 15px;
-    margin-top: 10px;
-    padding: 5px 0 0 10px;
+    margin-top: 30px;
+    padding-top: 5px;
+    padding-left: 10px;
+
+}
+
+.currency {
+    font-size: 0.8em;
+    margin-right: 4px;
+    color: #666;
 }
 
 .sidebar ul li:hover {
+    border-style: none;
     border-radius: 10px;
     width: 200px;
     height: 40px;
-    background-color: #a0804d;
+    background-color: #A0804D;
 }
 
 .sidebar ul li.active {
-    background-color: #a0804d;
+    background-color: #A0804D;
     border-radius: 10px;
     width: 200px;
     height: 40px;
 }
 
-.sidebar ul li a {
-    color: black;
-    text-decoration: none;
-    margin-bottom: 20px;
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
 }
 
-.sidebar ul li a:hover,
+.sidebar ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    margin-bottom: 20px;
+
+}
+
+.sidebar ul li a:hover {
+    color: rgb(255, 255, 255);
+}
+
 .sidebar ul li.active a {
     color: white;
     font-weight: bold;
@@ -90,18 +117,144 @@ body {
 .sidebar img {
     width: 100px;
     border-radius: 50%;
-    margin: 0 0 10px 35px;
+    margin-left: 35px;
+    margin-bottom: 10px;
 }
 
 i {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
-/* Content */
 .content {
-    margin-left: 290px !important;
+    margin-left: 250px;
     padding: 20px;
-    width: 80%;
+    width: 82vw !important;
+}
+
+.orders-section {
+    margin-top: 20px;
+}
+
+/* sidemenu Button  */
+.sidemenu {
+    display: none;
+    font-size: 20px;
+    background: #333333;
+    color: #ffffff;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: fixed;
+    top: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+
+    cursor: pointer;
+}
+
+.btn-close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+
+}
+
+.edit {
+    background-color: #af995d;
+    border: none;
+    color: black;
+}
+
+.edit:hover {
+    background-color: #d2b667 !important;
+    color: black;
+    box-shadow: 2px 2px 2px gray !important;
+    transform: scale(1.02);
+}
+
+.delete {
+    background-color: black;
+    border: none;
+    color: #af995d;
+    transition: all .09s;
+}
+
+.delete:hover {
+    box-shadow: 2px 2px 2px gray;
+    background-color: rgb(39, 38, 39);
+    color: rgb(239, 213, 178);
+    transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidemenu {
+        display: block;
+    }
+
+    .btn-close {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+        padding-top: 60px;
+        width: 100vw !important;
+    }
+}
+
+
+@media (min-width: 769px) and (max-width:1300px) {
+    .content {
+        margin-left: 110px;
+        padding-top: 60px;
+        width: 85% !important;
+    }
+
+    .livingo-icon {
+        width: 100px !important;
+        margin-right: .2rem;
+    }
+
+    .sidebar {
+        width: 100px;
+        background: #f0f0f0;
+        color: black;
+        height: 100vh;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease;
+        z-index: 1000;
+
+    }
+
+    span {
+        display: none;
+    }
+
+    .sidebar ul li:hover {
+        border-style: none;
+        border-radius: 10px;
+        width: 70px;
+        height: 40px;
+        background-color: #A0804D;
+    }
+
+    .sidebar ul li.active {
+        width: 70%;
+    }
+
 }
 
 /* Canvas (Charts) */

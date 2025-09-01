@@ -348,7 +348,8 @@
 
         <!-- Main Content -->
         <main class="flex-grow-1 p-3">
-            <h1 class="text-center">User Information</h1>
+            <h1 style="color: #a0804d;"><i class="fa-solid fa-circle-info" style="color: #b69d6f;"></i>User Information
+            </h1>
 
 
 
@@ -452,20 +453,49 @@
         });
 
         // عرض الطلبات (لو فيه)
+        //     const orderTable = document.getElementById("orderHistory");
+        //     if (user.orders && user.orders.length > 0) {
+        //         orderTable.innerHTML = "";
+        //         user.orders.forEach((order, i) => {
+        //             let tr = document.createElement("tr");
+        //             tr.innerHTML = `
+        //   <td>${i + 1}</td>
+        //   <td>${order}</td>
+        //   <td>2024-05-01</td>
+        //   <td>Completed</td>
+        //   <td>$100</td>
+        // `;
+        //             orderTable.appendChild(tr);
+        //         });
+        //     }
+
+
+        // عرض الطلبات من localStorage
         const orderTable = document.getElementById("orderHistory");
-        if (user.orders && user.orders.length > 0) {
+        let allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+        // فلترة الطلبات الخاصة بالـ user
+        let userOrders = allOrders.filter(o => o.customer.id === selectedId);
+
+        if (userOrders.length > 0) {
             orderTable.innerHTML = "";
-            user.orders.forEach((order, i) => {
+            userOrders.forEach((order, i) => {
                 let tr = document.createElement("tr");
                 tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${order}</td>
-      <td>2024-05-01</td>
-      <td>Completed</td>
-      <td>$100</td>
-    `;
+          <td>${i + 1}</td>
+          <td>${order.id}</td>
+          <td>${order.date}</td>
+          <td>${order.status}</td>
+          <td>${order.paymentMethod}</td>
+        `;
                 orderTable.appendChild(tr);
             });
+        } else {
+            orderTable.innerHTML = `
+      <tr>
+        <td colspan="5" class="text-center">No orders found</td>
+      </tr>
+    `;
         }
 
         function toggleSidebar() {

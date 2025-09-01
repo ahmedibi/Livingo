@@ -260,7 +260,7 @@
           </h5>
           <div class="d-flex justify-content-between">
             <span>Subtotal:</span>
-            <strong>$<span id="subtotal">0.00</span></strong>
+             <strong> <span id="subtotal">0.00</span> <small>EGP</small> </strong>
           </div>
           <div class="d-flex justify-content-between">
             <span>Shipping:</span>
@@ -268,8 +268,8 @@
           </div>
           <hr />
           <div class="d-flex justify-content-between fs-5">
-            <span>Total:</span>
-            <strong>$<span id="total">0.00</span></strong>
+            <span class="fw-bold">Total:</span>
+              <strong><span id="total" class="fw-bold">0.00</span> <span class="small fw-bold fs-6">EGP</span></strong>
           </div>
           <button class="btn border border-0 w-100 mt-3" style="background: #a0804d;color:#fff"
             onclick="goToCheckout()">
@@ -340,18 +340,16 @@ function updateQty(id, qty) {
 function changeQuantity(id, newQty) {
   let cart = loadCart();
   const index = cart.findIndex((p) => p.id === id);
+
   if (index !== -1) {
-    const product = products.find(p => String(p.id) === String(id));
-    if (product && newQty > product.stock) {
-      alert(`⚠ Only ${product.stock} items available in stock!`);
-      newQty = product.stock;
+    newQty = parseInt(newQty);
+
+    if (isNaN(newQty) || newQty < 1) {
+      newQty = 1; // ممنوع أقل من 1
     }
 
-    if (newQty <= 0) {
-      cart.splice(index, 1);
-    } else {
-      cart[index].quantity = newQty;
-    }
+    cart[index].quantity = newQty;
+
     saveCart(cart);
     renderCart();
     updateCartCount();
@@ -425,7 +423,7 @@ function renderCart() {
               <small class="text-muted" style="color:black">Product ID: ${item.id}</small>
             </div>
           </td>
-          <td><strong class="text-danger">$${item.price.toFixed(2)}</strong></td>
+          <td><strong class="text-danger">${item.price.toFixed(2)} EGP</strong></td>
           <td>
             <div class="d-flex justify-content-center align-items-center">
               <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity - 1})">-</button>
@@ -435,7 +433,7 @@ function renderCart() {
               <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity('${item.id}', ${item.quantity + 1})">+</button>
             </div>
           </td>
-          <td><strong style="color:black">$${itemSubtotal.toFixed(2)}</strong></td>
+          <td><strong style="color:black">${itemSubtotal.toFixed(2)} EGP</strong></td>
           <td><button class="remove-btn" onclick="removeItem('${item.id}')"><i class="fa-solid fa-trash" style="font-size:16px"></i></button></td>
         </tr>
       `;

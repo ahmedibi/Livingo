@@ -164,6 +164,7 @@
   }
 }
 
+/* ///////////////////////////////////////////////////////////////// */
 /* Full page overlay to cover all content initially */
 #loading-overlay {
   position: fixed;

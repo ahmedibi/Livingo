@@ -540,11 +540,14 @@
     }
 
     function deleteProduct(productId) {
-      let products = JSON.parse(localStorage.getItem("products")) || [];
-      products = products.filter((p) => p.id !== productId);
-      localStorage.setItem("products", JSON.stringify(products));
-      applyFilters();
-    }
+    if (confirm("Are you sure you want to delete this product?")) {
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    products = products.filter((p) => p.id !== productId);
+    localStorage.setItem("products", JSON.stringify(products));
+    applyFilters(); // refresh the table after delete
+  }
+}
+
 
     function editProduct(productId) {
       window.location.href = `editproduct.html?id=${productId}`;
