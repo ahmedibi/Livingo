@@ -7,50 +7,7 @@ body {
     display: flex;
 }
 
-#edit {
-    border-color: #ba6931 !important;
-}
-
-main {
-    transition: all 0.3s ease;
-}
-
-.custom-table thead th {
-    background: #000000;
-    color: #f1e1b7;
-    font-size: 1.08em;
-    font-weight: 700;
-    padding: 20px 15px;
-    border: none;
-    letter-spacing: 0.03em;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.header-section {
-    padding: 0px 0px 0 25px;
-}
-
-.header-section h1 {
-    color: #a0804d;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    font-size: 2.4rem;
-    margin-bottom: 20px;
-    margin-top: 15px !important;
-}
-
-
-.table-responsive {
-    margin: 0;
-    background: transparent;
-    border-radius: 19px;
-
-
-}
-
-
+/* Sidebar */
 .sidebar {
     width: 250px;
     background: #f0f0f0;
