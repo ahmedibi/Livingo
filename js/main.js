@@ -349,6 +349,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+/////////////////////////////////shop now//////////////////////////////////////////////
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const shopLinks = [
+      { id: "shopnow1", productId: "p015" }, 
+      { id: "shopnow2", productId: "p031" }, 
+      { id: "shopnow3", productId: "p035" }, 
+      { id: "shopnow4", productId: "p001" }  
+    ];
+
+    shopLinks.forEach(shop => {
+      const element = document.getElementById(shop.id);
+      if (element) {
+        element.innerHTML = `
+          <a href="./product.html?id=${shop.productId}" 
+             class="btn btn-outline-light rounded-pill px-4 align-self-start">
+            Shop Now
+          </a>`;
+      }
+    });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 window.addEventListener("load", () => {
   const overlay = document.getElementById("loading-overlay");
