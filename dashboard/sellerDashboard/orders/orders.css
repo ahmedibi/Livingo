@@ -213,14 +213,14 @@ i {
 .delete {
     background-color: black;
     border: none;
-    color: #af995d;
+    color: #af995d !important;
     transition: all .09s;
 }
 
 .delete:hover {
     box-shadow: 2px 2px 2px gray;
     background-color: rgb(39, 38, 39);
-    color: rgb(239, 213, 178);
+    color: rgb(239, 213, 178) !important;
     transform: scale(1.02);
 }
 
@@ -293,33 +293,34 @@ i {
     }
 
 }
-.orders-section{
+
+.orders-section {
     margin-top: 20px;
 }
 
 /* sidemenu Button  */
 .sidemenu {
     display: none;
-    font-size:20px;
-    background: #333333; 
+    font-size: 20px;
+    background: #333333;
     color: #ffffff;
-    padding: 5px 10px;   
+    padding: 5px 10px;
     cursor: pointer;
-     position: fixed; 
-     top: 5px; 
-     border-radius: 5px;
-     margin-left: 10px;
-     
+    position: fixed;
+    top: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+
     cursor: pointer;
 }
 
-.btn-close{
-     display: none;     
-     position: absolute;
-     top: 10px;
-     right: 10px;
-     border: none;
-    
+.btn-close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+
 }
 
 /* Responsive */
@@ -327,7 +328,8 @@ i {
     .sidemenu {
         display: block;
     }
-     .btn-close {
+
+    .btn-close {
         display: block;
     }
 
@@ -344,4 +346,3 @@ i {
         padding-top: 60px;
     }
 }
-
