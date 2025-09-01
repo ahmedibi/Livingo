@@ -211,6 +211,10 @@
        padding-top: 60px;
        width: 100% !important;
      }
+     .fromjs{
+      width: 70% !important;
+     }
+     
    }
 
    @media (min-width: 769px) and (max-width:1300px) {
@@ -253,6 +257,10 @@
 
      .sidebar ul li.active {
        display: none;
+     }
+
+     .fromjs{
+      width: 30% !important;
      }
 
    }
