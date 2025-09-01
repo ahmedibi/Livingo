@@ -1,118 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Livingo</title>
-    <script src="../../js/components.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    .title {
+      font-size: 30px;
+      color: #a0804d !important;
+      position: relative;
+    }
 
+    .title::before {
+      position: absolute;
+      content: "";
+      top: 1px;
+      left: -25px;
+      height: 35px;
+      width: 18px;
+      background: #a0804d;
+      border-radius: 5px;
+    }
+
+    .savebutton {
+      background-color: #a0804d !important;
+    }
+
+    .savebutton:hover {
+      background-color: #cf9a61 !important;
+      box-shadow: 2px 2px 2px black;
+      scale: 1.04;
+      transition: 0.3s;
+    }
+  </style>
 </head>
+
 <body>
-   <div id="navbar"></div>
-   <div class="container my-5 vh-100">
-        <h1 class="mb-4" style="color: #a0804d">My Account</h1>
-        <form id="accountForm">
-             <label for="name" class="form-label text-secondary mb-0 small">Name</label>
-             <input type="text" class="form-control bg-black bg-opacity-10 mb-2" id="name" >
-             <p class="small text-danger" id="nameError"></p>
+  <div id="navbar"></div>
+  <div class="container my-5 vh-100">
+    <h1 class="mb-4 title">My Account</h1>
+    <form id="accountForm">
+      <label for="name" class="form-label text-secondary mb-0 small">Name</label>
+      <input type="text" class="form-control bg-black bg-opacity-10 mb-2" id="name">
+      <p class="small text-danger" id="nameError"></p>
 
-             <label for="currentPassword" class="form-label text-secondary mb-0 small">Current Password</label>
-             <input type="password" class="form-control bg-black bg-opacity-10 mb-2" id="currentPassword" >
-             <p class="small text-danger" id="currentPasswordError"></p>
+      <label for="currentPassword" class="form-label text-secondary mb-0 small">Current Password</label>
+      <input type="password" class="form-control bg-black bg-opacity-10 mb-2" id="currentPassword">
+      <p class="small text-danger" id="currentPasswordError"></p>
 
-             <label for="newPassword" class="form-label text-secondary mb-0 small">New Password</label>
-             <input type="password" class="form-control bg-black bg-opacity-10 mb-2" id="newPassword" >
-             <p class="small text-danger" id="newPasswordError"></p>
+      <label for="newPassword" class="form-label text-secondary mb-0 small">New Password</label>
+      <input type="password" class="form-control bg-black bg-opacity-10 mb-2" id="newPassword">
+      <p class="small text-danger" id="newPasswordError"></p>
 
-             <label for="confirmPassword" class="form-label text-secondary mb-0 small">Confirm Password</label>
-             <input type="password" class="form-control bg-black bg-opacity-10 mb-2" id="confirmPassword" >
-             <p class="small text-danger" id="confirmPasswordError"></p>
+      <label for="confirmPassword" class="form-label text-secondary mb-0 small">Confirm Password</label>
+      <input type="password" class="form-control bg-black bg-opacity-10 mb-2" id="confirmPassword">
+      <p class="small text-danger" id="confirmPasswordError"></p>
 
-             <label for="inputEmail" class="form-label text-secondary mb-0 small">Email address</label>
-             <input type="email" class="form-control bg-black bg-opacity-10" id="inputEmail" >
-             <p class="small text-danger" id="emailError"></p>
+      <label for="inputEmail" class="form-label text-secondary mb-0 small">Email address</label>
+      <input type="email" class="form-control bg-black bg-opacity-10" id="inputEmail">
+      <p class="small text-danger" id="emailError"></p>
 
-             <div class="form-check mb-4 mt-4 mt-lg-2">
-               <input class="form-check-input" type="checkbox" id="saveInfo">
-               <label class="form-check-label small text-secondary" for="saveInfo">Save this information for faster check-out next time</label>
-             </div>
+      <div class="form-check mb-4 mt-4 mt-lg-2">
+        <input class="form-check-input" type="checkbox" id="saveInfo">
+        <label class="form-check-label small text-secondary" for="saveInfo">Save this information for faster check-out
+          next time</label>
+      </div>
 
-             <button type="submit" class="btn text-white" style="background-color: #a0804d;">Save Changes</button>
-        </form>
-   </div>
-   <div id="footer"></div>
+      <button type="submit" class="btn text-white savebutton">Save Changes</button>
+    </form>
+  </div>
+  <div id="footer"></div>
 
   <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // load navbar + footer
-        fetch("../../partials/navbar.html")
-          .then(res => res.text())
-          .then(data => document.getElementById("navbar").innerHTML = data
-        
+    document.addEventListener("DOMContentLoaded", () => {
+      // load navbar + footer
+      fetch("../../partials/navbar.html")
+        .then(res => res.text())
+        .then(data => document.getElementById("navbar").innerHTML = data
+
         );
 
-        fetch("../../partials/footer.html")
-          .then(res => res.text())
-          .then(data => document.getElementById("footer").innerHTML = data);
+      fetch("../../partials/footer.html")
+        .then(res => res.text())
+        .then(data => document.getElementById("footer").innerHTML = data);
 
-        // ---------------- Load Current User ----------------
-        let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        let users = JSON.parse(localStorage.getItem("users")) || [];
+      // ---------------- Load Current User ----------------
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      let users = JSON.parse(localStorage.getItem("users")) || [];
 
-        if (currentUser) {
-          document.getElementById("name").value = currentUser.name || "";
-          document.getElementById("inputEmail").value = currentUser.email || "";
-        }
+      if (currentUser) {
+        document.getElementById("name").value = currentUser.name || "";
+        document.getElementById("inputEmail").value = currentUser.email || "";
+      }
 
-        // ---------------- Save Changes ----------------
-        document.getElementById("accountForm").addEventListener("submit", function(e){
-          e.preventDefault();
+      // ---------------- Save Changes ----------------
+      document.getElementById("accountForm").addEventListener("submit", function (e) {
+        e.preventDefault();
 
-          if(!currentUser) return alert("No current user found!");
+        if (!currentUser) return alert("No current user found!");
 
-          let name = document.getElementById("name").value.trim();
-          let email = document.getElementById("inputEmail").value.trim();
-          let currentPassword = document.getElementById("currentPassword").value.trim();
-          let newPassword = document.getElementById("newPassword").value.trim();
-          let confirmPassword = document.getElementById("confirmPassword").value.trim();
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("inputEmail").value.trim();
+        let currentPassword = document.getElementById("currentPassword").value.trim();
+        let newPassword = document.getElementById("newPassword").value.trim();
+        let confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-          // Check if current password matches before changing
-          if (newPassword) {
-            if (currentPassword !== currentUser.password) {
-              return alert("Current password is incorrect!");
-            }
-            if (newPassword !== confirmPassword) {
-              return alert("Passwords do not match!");
-            }
+        // Check if current password matches before changing
+        if (newPassword) {
+          if (currentPassword !== currentUser.password) {
+            return alert("Current password is incorrect!");
           }
-
-          // update fields
-          if(name) currentUser.name = name;
-          if(email) currentUser.email = email;
-          if(newPassword) currentUser.password = newPassword;
-
-          // update currentUser in localStorage
-          localStorage.setItem("currentUser", JSON.stringify(currentUser));
-
-          // update user in users array
-           users = users.map(user => {
-        if(user.id === currentUser.id){
-          return {
-            ...user, // نحافظ على باقي البيانات
-            name: currentUser.name,
-            email: currentUser.email,
-            password: currentUser.password
-          };
+          if (newPassword !== confirmPassword) {
+            return alert("Passwords do not match!");
+          }
         }
-        return user;
-      });
-      
-          localStorage.setItem("users", JSON.stringify(users));
 
-          alert("Profile updated successfully!");
+        // update fields
+        if (name) currentUser.name = name;
+        if (email) currentUser.email = email;
+        if (newPassword) currentUser.password = newPassword;
+
+        // update currentUser in localStorage
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+        // update user in users array
+        users = users.map(user => {
+          if (user.id === currentUser.id) {
+            return {
+              ...user, // نحافظ على باقي البيانات
+              name: currentUser.name,
+              email: currentUser.email,
+              password: currentUser.password
+            };
+          }
+          return user;
         });
-      })
+
+        localStorage.setItem("users", JSON.stringify(users));
+
+        alert("Profile updated successfully!");
+      });
+    })
   </script>
 </body>
+
 </html>
