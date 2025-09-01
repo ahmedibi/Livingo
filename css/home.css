@@ -164,50 +164,52 @@
   }
 }
 
+/* ////////////////////////////////////////////////////////////////////////// */
+
 /* Full page overlay to cover all content initially */
-#loading-overlay {
+/* #loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: #fff;
-  /* Use brand color if you like */
+  Use brand color if you like
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
   opacity: 1;
   transition: opacity 0.8s ease;
-}
+} */
 
 /* Loader container */
-.loader {
+/* .loader {
   display: flex;
   gap: 0.6rem;
 }
 
-/* Individual circles */
+Individual circles
 .circle {
   width: 16px;
   height: 16px;
   background-color: #a0804d;
-  /* Warm brand gold */
+  Warm brand gold
   border-radius: 50%;
   animation: bounce 1.2s infinite ease-in-out;
-}
+} */
 
 /* Stagger animation delay */
-.circle.delay1 {
+/* .circle.delay1 {
   animation-delay: 0.3s;
 }
 
 .circle.delay2 {
   animation-delay: 0.6s;
-}
+} */
 
 /* Bounce keyframes */
-@keyframes bounce {
+/* @keyframes bounce {
 
   0%,
   80%,
@@ -220,8 +222,8 @@
     transform: scale(1);
     opacity: 1;
   }
-}
-
+} */
+/* 
 .fade-item {
   opacity: 0;
   transform: translateY(30px);
@@ -229,32 +231,32 @@
   transition: opacity 0.7s ease-out, transform 0.7s ease-out,
     filter 0.7s ease-out;
   will-change: opacity, transform, filter;
-}
+} */
 
-.loaded .fade-item {
+/* .loaded .fade-item {
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
-}
+} */
 
 /* Stagger the appearance using nth-child or separate classes */
 
-.fade-item:nth-child(1) {
+/* .fade-item:nth-child(1) {
   transition-delay: 0.2s;
-}
+} */
 
-.fade-item:nth-child(2) {
+/* .fade-item:nth-child(2) {
   transition-delay: 0.45s;
-}
-
+} */
+/* 
 .fade-item:nth-child(3) {
   transition-delay: 0.7s;
-}
+} */
 
-.fade-item:nth-child(4) {
+/* .fade-item:nth-child(4) {
   transition-delay: 0.95s;
-}
+} */
 
-.fade-item:nth-child(5) {
+/* .fade-item:nth-child(5) {
   transition-delay: 1.2s;
-}
+} */
