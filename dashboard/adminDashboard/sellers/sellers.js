@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // إذا لم توجد بيانات، أنشئ بيانات تجريبية
     if (users.length === 0) {
-      
+
       alert("there is no sellers")
     }
-    
+
     return users;
   }
 
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderSellers(list) {
     sellersTable.innerHTML = "";
-    
+
     if (!Array.isArray(list) || list.length === 0) {
       sellersTable.innerHTML = `
         <tr>
@@ -56,18 +56,18 @@ document.addEventListener("DOMContentLoaded", () => {
         <td style="color: #a0804d; font-weight: 500;">${storeName || " "}</td>
         <td>
         
-            <button class="action-btn edit-btn" data-id="${id}" title="تعديل">
-              <i class="fa-solid fa-pen-to-square"></i>
+            <button class="action-btn1 btn btn-sm edit-btn" data-id="${id}" title="تعديل">
+              <i class="fa-solid fa-pen-to-square m-1"></i>
             </button>
         
-          <button class="action-btn delete-btn" data-id="${id}" title="حذف">
-            <i class="fa-solid fa-trash"></i>
+          <button class="action-btn2 btn btn-sm delete-btn" data-id="${id}" title="حذف">
+            <i class="fa-solid fa-trash m-1" m-1></i>
           </button>
         </td>
       `;
       sellersTable.appendChild(tr);
     });
-    
+
     attachEventListeners();
   }
 
@@ -77,12 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", (e) => {
         const id = e.currentTarget.dataset.id;
         const seller = sellers.find((s) => s.id === id);
-        
+
         if (!seller) {
           alert(" no seller found");
           return;
         }
-        
+
         if (confirm(`are you sure you want to delete "${seller.name}"`)) {
           // حذف من جميع المستخدمين
           users = users.filter((u) => u.id !== id);
@@ -90,45 +90,45 @@ document.addEventListener("DOMContentLoaded", () => {
           sellers = users.filter((u) => u.role === "seller");
           saveUsers();
           renderSellers(sellers);
-          
+
           // إظهار رسالة نجاح
           showToast(` "${seller.name}" deleted successfully`, "success");
         }
       });
     });
 
-document.querySelectorAll(".edit-btn").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const id = e.currentTarget.dataset.id;
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const id = e.currentTarget.dataset.id;
 
-    // خزّن الـ id في localStorage عشان نجيبه في صفحة التعديل
-    localStorage.setItem("editingUserId", id);
+        // خزّن الـ id في localStorage عشان نجيبه في صفحة التعديل
+        localStorage.setItem("editingUserId", id);
 
-    // وجّه لصفحة التعديل
-    window.location.href = "selleredit.html";
-  });
-});
+        // وجّه لصفحة التعديل
+        window.location.href = "selleredit.html";
+      });
+    });
   }
 
   // وظيفة البحث
   searchInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase().trim();
-    
+
     if (query === "") {
       renderSellers(sellers);
       return;
     }
-    
+
     const filtered = sellers.filter(({ name, email, storeName }) => {
       const searchFields = [
         name || "",
         email || "",
         storeName || ""
       ].map(field => field.toLowerCase());
-      
+
       return searchFields.some(field => field.includes(query));
     });
-    
+
     renderSellers(filtered);
   });
 
@@ -152,14 +152,14 @@ document.querySelectorAll(".edit-btn").forEach((btn) => {
       transition: transform 0.3s ease;
     `;
     toast.textContent = message;
-    
+
     document.body.appendChild(toast);
-    
+
     // إظهار التوست
     setTimeout(() => {
       toast.style.transform = "translateX(0)";
     }, 100);
-    
+
     // إخفاء التوست بعد 3 ثواني
     setTimeout(() => {
       toast.style.transform = "translateX(400px)";
@@ -198,13 +198,13 @@ document.querySelectorAll(".edit-btn").forEach((btn) => {
 
 
 function toggleSidebar() {
-   document.getElementById("sidebar").classList.toggle("active");
-  }
+  document.getElementById("sidebar").classList.toggle("active");
+}
 
 
-const logout= document.getElementById("logOut")
-  logout.addEventListener("click",function(){
-    localStorage.removeItem("currentUser"); 
-         alert("You have been logged out.");
-         window.location.href = "../../../sign/login/login.html"; 
-  })
+const logout = document.getElementById("logOut")
+logout.addEventListener("click", function () {
+  localStorage.removeItem("currentUser");
+  alert("You have been logged out.");
+  window.location.href = "../../../sign/login/login.html";
+})
