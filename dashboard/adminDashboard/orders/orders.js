@@ -1,15 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("../sidebar/sidebar.html")
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("sideBar").innerHTML = data; 
-       const script = document.createElement("script");
-      script.src = "../sidebar/sidebar.js";
-      document.body.appendChild(script);  
-    })
-    .catch(err => console.error("Error loading sidebar:", err));
-});
-
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 const tbody = document.getElementById("ordersTableBody");
@@ -140,36 +128,44 @@ function updateStatus(id, newStatus) {
  
 
  // Filters
- function applyFilters() {
-     let searchVal = searchInput.value.toLowerCase();
-     let statusVal = statusFilter.value;
-     let priceVal = parseInt(priceFilter.value);
+// Filters
+function applyFilters() {
+    let searchVal = searchInput.value.toLowerCase().trim();
+    let statusVal = statusFilter.value;
+    let priceVal = parseInt(priceFilter.value) || 0;
 
-     let filtered = orders.filter(order => {
-         
-         let matchSearch = order.id.toString().includes(searchVal) || (order.customer?.name || "")
-             .toLowerCase().includes(searchVal);
-         let matchStatus = statusVal ? order.status === statusVal : true;
-         
-         const total = (order.items || []).reduce((sum, it) => {
-           const price = Number(it.price) || 0;
-           const qty   = Number(it.quantity) || 0;
-           return sum + price * qty;
-           }, 0);
-         const matchPrice = total >= priceVal;
+    let filtered = orders.filter(order => {
+        if (!order.items || order.items.length === 0) return false;
 
-         return matchSearch && matchStatus && matchPrice;
-     });
+        // البحث
+        let matchSearch = 
+            order.id.toString().includes(searchVal) || 
+            (order.customer?.name || "").toLowerCase().includes(searchVal);
 
-     renderOrders(filtered);
- }
+        // الحالة
+        let matchStatus = statusVal ? order.status === statusVal : true;
 
- searchInput.addEventListener("input", applyFilters);
- statusFilter.addEventListener("change", applyFilters);
- priceFilter.addEventListener("input", () => {
-     priceValue.textContent = `${priceFilter.value}+ EGP`;
-     applyFilters();
- });
+        // إجمالي السعر
+        const total = order.items.reduce((sum, it) => {
+            const price = Number(it.price) || 0;
+            const qty   = Number(it.quantity) || 0;
+            return sum + price * qty;
+        }, 0);
+        let matchPrice = total >= priceVal;
+
+        return matchSearch && matchStatus && matchPrice;
+    });
+
+    renderOrders(filtered);
+}
+
+// تحديث السعر المعروض مع السلايدر
+searchInput.addEventListener("input", applyFilters);
+statusFilter.addEventListener("change", applyFilters);
+priceFilter.addEventListener("input", () => {
+    priceValue.textContent = `${priceFilter.value}+ EGP`;
+    applyFilters();
+});
 
  renderOrders(orders);
     // Active menu management
