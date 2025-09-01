@@ -370,9 +370,10 @@ function formatNumber(num) {
 function updateStatsCards(data) {
     // if (!data) return;
 
-    document.getElementById('totalRevenue').textContent = `$${formatNumber(data.totalRevenue)}`;
-    document.getElementById('unitsSold').textContent = formatNumber(data.unitsSold);
-    document.getElementById('avgOrderValue').textContent = `$${data.avgOrderValue}`;
+  document.getElementById('totalRevenue').innerHTML = `<span class="currency">EGP</span> ${formatNumber(data.totalRevenue)}`;
+document.getElementById('unitsSold').textContent = formatNumber(data.unitsSold);
+document.getElementById('avgOrderValue').innerHTML = `<span class="currency">EGP</span> ${data.avgOrderValue}`;
+
     // Update growth percentages
     updateGrowth('revenueGrowth', data.revenueGrowth);
     updateGrowth('unitsGrowth', data.unitsGrowth);
@@ -419,7 +420,7 @@ function createSalesChart(data) {
         data: {
             labels: data.monthlySales.map(m => m.month),
             datasets: [{
-                label: 'Monthly Sales ($)',
+                label: 'Monthly Sales (EGP)',
                 data: data.monthlySales.map(m => m.sales),
                 borderColor: '#bb9457',
                 backgroundColor: 'rgba(187, 148, 87, 0.2)',

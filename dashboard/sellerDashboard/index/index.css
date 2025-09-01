@@ -4,7 +4,11 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
 }
-
+.currency {
+  font-size: 0.8em; /* أصغر شوية من الرقم */
+  margin-right: 4px; /* مسافة صغيرة قبل الرقم */
+  color: #666; /* ممكن كمان تخلي اللون أفتح */
+}
 /* Sidebar */
 .sidebar {
     width: 250px;
