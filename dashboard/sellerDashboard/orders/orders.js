@@ -42,18 +42,11 @@ function renderOrders(data = orders) {
           <td>${order.date}</td>
           <td class="status-cell"><span class="badge ${statusClass}">${order.status}</span></td>
           <td>
-            <button class="btn btn-sm btn-outline-warning me-1" onclick="enableEditStatus(${order.id})">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>
-                </g>
-              </svg>            
+            <button class="btn btn-sm btn-outline-warning me-1 edit" onclick="enableEditStatus(${order.id})">
+              <i class="fa-solid fa-pen-to-square m-1"></i>           
             </button>
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id}, '${item.id}')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                <path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM7 6v13z"/>
-              </svg>
+            <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id}, '${item.id}')">
+              <i class="fa-solid fa-trash m-1"></i>
             </button>
           </td>
         </tr>
@@ -73,7 +66,7 @@ function enableEditStatus(orderId) {
 
   const select = document.createElement("select");
   select.className = "form-select form-select-sm";
-  ["Pending","Processing","Delivered","Cancelled"].forEach(status => {
+  ["Pending", "Processing", "Delivered", "Cancelled"].forEach(status => {
     const option = document.createElement("option");
     option.value = status;
     option.textContent = status;
@@ -81,11 +74,11 @@ function enableEditStatus(orderId) {
     select.appendChild(option);
   });
 
-  select.addEventListener("change", function() {
+  select.addEventListener("change", function () {
     updateStatus(orderId, this.value);
   });
 
-  select.addEventListener("blur", function() {
+  select.addEventListener("blur", function () {
     renderOrders();
   });
 
@@ -131,15 +124,15 @@ function applyFilters() {
 
   // Sort
   const sortVal = sortSelect.value;
-  if(sortVal) {
-    filtered.sort((a,b) => {
-      if(sortVal === "date") return new Date(a.date) - new Date(b.date);
-      if(sortVal === "total") {
-        const totalA = a.items.reduce((sum,it) => sum + (it.price*it.quantity),0);
-        const totalB = b.items.reduce((sum,it) => sum + (it.price*it.quantity),0);
+  if (sortVal) {
+    filtered.sort((a, b) => {
+      if (sortVal === "date") return new Date(a.date) - new Date(b.date);
+      if (sortVal === "total") {
+        const totalA = a.items.reduce((sum, it) => sum + (it.price * it.quantity), 0);
+        const totalB = b.items.reduce((sum, it) => sum + (it.price * it.quantity), 0);
         return totalA - totalB;
       }
-      if(sortVal === "status") return a.status.localeCompare(b.status);
+      if (sortVal === "status") return a.status.localeCompare(b.status);
     });
   }
 
