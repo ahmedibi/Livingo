@@ -184,6 +184,7 @@
         @media (max-width: 768px) {
             .sidemenu {
                 display: block;
+                z-index: 9999 !important;
             }
 
             .btn-close {
@@ -202,7 +203,11 @@
                 margin-left: 0;
                 padding-top: 60px;
                 width: 100% !important;
+                margin-top: 30px !important;
+            
             }
+          
+            
         }
 
         @media (min-width: 769px) and (max-width:1300px) {
@@ -210,6 +215,7 @@
                 margin-left: 110px;
                 padding-top: 60px;
                 width: 85% !important;
+                
             }
 
             .livingo-icon {
@@ -357,10 +363,10 @@
             <div class="card mb-4">
                 <div class="card-header text-black fw-bold fs-4">Personal Details</div>
                 <div class="card-body">
-                    <p><strong>Name:</strong> <span id="userName"></span></p>
-                    <p><strong>Email:</strong> <span id="userEmail"></span></p>
-                    <p><strong>Role:</strong> <span id="userRole"></span></p>
-                    <p><strong>Gender:</strong> <span id="userGender"></span></p>
+                    <div class="d-flex"><p><strong>Name:</strong> <p id="userName"></p></p></div>
+                    <div class="d-flex"><p><strong>Email:</strong> <p id="userEmail"></p></p></div>
+                    <div class="d-flex"><p><strong>Role:</strong> <p id="userRole"></p></p></div>
+                    <div class="d-flex"><p><strong>Gender:</strong> <p id="userGender"></p></p></div>
 
                     <!-- Update Location -->
                     <form id="locationForm" class="mb-3">
