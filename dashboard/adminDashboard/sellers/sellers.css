@@ -1,44 +1,254 @@
-html,
-body {
-  height: 100%;
+   html,body{
+    background: #f6f2e7 !important;
+  font-family: "Inter", Arial, sans-serif ;
   margin: 0;
-  background: #f6f2e7;
 
- /* إضافة اتجاه RTL للعربية */
 }
-
-body {
-  min-height: 100vh;
-  overflow-x: hidden; /* منع التمرير الأفقي */
+.fromjs{
+  width: 20% !important;
+  height: 55px;
 }
-
-.main-content {
-  min-height: 100vh;
-  width: 84%;
-  padding: 0;
-
-  /* مساحة للsidebar */
-  transition: margin-left 0.3s ease;
+#edit{
+  border-color:  #ba6931 !important;
 }
-
-/* عندما يكون الsidebar مغلق */
-.main-content.sidebar-closed {
-  width: 80%;
+main{
+transition: all 0.3s ease;
 }
-
-#sideBar {
-  position: fixed;
+.custom-table thead th {
+  background: #000000 !important;
+  color: #f1e1b7 !important;
+  font-size: 1.08em;
+  font-weight: 700;
+  padding: 20px 15px;
+  border: none;
+  letter-spacing: 0.03em;
+  
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 280px;
-  height: 100vh;
-  z-index: 1000;
-  background: #fdfdfd;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
+.table-responsive {
+  margin: 0;
+  background: transparent;
+  border-radius: 19px;
+
+  
+}
+
+
+.sidebar {
+    width: 250px;
+    background: #f0f0f0;
+    color: black;
+    height: 100vh;
+  
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  
+}
+#sidebar .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #40372e;
+    padding: 20px;
+}
+
+#sidebar .logo .cushion-o {
+  color: #a0804d;
+  font-size: 2.5rem;
+  margin-left: 5px;
+}
+
+#sidebar a {
+  gap: 12px;
+  text-decoration: none;
+  color: black;
+  padding: 7px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+.sidebar p{
+    margin-left: 35px;
+}
+
+header{
+      margin-bottom: 20px;  
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+    
+}
+
+.sidebar ul li {
+    margin-left: 15px  ; 
+    margin-top:30px ;
+    padding-top: 5px;
+    padding-left: 10px;
+    
+}
+
+.sidebar ul li:hover{
+    border-style: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+    background-color: #A0804D;
+}
+
+.sidebar ul li.active {
+    background-color:#A0804D;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+}
+
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    margin-bottom: 20px;
+    
+}
+
+ .sidebar ul li a:hover{
+    color: rgb(255, 255, 255);
+} 
+
+.sidebar ul li.active a {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar img{
+    width: 100px;
+    border-radius: 50%;
+    margin-left: 35px;
+    margin-bottom: 10px;
+}
+
+i{
+    margin-right: 10px;
+}
+
+.content {
+    margin-left: 220px;
+    padding: 20px;
+    width: 85.5% !important;
+}
+
+.orders-section{
+    margin-top: 20px;
+}
+
+/* sidemenu Button  */
+.sidemenu {
+    display: none;
+    font-size:20px;
+    background: #333333; 
+    color: #ffffff;
+    padding: 5px 10px;   
+    cursor: pointer;
+     position: fixed; 
+     top: 5px; 
+     border-radius: 5px;
+     margin-left: 10px;
+     
+    cursor: pointer;
+}
+
+.btn-close{
+     display: none;     
+     position: absolute;
+     top: 10px;
+     right: 10px;
+     border: none;
+    
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidemenu {
+        display: block;
+    }
+     .btn-close {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+        padding-top: 60px;
+        width: 100% !important;
+    }
+}
+
+  @media (min-width: 769px) and (max-width:1300px){
+            .content {
+              margin-left: 110px;
+              padding-top: 60px;
+              width: 85% !important;
+          }
+            
+          .livingo-icon{
+           width: 100px !important;
+           margin-right: .2rem;
+          }
+
+          .sidebar {
+          width: 100px;
+          background: #f0f0f0;
+          color: black;
+          height: 100vh;
+        
+          position: fixed;
+          top: 0;
+          left: 0;
+          transition: transform 0.3s ease;
+          z-index: 1000;
+        
+         }
+         span{
+           display: none;
+         }
+         
+      .sidebar ul li:hover{
+          border-style: none;
+          border-radius: 10px;
+          width: 70px;
+          height: 40px;
+          background-color: #A0804D;
+      }
+      
+      .sidebar ul li.active {
+          display: none;
+      }
+      
+      }
 
 .header-section {
-  padding: 44px 52px 0 52px;
+  padding: 0 0 0 52px;
 }
 
 .header-section h1 {
@@ -47,6 +257,7 @@ body {
   letter-spacing: 0.04em;
   font-size: 2.4rem;
   margin-bottom: 20px;
+    margin-top: 15px !important;
 }
 
 .search-box {
@@ -170,133 +381,12 @@ body {
   margin-bottom: 15px;
   color: #ddd;
 }
-@media (min-width: 768px) and (max-width:1200px){
-  .main-content {
-  min-height: 100vh;
-  width: 100%;
-  padding: 0;
-}
-  .main-content.sidebar-closed {
-  width: 100% !important;
-}
-  
-}
+
 /* تحسينات الاستجابة */
-@media (max-width: 768px) {
-  
-.main-content {
-  min-height: 100vh;
-  width: 100%;
-  padding: 0;
-}
-  .main-content.sidebar-closed {
-  width: 100% !important;
-}
-  
-  .main-content {
-    margin-left: 0;
-    padding-top: 60px;
-  }
-  
-  .header-section {
-    padding: 20px 20px 0 20px;
-  }
-  
-  .header-section h1 {
-    font-size: 2rem;
-  }
-  
-  .search-box {
-    padding: 0 20px 20px 20px;
-  }
-  
-  .table-wrap {
-    padding: 0 20px 20px 20px;
-  }
-  
-  .form-control {
-    max-width: 100%;
-  }
-  
-  .custom-table {
-    font-size: 0.9rem;
-  }
-  
-  .custom-table th,
-  .custom-table td {
-    padding: 12px 8px;
-    font-size: 0.95em;
-  }
-  
-  .action-btn {
-    font-size: 1.1em;
-    margin: 0 4px;
-    padding: 6px;
-  }
-}
 
-@media (max-width: 480px) {
   
-  .main-content {
-  min-height: 100vh;
-  width: 100%;
-  padding: 0;
-}
-
-  .custom-table th:nth-child(3),
-  .custom-table td:nth-child(3) {
-    display: none; /* إخفاء عمود كلمة المرور في الشاشات الصغيرة */
-  }
-  
-  .header-section h1 {
-    font-size: 1.8rem;
-  }
-  
-  .custom-table th,
-  .custom-table td {
-    padding: 10px 5px;
-    font-size: 0.85em;
-  }
-}
 
 /* تحسين شكل شريط التمرير */
-.table-responsive::-webkit-scrollbar {
-  height: 8px;
-}
-
-.table-responsive::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.table-responsive::-webkit-scrollbar-thumb {
-  background: #a0804d;
-  border-radius: 10px;
-}
-
-.table-responsive::-webkit-scrollbar-thumb:hover {
-  background: #8a6d42;
-}
-
-/* تحسين التوست */
-.toast-message {
-  font-family: "Inter", Arial, sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(10px);
-}
-
-/* تحسين إحصائيات الصفحة */
-.stats-container {
-  background: linear-gradient(135deg, #fff 0%, #f8f6f0 100%);
-  border: 1px solid #e6dcc9;
-}
-
-/* تأثيرات التحميل */
-.loading-shimmer {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
 
 @keyframes shimmer {
   0% {

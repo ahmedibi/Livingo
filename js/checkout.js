@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => console.error("Error loading footer:", err));
 
   loadCartData();
-  setupCardInputs();
+  setupCardInputs(); // live validation للـ bank modal
   validateForm();
 });
 
@@ -93,7 +93,94 @@ function showEmptyCart() {
   document.getElementById('total').textContent = '$0.00';
 }
 
-// Form validation variables
+// ----------------- Bank Modal Validation -----------------
+function setupCardInputs() {
+  const cardNumberInput = document.getElementById('cardNumber');
+  const expiryDateInput = document.getElementById('expiryDate');
+  const cvvInput = document.getElementById('cvv');
+  
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      if (formattedValue !== e.target.value) {
+        e.target.value = formattedValue;
+      }
+    });
+  }
+  
+  if (expiryDateInput) {
+    expiryDateInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      e.target.value = value;
+    });
+  }
+
+  if (cvvInput) {
+    cvvInput.addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+  }
+}
+
+function validateCardDetails() {
+  let isValid = true;
+  
+  // Clear previous errors
+  document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+  document.querySelectorAll('#bankPaymentModal .form-control').forEach(el => el.classList.remove('is-invalid'));
+  
+  // Validate card number
+  const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+  if (!cardNumber) {
+    document.getElementById('cardError').textContent = 'Card number is required';
+    document.getElementById('cardNumber').classList.add('is-invalid');
+    isValid = false;
+  } else if (cardNumber.length !== 16) {
+    document.getElementById('cardError').textContent = 'Card number must be 16 digits';
+    document.getElementById('cardNumber').classList.add('is-invalid');
+    isValid = false;
+  }
+  
+  // Validate expiry date
+  const expiryDate = document.getElementById('expiryDate').value;
+  if (!expiryDate) {
+    document.getElementById('expiryError').textContent = 'Expiry date is required';
+    document.getElementById('expiryDate').classList.add('is-invalid');
+    isValid = false;
+  } else if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+    document.getElementById('expiryError').textContent = 'Please enter valid expiry date (MM/YY)';
+    document.getElementById('expiryDate').classList.add('is-invalid');
+    isValid = false;
+  }
+  
+  // Validate CVV
+  const cvv = document.getElementById('cvv').value;
+  if (!cvv) {
+    document.getElementById('cvvError').textContent = 'CVV is required';
+    document.getElementById('cvv').classList.add('is-invalid');
+    isValid = false;
+  } else if (cvv.length !== 3) {
+    document.getElementById('cvvError').textContent = 'CVV must be 3 digits';
+    document.getElementById('cvv').classList.add('is-invalid');
+    isValid = false;
+  }
+  
+  // Validate cardholder name
+  const cardName = document.getElementById('cardName').value.trim();
+  if (!cardName) {
+    document.getElementById('cardNameError').textContent = 'Cardholder name is required';
+    document.getElementById('cardName').classList.add('is-invalid');
+    isValid = false;
+  }
+  
+  return isValid;
+}
+
+// ----------------- Form validation variables -----------------
 var nameInput = document.getElementById("firstName");
 var nameError = document.getElementById("nameError");
 var companyInput = document.getElementById("companyName");
@@ -171,65 +258,8 @@ function placeOrder(e) {
   else if(cashPayment) new bootstrap.Modal(document.getElementById('cashPaymentModal')).show();
 }
 
-function setupCardInputs() {
-  const cardNumber = document.getElementById("cardNumber");
-  const expiryDate = document.getElementById("expiryDate");
-  const cvv = document.getElementById("cvv");
-  const cardName = document.getElementById("cardName");
-
-  cardNumber.addEventListener("input", () => {
-    cardNumber.value = cardNumber.value.replace(/\D/g, "").substring(0, 16);
-  });
-
-  expiryDate.addEventListener("input", () => {
-    expiryDate.value = expiryDate.value.replace(/[^0-9/]/g, "").substring(0,5);
-  });
-
-  cvv.addEventListener("input", () => {
-    cvv.value = cvv.value.replace(/\D/g, "").substring(0,3);
-  });
-}
-
-function validateCardDetails() {
-  const cardNumber = document.getElementById("cardNumber");
-  const expiryDate = document.getElementById("expiryDate");
-  const cvv = document.getElementById("cvv");
-  const cardName = document.getElementById("cardName");
-
-  let valid = true;
-
-  if(cardNumber.value.trim().length !== 16) {
-    document.getElementById("cardError").textContent = "Card number must be 16 digits";
-    valid = false;
-  } else document.getElementById("cardError").textContent = "";
-
-  if(!/^\d{2}\/\d{2}$/.test(expiryDate.value.trim())) {
-    document.getElementById("expiryError").textContent = "Expiry must be MM/YY";
-    valid = false;
-  } else document.getElementById("expiryError").textContent = "";
-
-  if(cvv.value.trim().length !== 3) {
-    document.getElementById("cvvError").textContent = "CVV must be 3 digits";
-    valid = false;
-  } else document.getElementById("cvvError").textContent = "";
-
-  if(cardName.value.trim() === "") {
-    document.getElementById("cardNameError").textContent = "Cardholder name is required";
-    valid = false;
-  } else document.getElementById("cardNameError").textContent = "";
-
-  return valid;
-}
-
-
 // Confirm payment functions
-function confirmPayment() { processPayment("Bank"); 
-  
-  if(!validateCardDetails()) return;
-  processPayment("Bank"); 
-}
-
-
+function confirmPayment() { processPayment("Bank"); }
 function confirmCashPayment() { processPayment("Cash"); }
 
 function processPayment(method){
@@ -242,7 +272,6 @@ function processPayment(method){
     currentUser.cart = [];
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-    // تحديث users array
     let users = JSON.parse(localStorage.getItem("users")) || [];
     users = users.map(u => u.id === currentUser.id ? {...u, cart: []} : u);
     localStorage.setItem("users", JSON.stringify(users));

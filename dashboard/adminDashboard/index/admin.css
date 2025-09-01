@@ -258,10 +258,46 @@ i{
 }
 
 
-@media (min-width: 768px) and (max-width:1200px){
-     .content {
+
+  @media (min-width: 769px) and (max-width:1300px){
+            .content {
+              margin-left: 110px;
+              padding-top: 60px;
+              width: 85% !important;
+          }
+            
+          .livingo-icon{
+           width: 100px !important;
+           margin-right: .2rem;
+          }
+
+          .sidebar {
+          width: 100px;
+          background: #f0f0f0;
+          color: black;
+          height: 100vh;
         
-        padding-top: 60px;
-        width: 68% ;
-    }
-}
+          position: fixed;
+          top: 0;
+          left: 0;
+          transition: transform 0.3s ease;
+          z-index: 1000;
+        
+         }
+         span{
+           display: none;
+         }
+         
+      .sidebar ul li:hover{
+          border-style: none;
+          border-radius: 10px;
+          width: 70px;
+          height: 40px;
+          background-color: #A0804D;
+      }
+      
+      .sidebar ul li.active {
+          display: none;
+      }
+      
+      }

@@ -1,6 +1,6 @@
 html,body{
     background: #f6f2e7;
-  font-family: "Inter", Arial, sans-serif ;
+  font-family: "Inter", Arial, sans-serif  ;
   margin: 0;
   display: flex;
 }
@@ -12,18 +12,30 @@ main{
 transition: all 0.3s ease;
 }
 .custom-table thead th {
-  background: #f4f1e7;
-  color: #a29573;
+  background: #000000;
+  color: #f1e1b7;
   font-size: 1.08em;
   font-weight: 700;
   padding: 20px 15px;
   border: none;
   letter-spacing: 0.03em;
-  
   position: sticky;
   top: 0;
   z-index: 10;
 }
+.header-section {
+  padding: 0px 0px 0 25px;
+}
+
+.header-section h1 {
+  color: #a0804d;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+  margin-top: 15px !important;
+}
+
 
 .table-responsive {
   margin: 0;
@@ -140,13 +152,13 @@ header{
 }
 
 i{
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .content {
     margin-left: 250px;
     padding: 20px;
-    width: 100%;
+    width: 82vw !important;
 }
 
 .orders-section{
@@ -198,7 +210,50 @@ i{
     .content {
         margin-left: 0;
         padding-top: 60px;
+        width: 100vw !important;
     }
 }
 
 
+  @media (min-width: 769px) and (max-width:1300px){
+            .content {
+              margin-left: 110px;
+              padding-top: 60px;
+              width: 85% !important;
+          }
+            
+          .livingo-icon{
+           width: 100px !important;
+           margin-right: .2rem;
+          }
+
+          .sidebar {
+          width: 100px;
+          background: #f0f0f0;
+          color: black;
+          height: 100vh;
+        
+          position: fixed;
+          top: 0;
+          left: 0;
+          transition: transform 0.3s ease;
+          z-index: 1000;
+        
+         }
+         span{
+           display: none;
+         }
+         
+      .sidebar ul li:hover{
+          border-style: none;
+          border-radius: 10px;
+          width: 70px;
+          height: 40px;
+          background-color: #A0804D;
+      }
+      
+      .sidebar ul li.active {
+          display: none;
+      }
+      
+      }

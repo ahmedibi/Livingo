@@ -39,12 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </a>
         
         <div class="d-flex">
-          <button class="btn w-50 rounded-0 addtocart" data-id="${product.id}" 
-            style="background-color:#284b63; color:white">
+          <button class="btn w-50 rounded-0 addtocart" data-id="${product.id}">
             Add to Cart
           </button>
-          <button class="btn w-50 rounded-0 remove-btn" data-id="${product.id}" 
-            style="background-color:#a0804d; color:white">
+          <button class="btn w-50 rounded-0 remove-btn" data-id="${product.id}">
             Remove from Wishlist
           </button>
         </div>
@@ -56,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         <hr>
         <div class="d-flex justify-content-evenly align-items-center p-3">
-          <span><strong>${product.price} ${product.currency}</strong></span>
+          <span><strong style="color:crimson">${product.price} ${product.currency}</strong></span>
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFD43B" viewBox="0 0 16 16">
               <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.32-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.63.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -87,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         localStorage.setItem("users", JSON.stringify(users));
       }
-      const itemEl = removeBtn.closest('[class*="col-"]'); 
+      const itemEl = removeBtn.closest('[class*="col-"]');
       if (itemEl) itemEl.remove();
       return;
     }
