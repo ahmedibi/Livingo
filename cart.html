@@ -283,106 +283,114 @@
   <div id="footer" class="mt-5"></div>
 
   <script>
-    let cart = [];
+  let cart = [];
+const products = JSON.parse(localStorage.getItem("products")) || [];
 
-    // === Utilities to handle cart inside currentUser ===
+// === Utilities to handle cart inside currentUser ===
 
-    // حفظ الكارت داخل currentUser
-    function saveCart(cart) {
-      let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-      if (currentUser) {
-        currentUser.cart = cart;
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+// حفظ الكارت داخل currentUser
+function saveCart(cart) {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (currentUser) {
+    currentUser.cart = cart;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+}
+
+// تحميل الكارت من currentUser
+function loadCart() {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  return (currentUser && currentUser.cart) ? currentUser.cart : [];
+}
+
+// تحديث عداد الكارت (لو عايزه في الـ navbar)
+function updateCartCount() {
+  let cart = loadCart();
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const counterEl = document.getElementById("cart-count");
+  if (counterEl) counterEl.innerText = count;
+}
+
+// تحديث الكمية يدوي
+function updateQty(id, qty) {
+  let cart = loadCart();
+  const index = cart.findIndex((p) => p.id === id);
+  if (index !== -1) {
+    let newQty = parseInt(qty);
+
+    // جلب المنتج الأصلي
+    const product = products.find(p => String(p.id) === String(id));
+    if (product && newQty > product.stock) {
+      alert(`⚠ Only ${product.stock} items available in stock!`);
+      newQty = product.stock;
+    }
+
+    if (newQty > 0) {
+      cart[index].quantity = newQty;
+    } else {
+      cart.splice(index, 1);
+    }
+    saveCart(cart);
+    renderCart();
+    updateCartCount();
+  }
+}
+
+// تعديل الكمية بالأزرار + و -
+function changeQuantity(id, newQty) {
+  let cart = loadCart();
+  const index = cart.findIndex((p) => p.id === id);
+  if (index !== -1) {
+    const product = products.find(p => String(p.id) === String(id));
+    if (product && newQty > product.stock) {
+      alert(`⚠ Only ${product.stock} items available in stock!`);
+      newQty = product.stock;
+    }
+
+    if (newQty <= 0) {
+      cart.splice(index, 1);
+    } else {
+      cart[index].quantity = newQty;
+    }
+    saveCart(cart);
+    renderCart();
+    updateCartCount();
+  }
+}
+
+// إزالة منتج من الكارت مع تحديث users
+function removeItem(id) {
+  if (confirm("Are you sure you want to remove this item from your cart?")) {
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (currentUser && Array.isArray(currentUser.cart)) {
+      currentUser.cart = currentUser.cart.filter((p) => p.id !== id);
+
+      const userIndex = users.findIndex(u => u.id === currentUser.id);
+      if (userIndex !== -1) {
+        users[userIndex] = currentUser;
       }
+
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.setItem("users", JSON.stringify(users));
     }
 
-    // تحميل الكارت من currentUser
-    function loadCart() {
-      let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-      return (currentUser && currentUser.cart) ? currentUser.cart : [];
-    }
+    renderCart();
+    updateCartCount();
+  }
+}
 
-    // تحديث عداد الكارت (لو عايزه في الـ navbar)
-    function updateCartCount() {
-      let cart = loadCart();
-      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const counterEl = document.getElementById("cart-count");
-      if (counterEl) counterEl.innerText = count;
-    }
+// عرض الكارت
+function renderCart() {
+  cart = loadCart();
+  const cartItemsContainer = document.getElementById("cartItems");
+  let rows = "";
+  let subtotal = 0;
 
-    // تحديث الكمية يدوي
-    function updateQty(id, qty) {
-      let cart = loadCart();
-      const index = cart.findIndex((p) => p.id === id);
-      if (index !== -1) {
-        let newQty = parseInt(qty);
-        if (newQty > 0) {
-          cart[index].quantity = newQty;
-        } else {
-          cart.splice(index, 1);
-        }
-        saveCart(cart);
-        renderCart();
-        updateCartCount();
-      }
-    }
-
-    // تعديل الكمية بالأزرار + و -
-    function changeQuantity(id, newQty) {
-      let cart = loadCart();
-      const index = cart.findIndex((p) => p.id === id);
-      if (index !== -1) {
-        if (newQty <= 0) {
-          cart.splice(index, 1);
-        } else {
-          cart[index].quantity = newQty;
-        }
-        saveCart(cart);
-        renderCart();
-        updateCartCount();
-      }
-    }
-
-    // إزالة منتج من الكارت
-    // إزالة منتج من الكارت مع تحديث users
-    function removeItem(id) {
-      if (confirm("Are you sure you want to remove this item from your cart?")) {
-        // جلب currentUser و users
-        let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-        let users = JSON.parse(localStorage.getItem("users")) || [];
-
-        if (currentUser && Array.isArray(currentUser.cart)) {
-          // إزالة العنصر من cart الحالي
-          currentUser.cart = currentUser.cart.filter((p) => p.id !== id);
-
-          // تحديث users array
-          const userIndex = users.findIndex(u => u.id === currentUser.id);
-          if (userIndex !== -1) {
-            users[userIndex] = currentUser;
-          }
-
-          // حفظ التحديثات في localStorage
-          localStorage.setItem("currentUser", JSON.stringify(currentUser));
-          localStorage.setItem("users", JSON.stringify(users));
-        }
-
-        // إعادة عرض الكارت وعداد الكارت
-        renderCart();
-        updateCartCount();
-      }
-    }
-
-
-    // عرض الكارت
-    function renderCart() {
-      cart = loadCart();
-      const cartItemsContainer = document.getElementById("cartItems");
-      let rows = "";
-      let subtotal = 0;
-
-      if (cart.length === 0) {
-        document.getElementById("cartActions").style.display = "none";
-        rows = `
+  if (cart.length === 0) {
+    document.getElementById("cartActions").style.display = "none";
+    rows = `
       <tr>
         <td colspan="5" class="text-center py-5">
           <div class="text-muted">
@@ -394,13 +402,13 @@
         </td>
       </tr>
     `;
-      } else {
-        document.getElementById("cartActions").style.display = "flex";
-        cart.forEach((item) => {
-          const itemSubtotal = item.price * item.quantity;
-          subtotal += itemSubtotal;
+  } else {
+    document.getElementById("cartActions").style.display = "flex";
+    cart.forEach((item) => {
+      const itemSubtotal = item.price * item.quantity;
+      subtotal += itemSubtotal;
 
-          rows += `
+      rows += `
         <tr>
           <td style="width: 300px;" class="align-middle">
             <div class="d-flex align-items-center justify-content-center d-image">
@@ -431,71 +439,82 @@
           <td><button class="remove-btn" onclick="removeItem('${item.id}')"><i class="fa-solid fa-trash" style="font-size:16px"></i></button></td>
         </tr>
       `;
-        });
-      }
-
-      cartItemsContainer.innerHTML = rows;
-      document.getElementById("subtotal").innerText = subtotal.toFixed(2);
-      document.getElementById("total").innerText = subtotal.toFixed(2);
-    }
-
-    // الانتقال لتفاصيل المنتج
-    function goToProductDetails(productId) {
-      window.location.href = `product-details.html?id=${productId}`;
-    }
-
-    // الذهاب لصفحة الدفع
-    function goToCheckout() {
-      if (loadCart().length === 0) {
-        alert("Your cart is empty! Add some products first.");
-        return;
-      }
-      window.location.href = "checkout.html";
-    }
-
-    // تحديث الكارت
-    function updateCart() {
-      renderCart();
-      alert("Cart updated successfully!");
-    }
-
-    // تطبيق كوبون (placeholder)
-    function applyCoupon() {
-      const couponCode = document.getElementById("coupon").value.trim();
-      if (couponCode) {
-        alert("Coupon functionality will be implemented soon!");
-      } else {
-        alert("Please enter a coupon code");
-      }
-    }
-
-    // استكمال التسوق
-    function continueShopping() {
-      window.location.href = "index.html";
-    }
-
-    // عند تحميل الصفحة
-    document.addEventListener("DOMContentLoaded", () => {
-      renderCart();
-      updateCartCount();
-
-      // تحميل الـ navbar
-      fetch("partials/navbar.html")
-        .then((res) => res.text())
-        .then((data) => {
-          document.getElementById("navbar").innerHTML = data;
-
-        })
-        .catch((err) => console.error("Error loading navbar:", err));
-
-      // تحميل الـ footer
-      fetch("partials/footer.html")
-        .then((res) => res.text())
-        .then((data) => {
-          document.getElementById("footer").innerHTML = data;
-        })
-        .catch((err) => console.error("Error loading footer:", err));
     });
+  }
+
+  cartItemsContainer.innerHTML = rows;
+  document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+  document.getElementById("total").innerText = subtotal.toFixed(2);
+}
+
+// الانتقال لتفاصيل المنتج
+function goToProductDetails(productId) {
+  window.location.href = `product-details.html?id=${productId}`;
+}
+
+// الذهاب لصفحة الدفع
+function goToCheckout() {
+  const cart = loadCart();
+  if (cart.length === 0) {
+    alert("Your cart is empty! Add some products first.");
+    return;
+  }
+
+  // ✅ check stock قبل المتابعة
+  for (let item of cart) {
+    const product = products.find(p => String(p.id) === String(item.id));
+    if (product && item.quantity > product.stock) {
+      alert(`⚠ ${item.name} exceeds available stock. Only ${product.stock} left!`);
+      return;
+    }
+  }
+
+  window.location.href = "checkout.html";
+}
+
+// تحديث الكارت
+function updateCart() {
+  renderCart();
+  alert("Cart updated successfully!");
+}
+
+// تطبيق كوبون (placeholder)
+function applyCoupon() {
+  const couponCode = document.getElementById("coupon").value.trim();
+  if (couponCode) {
+    alert("Coupon functionality will be implemented soon!");
+  } else {
+    alert("Please enter a coupon code");
+  }
+}
+
+// استكمال التسوق
+function continueShopping() {
+  window.location.href = "index.html";
+}
+
+// عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+  updateCartCount();
+
+  // تحميل الـ navbar
+  fetch("partials/navbar.html")
+    .then((res) => res.text())
+    .then((data) => {
+      document.getElementById("navbar").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading navbar:", err));
+
+  // تحميل الـ footer
+  fetch("partials/footer.html")
+    .then((res) => res.text())
+    .then((data) => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading footer:", err));
+});
+
   </script>
 
   <script src="js/components.js"></script>

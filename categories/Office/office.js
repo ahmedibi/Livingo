@@ -50,6 +50,9 @@ function renderProducts(products) {
   productContainer.innerHTML = "";
   products.forEach(product => {
     const imagePath = `../../assets/${product.images[0]}`;
+    const disabled = product.stock <= 0 ? "disabled" : "";
+    const btnText = product.stock > 0 ? "Add to Cart" : "Out of Stock";
+
     productContainer.innerHTML += `
       <div class="col-12 col-md-6 col-lg-3 mb-5">
         <div class="card h-100">
@@ -61,14 +64,18 @@ function renderProducts(products) {
               <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
             </button>
           </div>
-          <button class="btn w-100 cartBtn" data-id="${product.id}">Add to Cart</button>
+          <button class="btn btn-secondary w-100 cartBtn" data-id="${product.id}" ${disabled}>${btnText}</button>
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
           </div>
           <div class="d-flex justify-content-evenly align-items-center p-3">
             <span><strong style="color:#dc3545">${product.currency} ${product.price}</strong></span>
-            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" style="width: 20px;"><path fill="#FFD43B" d="M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z"/></svg> ${product.rating}</span>
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" style="width: 20px;">
+                <path fill="#FFD43B" d="M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z"/>
+              </svg> ${product.rating}
+            </span>
             <span class="text-muted"> (${product.stock})</span>
           </div>
         </div>
@@ -181,12 +188,32 @@ document.addEventListener("click", (e) => {
     const product = products.find(p => String(p.id) === String(productId));
     if (!product) { alert("⚠ Product not found!"); return; }
 
+    // ✅ check stock
+    if (product.stock <= 0) {
+      alert("⚠ This product is out of stock!");
+      return;
+    }
+
     const existing = currentUser.cart.find(item => String(item.id) === String(product.id));
-    if (existing) existing.quantity += 1;
-    else currentUser.cart.push({ id: product.id, name: product.name, price: product.price, currency: product.currency, images: product.images, quantity: 1 });
+    if (existing) {
+      if (existing.quantity >= product.stock) {
+        alert(`⚠ Only ${product.stock} items available in stock!`);
+        return;
+      }
+      existing.quantity += 1;
+    } else {
+      currentUser.cart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        currency: product.currency,
+        images: product.images,
+        quantity: 1
+      });
+    }
 
     updateUserData(currentUser);
-    alert("✅ Added to cart!");
+    alert(`✅ ${product.name} added to cart!`);
   }
 });
 

@@ -277,33 +277,46 @@
           }
 
           // Cart button
-          const cartBtn = e.target.closest("#buyNowBtn");
-          if (cartBtn) {
-            let currentUser =
-              JSON.parse(localStorage.getItem("currentUser")) || null;
-            if (!currentUser) {
-              alert("⚠ You must be logged in!");
+          // Cart button
+           const cartBtn = e.target.closest("#buyNowBtn");
+           if (cartBtn) {
+             let currentUser =
+               JSON.parse(localStorage.getItem("currentUser")) || null;
+             if (!currentUser) {
+               alert("⚠ You must be logged in!");
+               return;
+             }           
+
+             if (!currentUser.cart) currentUser.cart = [];
+             const existing = currentUser.cart.find(
+               (item) => String(item.id) === String(product.id)
+             );
+  
+          if (existing) {
+            if (existing.quantity + quantity > product.stock) {
+              alert(`⚠ Only ${product.stock} items available in stock!`);
               return;
             }
-
-            if (!currentUser.cart) currentUser.cart = [];
-            const existing = currentUser.cart.find(
-              (item) => String(item.id) === String(product.id)
-            );
-            if (existing) existing.quantity += quantity;
-            else
-              currentUser.cart.push({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                currency: product.currency,
-                images: product.images,
-                quantity: quantity,
-              });
-
-            updateUserData(currentUser);
-            alert("✅ Added to cart!");
+            existing.quantity += quantity;
+          } else {
+            if (quantity > product.stock) {
+              alert(`⚠ Only ${product.stock} items available in stock!`);
+              return;
+            }
+            currentUser.cart.push({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              currency: product.currency,
+              images: product.images,
+              quantity: quantity,
+            });
           }
+        
+          updateUserData(currentUser);
+          alert("✅ Added to cart!");
+        }
+
         });
 
         function toggleUserList(key, productId, addMsg, removeMsg) {

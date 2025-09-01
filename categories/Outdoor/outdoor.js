@@ -1,4 +1,4 @@
-// outdoor script.js placeholder
+// outdoor script.js
 
 window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -35,6 +35,9 @@ function renderProducts(products) {
   productContainer.innerHTML = "";
   products.forEach(product => {
     const imagePath = `../../assets/${product.images[0]}`;
+    const disabled = product.stock <= 0 ? "disabled" : "";
+    const btnText = product.stock > 0 ? "Add to Cart" : "Out of Stock";
+
     productContainer.innerHTML += `
       <div class="col-12 col-md-6 col-lg-3 mb-5">
         <div class="card h-100">
@@ -46,7 +49,9 @@ function renderProducts(products) {
               <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
             </button>
           </div>
-          <button class="btn w-100 cartBtn" data-id="${product.id}">Add to Cart</button>
+          <button class="btn btn-secondary w-100 cartBtn" data-id="${product.id}" ${disabled}>
+            ${btnText}
+          </button>
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
@@ -155,8 +160,6 @@ document.addEventListener("click", (e) => {
 
   if(wishlistBtn){
     const productId = wishlistBtn.dataset.id;
-    
-    // استخدم toggleUserList لتحديث wishlist و users
     toggleUserList("wishlist", productId, "❤ Added to wishlist", "❌ Removed from wishlist");
     return;
   }
@@ -167,9 +170,22 @@ document.addEventListener("click", (e) => {
     const product = productsData.find(p=>String(p.id)===String(productId));
     if(!product){ alert("⚠ Product not found!"); return; }
 
+    // ✅ تحقق من وجود ستوك
+    if (product.stock <= 0) {
+      alert("⚠ This product is out of stock!");
+      return;
+    }
+
     const existing = currentUser.cart.find(p=>String(p.id)===String(product.id));
-    if(existing) existing.quantity+=1;
-    else currentUser.cart.push({...product, quantity:1});
+    if(existing){
+      if (existing.quantity >= product.stock) {
+        alert(`⚠ Only ${product.stock} items available in stock!`);
+        return;
+      }
+      existing.quantity+=1;
+    } else {
+      currentUser.cart.push({...product, quantity:1});
+    }
 
     // تحديث users مع currentUser
     if(userIndex!==-1) users[userIndex]=currentUser;
