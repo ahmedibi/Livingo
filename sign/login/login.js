@@ -63,7 +63,7 @@ localStorage.setItem("users", JSON.stringify(localUsers));
       if (user.role === "admin") {
         window.location.href = "../../../dashboard/adminDashboard/index/admin.html";
       } else if (user.role === "seller") {
-        window.location.href = "../../../dashboard/sellerDashboard/orders/orders.html";
+        window.location.href = "../../../dashboard/sellerDashboard/index/index.html";
       } else {
         window.location.href = "../../index.html";
       }
