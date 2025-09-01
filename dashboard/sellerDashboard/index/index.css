@@ -72,6 +72,12 @@ header {
 
 }
 
+.currency {
+    font-size: 0.8em;
+    margin-right: 4px;
+    color: #666;
+}
+
 .sidebar ul li:hover {
     border-style: none;
     border-radius: 10px;
