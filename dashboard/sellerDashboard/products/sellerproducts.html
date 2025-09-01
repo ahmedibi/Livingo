@@ -477,11 +477,14 @@
     }
 
     function deleteSellerProduct(productId) {
-      let products = JSON.parse(localStorage.getItem("products")) || [];
-      products = products.filter((p) => p.id !== productId);
-      localStorage.setItem("products", JSON.stringify(products));
-      renderSellerProducts();
-    }
+    if (confirm("Are you sure you want to delete this product?")) {
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    products = products.filter((p) => p.id !== productId);
+    localStorage.setItem("products", JSON.stringify(products));
+    renderSellerProducts(); // refresh seller's product list
+  }
+}
+
 
     function editSellerProduct(productId) {
       window.location.href = `selleredit.html?id=${productId}`;
