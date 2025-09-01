@@ -1,38 +1,38 @@
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 const tbody = document.getElementById("ordersTableBody");
- const searchInput = document.getElementById("searchInput");
- const statusFilter = document.getElementById("statusFilter");
- const priceFilter = document.getElementById("priceFilter");
- const priceValue = document.getElementById("priceValue");
+const searchInput = document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
+const priceFilter = document.getElementById("priceFilter");
+const priceValue = document.getElementById("priceValue");
 
 function renderOrders(list) {
-    tbody.innerHTML = ""; // مسح المحتوى القديم أولاً
-    if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center">No Orders Found</td></tr>`;
-        return;
+  tbody.innerHTML = ""; // مسح المحتوى القديم أولاً
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" class="text-center">No Orders Found</td></tr>`;
+    return;
+  }
+
+  list.forEach(order => {
+    // تجاهل أي order مفيهوش منتجات
+    if (!order.items || order.items.length === 0) return;
+
+    // المنتجات مع الكمية لكل منتج
+    const itemsText = order.items.map(item => `${item.name || "No product"} (x${item.quantity || 0})`).join(", ");
+    // المجموع الكلي للكمية لكل الطلب
+    const totalQuantity = order.items.reduce((sum, it) => sum + (Number(it.quantity) || 0), 0);
+    // السعر الإجمالي
+    const totalPrice = order.items.reduce((sum, it) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0);
+
+    let statusClass = "";
+    switch (order.status) {
+      case "Pending": statusClass = "bg-secondary"; break;
+      case "Processing": statusClass = "bg-primary"; break;
+      case "Delivered": statusClass = "bg-success"; break;
+      case "Cancelled": statusClass = "bg-danger"; break;
     }
 
-    list.forEach(order => {
-        // تجاهل أي order مفيهوش منتجات
-        if (!order.items || order.items.length === 0) return;
-
-        // المنتجات مع الكمية لكل منتج
-        const itemsText = order.items.map(item => `${item.name || "No product"} (x${item.quantity || 0})`).join(", ");
-        // المجموع الكلي للكمية لكل الطلب
-        const totalQuantity = order.items.reduce((sum, it) => sum + (Number(it.quantity) || 0), 0);
-        // السعر الإجمالي
-        const totalPrice = order.items.reduce((sum, it) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0);
-
-        let statusClass = "";
-        switch(order.status) {
-            case "Pending": statusClass = "bg-secondary"; break;
-            case "Processing": statusClass = "bg-primary"; break;
-            case "Delivered": statusClass = "bg-success"; break;
-            case "Cancelled": statusClass = "bg-danger"; break;
-        }
-
-        tbody.innerHTML += `
+    tbody.innerHTML += `
         <tr data-id="${order.id}">
             <td>${order.customer?.name || "Unknown"}</td>
             <td>${itemsText}</td>
@@ -49,32 +49,25 @@ function renderOrders(list) {
                 </div>
             </td>
             <td>
-                  <button class="btn btn-sm btn-outline-warning me-1" onclick="enableEditStatus(${order.id})">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>
-                </g>
-              </svg>
+                  <button class="btn btn-sm btn-outline-warning edit" onclick="enableEditStatus(${order.id})">
+             <i class="fa-solid fa-pen-to-square me-1"></i>
             </button>     
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id})">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                <path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM7 6v13z"/>
-              </svg>
+            <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id})">
+              <i class="fa-solid fa-trash me-1"></i>
             </button>
             </td>
         </tr>
         `;
-    });
+  });
 }
 
 function deleteOrder(orderId) {
-    if (!confirm("Are you sure to delete this order?")) return;
+  if (!confirm("Are you sure to delete this order?")) return;
 
-    // دور على الـ order
-    orders = orders.filter(o => o.id !== orderId); // حذف الـ order بالكامل
-    localStorage.setItem("orders", JSON.stringify(orders));
-    renderOrders(orders);
+  // دور على الـ order
+  orders = orders.filter(o => o.id !== orderId); // حذف الـ order بالكامل
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderOrders(orders);
 }
 
 
@@ -89,7 +82,7 @@ function enableEditStatus(id) {
   const select = document.createElement("select");
   select.className = "form-select form-select-sm";
 
-  ["Pending","Processing","Delivered","Cancelled"].forEach(status => {
+  ["Pending", "Processing", "Delivered", "Cancelled"].forEach(status => {
     const option = document.createElement("option");
     option.value = status;
     option.textContent = status;
@@ -113,62 +106,62 @@ function enableEditStatus(id) {
 }
 
 
- 
-function updateStatus(id, newStatus) {
-    let order = orders.find(o => o.id === id);
-    if (!order) return;
 
-    order.status = newStatus.trim();
-    localStorage.setItem("orders", JSON.stringify(orders));
-    renderOrders(orders);
+function updateStatus(id, newStatus) {
+  let order = orders.find(o => o.id === id);
+  if (!order) return;
+
+  order.status = newStatus.trim();
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderOrders(orders);
 }
 
 
- 
- 
 
- // Filters
+
+
+// Filters
 // Filters
 function applyFilters() {
-    let searchVal = searchInput.value.toLowerCase().trim();
-    let statusVal = statusFilter.value;
-    let priceVal = parseInt(priceFilter.value) || 0;
+  let searchVal = searchInput.value.toLowerCase().trim();
+  let statusVal = statusFilter.value;
+  let priceVal = parseInt(priceFilter.value) || 0;
 
-    let filtered = orders.filter(order => {
-        if (!order.items || order.items.length === 0) return false;
+  let filtered = orders.filter(order => {
+    if (!order.items || order.items.length === 0) return false;
 
-        // البحث
-        let matchSearch = 
-            order.id.toString().includes(searchVal) || 
-            (order.customer?.name || "").toLowerCase().includes(searchVal);
+    // البحث
+    let matchSearch =
+      order.id.toString().includes(searchVal) ||
+      (order.customer?.name || "").toLowerCase().includes(searchVal);
 
-        // الحالة
-        let matchStatus = statusVal ? order.status === statusVal : true;
+    // الحالة
+    let matchStatus = statusVal ? order.status === statusVal : true;
 
-        // إجمالي السعر
-        const total = order.items.reduce((sum, it) => {
-            const price = Number(it.price) || 0;
-            const qty   = Number(it.quantity) || 0;
-            return sum + price * qty;
-        }, 0);
-        let matchPrice = total >= priceVal;
+    // إجمالي السعر
+    const total = order.items.reduce((sum, it) => {
+      const price = Number(it.price) || 0;
+      const qty = Number(it.quantity) || 0;
+      return sum + price * qty;
+    }, 0);
+    let matchPrice = total >= priceVal;
 
-        return matchSearch && matchStatus && matchPrice;
-    });
+    return matchSearch && matchStatus && matchPrice;
+  });
 
-    renderOrders(filtered);
+  renderOrders(filtered);
 }
 
 // تحديث السعر المعروض مع السلايدر
 searchInput.addEventListener("input", applyFilters);
 statusFilter.addEventListener("change", applyFilters);
 priceFilter.addEventListener("input", () => {
-    priceValue.textContent = `${priceFilter.value}+ EGP`;
-    applyFilters();
+  priceValue.textContent = `${priceFilter.value}+ EGP`;
+  applyFilters();
 });
 
- renderOrders(orders);
-    // Active menu management
+renderOrders(orders);
+// Active menu management
 function setActiveMenuItem(clickedElement) {
   document.querySelectorAll('.sidebar ul li').forEach(li => {
     li.classList.remove('active');
@@ -181,9 +174,9 @@ function toggleSidebar() {
 }
 
 
-const logout= document.getElementById("logOut")
-  logout.addEventListener("click",function(){
-    localStorage.removeItem("currentUser"); 
-         alert("You have been logged out.");
-         window.location.href = "../../../sign/login/login.html"; 
-  })
+const logout = document.getElementById("logOut")
+logout.addEventListener("click", function () {
+  localStorage.removeItem("currentUser");
+  alert("You have been logged out.");
+  window.location.href = "../../../sign/login/login.html";
+})

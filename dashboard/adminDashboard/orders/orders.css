@@ -1,48 +1,52 @@
-html,body{
+html,
+body {
     background: #f6f2e7;
-  font-family: "Inter", Arial, sans-serif  ;
-  margin: 0;
-  display: flex;
+    font-family: "Inter", Arial, sans-serif;
+    margin: 0;
+    display: flex;
 }
 
-#edit{
-  border-color:  #ba6931 !important;
+#edit {
+    border-color: #ba6931 !important;
 }
-main{
-transition: all 0.3s ease;
+
+main {
+    transition: all 0.3s ease;
 }
+
 .custom-table thead th {
-  background: #000000;
-  color: #f1e1b7;
-  font-size: 1.08em;
-  font-weight: 700;
-  padding: 20px 15px;
-  border: none;
-  letter-spacing: 0.03em;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+    background: #000000;
+    color: #f1e1b7;
+    font-size: 1.08em;
+    font-weight: 700;
+    padding: 20px 15px;
+    border: none;
+    letter-spacing: 0.03em;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
+
 .header-section {
-  padding: 0px 0px 0 25px;
+    padding: 0px 0px 0 25px;
 }
 
 .header-section h1 {
-  color: #a0804d;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  font-size: 2.4rem;
-  margin-bottom: 20px;
-  margin-top: 15px !important;
+    color: #a0804d;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    margin-top: 15px !important;
 }
 
 
 .table-responsive {
-  margin: 0;
-  background: transparent;
-  border-radius: 19px;
+    margin: 0;
+    background: transparent;
+    border-radius: 19px;
 
-  
+
 }
 
 
@@ -51,64 +55,66 @@ transition: all 0.3s ease;
     background: #f0f0f0;
     color: black;
     height: 100vh;
-  
+
     position: fixed;
     top: 0;
     left: 0;
     transition: transform 0.3s ease;
     z-index: 1000;
-  
+
 }
+
 #sidebar .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 2rem;
-  text-decoration: none;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #40372e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #40372e;
     padding: 20px;
 }
 
 #sidebar .logo .cushion-o {
-  color: #a0804d;
-  font-size: 2.5rem;
-  margin-left: 5px;
+    color: #a0804d;
+    font-size: 2.5rem;
+    margin-left: 5px;
 }
 
 #sidebar a {
-  gap: 12px;
-  text-decoration: none;
-  color: black;
-  padding: 7px;
-  border-radius: 8px;
-  transition: all 0.3s;
+    gap: 12px;
+    text-decoration: none;
+    color: black;
+    padding: 7px;
+    border-radius: 8px;
+    transition: all 0.3s;
 }
-.sidebar p{
+
+.sidebar p {
     margin-left: 35px;
 }
 
-header{
-      margin-bottom: 20px;  
+header {
+    margin-bottom: 20px;
 }
 
 .sidebar ul {
     list-style: none;
     padding: 0;
     margin-top: 15px;
-    
+
 }
 
 .sidebar ul li {
-    margin-left: 15px  ; 
-    margin-top:30px ;
+    margin-left: 15px;
+    margin-top: 30px;
     padding-top: 5px;
     padding-left: 10px;
-    
+
 }
 
-.sidebar ul li:hover{
+.sidebar ul li:hover {
     border-style: none;
     border-radius: 10px;
     width: 200px;
@@ -117,7 +123,7 @@ header{
 }
 
 .sidebar ul li.active {
-    background-color:#A0804D;
+    background-color: #A0804D;
     border-radius: 10px;
     width: 200px;
     height: 40px;
@@ -132,26 +138,26 @@ header{
     color: rgb(0, 0, 0);
     text-decoration: none;
     margin-bottom: 20px;
-    
+
 }
 
- .sidebar ul li a:hover{
+.sidebar ul li a:hover {
     color: rgb(255, 255, 255);
-} 
+}
 
 .sidebar ul li.active a {
     color: white;
     font-weight: bold;
 }
 
-.sidebar img{
+.sidebar img {
     width: 100px;
     border-radius: 50%;
     margin-left: 35px;
     margin-bottom: 10px;
 }
 
-i{
+i {
     margin-right: 20px;
 }
 
@@ -161,33 +167,60 @@ i{
     width: 82vw !important;
 }
 
-.orders-section{
+.orders-section {
     margin-top: 20px;
 }
 
 /* sidemenu Button  */
 .sidemenu {
     display: none;
-    font-size:20px;
-    background: #333333; 
+    font-size: 20px;
+    background: #333333;
     color: #ffffff;
-    padding: 5px 10px;   
+    padding: 5px 10px;
     cursor: pointer;
-     position: fixed; 
-     top: 5px; 
-     border-radius: 5px;
-     margin-left: 10px;
-     
+    position: fixed;
+    top: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+
     cursor: pointer;
 }
 
-.btn-close{
-     display: none;     
-     position: absolute;
-     top: 10px;
-     right: 10px;
-     border: none;
-    
+.btn-close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+
+}
+
+.edit {
+    background-color: #af995d;
+    border: none;
+    color: black;
+}
+
+.edit:hover {
+    background-color: #d2b667 !important;
+    color: black;
+    box-shadow: 2px 2px 2px gray !important;
+    transform: scale(1.02);
+}
+
+.delete {
+    background-color: black;
+    border: none;
+    color: #af995d;
+    transition: all .09s;
+}
+
+.delete:hover {
+    box-shadow: 2px 2px 2px gray;
+    background-color: rgb(39, 38, 39);
+    color: rgb(239, 213, 178);
+    transform: scale(1.02);
 }
 
 /* Responsive */
@@ -195,7 +228,8 @@ i{
     .sidemenu {
         display: block;
     }
-     .btn-close {
+
+    .btn-close {
         display: block;
     }
 
@@ -215,45 +249,46 @@ i{
 }
 
 
-  @media (min-width: 769px) and (max-width:1300px){
-            .content {
-              margin-left: 110px;
-              padding-top: 60px;
-              width: 85% !important;
-          }
-            
-          .livingo-icon{
-           width: 100px !important;
-           margin-right: .2rem;
-          }
+@media (min-width: 769px) and (max-width:1300px) {
+    .content {
+        margin-left: 110px;
+        padding-top: 60px;
+        width: 85% !important;
+    }
 
-          .sidebar {
-          width: 100px;
-          background: #f0f0f0;
-          color: black;
-          height: 100vh;
-        
-          position: fixed;
-          top: 0;
-          left: 0;
-          transition: transform 0.3s ease;
-          z-index: 1000;
-        
-         }
-         span{
-           display: none;
-         }
-         
-      .sidebar ul li:hover{
-          border-style: none;
-          border-radius: 10px;
-          width: 70px;
-          height: 40px;
-          background-color: #A0804D;
-      }
-      
-      .sidebar ul li.active {
-          display: none;
-      }
-      
-      }
+    .livingo-icon {
+        width: 100px !important;
+        margin-right: .2rem;
+    }
+
+    .sidebar {
+        width: 100px;
+        background: #f0f0f0;
+        color: black;
+        height: 100vh;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease;
+        z-index: 1000;
+
+    }
+
+    span {
+        display: none;
+    }
+
+    .sidebar ul li:hover {
+        border-style: none;
+        border-radius: 10px;
+        width: 70px;
+        height: 40px;
+        background-color: #A0804D;
+    }
+
+    .sidebar ul li.active {
+        display: none;
+    }
+
+}
