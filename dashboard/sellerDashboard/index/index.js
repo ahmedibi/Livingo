@@ -1,6 +1,4 @@
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("active");
-}
+
 
 // Get current user from localStorage (assuming it's stored when user logs in)
 function getCurrentUser() {
@@ -20,29 +18,11 @@ function getCurrentUser() {
             const mainContent = document.getElementById('Content');
             const overlay = document.getElementById('overlay');
 
-            if (window.innerWidth > 768) {
-                overlay.classList.remove('active');
-                if (sidebar.classList.contains('open')) {
-                    mainContent.classList.add('sidebar-open');
-                }
-            } else {
-                mainContent.classList.remove('sidebar-open');
-            }
+          
         });
 
         // Logout functionality
-        document.getElementById('logOut').addEventListener('click', function (e) {
-            e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                const logout = document.getElementById("logOut")
-                logout.addEventListener("click", function () {
-                    localStorage.removeItem("currentUser");
-                    alert("You have been logged out.");
-                    window.location.href = "../../../sign/login/login.html";
-                });
-                console.log('Logging out...');
-            }
-        });
+        
 
 
 // Load seller data for the current authenticated user only
@@ -473,3 +453,23 @@ new Chart(ctx, {
         legendContainer.appendChild(item);
     });
 }
+
+
+function setActiveMenuItem(clickedElement) {
+  document.querySelectorAll('.sidebar ul li').forEach(li => {
+    li.classList.remove('active');
+  });
+  clickedElement.parentElement.classList.add('active');
+}
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+
+const logout = document.getElementById("logOut")
+logout.addEventListener("click", function () {
+  localStorage.removeItem("currentUser");
+  alert("You have been logged out.");
+  window.location.href = "../../../sign/login/login.html";
+})
