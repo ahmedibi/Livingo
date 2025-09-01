@@ -452,21 +452,50 @@
         });
 
         // عرض الطلبات (لو فيه)
-        const orderTable = document.getElementById("orderHistory");
-        if (user.orders && user.orders.length > 0) {
-            orderTable.innerHTML = "";
-            user.orders.forEach((order, i) => {
-                let tr = document.createElement("tr");
-                tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${order}</td>
-      <td>2024-05-01</td>
-      <td>Completed</td>
-      <td>$100</td>
+    //     const orderTable = document.getElementById("orderHistory");
+    //     if (user.orders && user.orders.length > 0) {
+    //         orderTable.innerHTML = "";
+    //         user.orders.forEach((order, i) => {
+    //             let tr = document.createElement("tr");
+    //             tr.innerHTML = `
+    //   <td>${i + 1}</td>
+    //   <td>${order}</td>
+    //   <td>2024-05-01</td>
+    //   <td>Completed</td>
+    //   <td>$100</td>
+    // `;
+    //             orderTable.appendChild(tr);
+    //         });
+    //     }
+
+
+    // عرض الطلبات من localStorage
+const orderTable = document.getElementById("orderHistory");
+let allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+// فلترة الطلبات الخاصة بالـ user
+let userOrders = allOrders.filter(o => o.customer.id === selectedId);
+
+if (userOrders.length > 0) {
+    orderTable.innerHTML = "";
+    userOrders.forEach((order, i) => {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${order.id}</td>
+          <td>${order.date}</td>
+          <td>${order.status}</td>
+          <td>${order.paymentMethod}</td>
+        `;
+        orderTable.appendChild(tr);
+    });
+} else {
+    orderTable.innerHTML = `
+      <tr>
+        <td colspan="5" class="text-center">No orders found</td>
+      </tr>
     `;
-                orderTable.appendChild(tr);
-            });
-        }
+}
 
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("active");
