@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (headerSection) {
     const statsDiv = document.createElement("div");
     statsDiv.innerHTML = `
-      <div class="fromjs" style="background: white; padding: 15px 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1) ; margin-bottom: 20px; display: flex; ">
+      <div class="fromjs" style="background: white; padding: 15px 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1) ; margin-bottom: 20px; display: flex;  ">
         <p style="color: #666;"> Total Sellers : </p>
         <p class="stats-count" style="color: #a0804d; font-weight: bold; font-size: 1.2em; margin-left:5px">${sellers.length}</p>
       </div>
