@@ -42,12 +42,14 @@ function renderOrders(data = orders) {
           <td>${order.date}</td>
           <td class="status-cell"><span class="badge ${statusClass}">${order.status}</span></td>
           <td>
-            <button class="btn btn-sm btn-outline-warning me-1 edit" onclick="enableEditStatus(${order.id})">
-              <i class="fa-solid fa-pen-to-square m-1"></i>           
-            </button>
-            <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id}, '${item.id}')">
-              <i class="fa-solid fa-trash m-1"></i>
-            </button>
+            <div class="d-flex">
+              <button class="btn btn-sm btn-outline-warning me-1 edit" onclick="enableEditStatus(${order.id})">
+                <i class="fa-solid fa-pen-to-square m-1"></i>           
+              </button>
+              <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id}, '${item.id}')">
+                <i class="fa-solid fa-trash m-1"></i>
+              </button>
+            </div>
           </td>
         </tr>
       `;
