@@ -87,18 +87,20 @@
 <body>
 
   <!-- Sidebar -->
-  <div id="sideBar"></div>
+
 
   <!-- Modal trigger button (يمكنك إخفاؤه إذا تريد فتح modal مباشرة بالـ JS) -->
   <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editSellerModal">Edit Seller</button> -->
 
   <!-- Modal -->
-  <div class="modal fade" id="editSellerModal" tabindex="-1" aria-labelledby="editSellerLabel" aria-hidden="true">
+  <div class="modal fade" id="editSellerModal" tabindex="-1" aria-labelledby="editSellerLabel" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content p-4">
         <div class="modal-header border-0">
           <h5 class="modal-title text-uppercase" id="editSellerLabel" style="color:#a0804d; font-weight:700;">Edit Seller</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <!-- <a href="sellers.html" style="margin-left: 260px;"> -->
+            <button type="button" class="btn-close" onclick="window.location.href='sellers.html'" aria-label="Close"></button>
+          <!-- </a>         -->
         </div>
         <div class="modal-body">
           <form id="editSellerForm">
@@ -124,12 +126,20 @@
   <script src="selleredit.js"></script>
 
   <script>
-    // فتح الـ modal تلقائيًا عند تحميل الصفحة
-    var myModal = new bootstrap.Modal(document.getElementById('editSellerModal'), {
-      backdrop: 'static', 
-      keyboard: false     
-    });
-    myModal.show();
+   const modalEl = document.getElementById('editSellerModal');
+  const myModal = new bootstrap.Modal(modalEl, {
+    backdrop: 'static',
+    keyboard: false
+  });
+  myModal.show();
+
+  // detect click outside modal-content
+  modalEl.addEventListener('click', function (e) {
+    if (e.target === modalEl) {
+      window.location.href = 'sellers.html';
+    }
+  });
+
   </script>
 </body>
 </html>
