@@ -8,8 +8,8 @@
 }
 
 /* //////////////////////////////////////////////////////////landing////////////////////////////////////////////////////////////////// */
-#carouselExampleIndicators{
-   z-index: -1 !important;
+#carouselExampleIndicators {
+  z-index: -1 !important;
 }
 
 
@@ -17,7 +17,6 @@
   width: 15px;
   height: 15px;
   border-radius: 100%;
- 
   background: linear-gradient(#a47148, #82673d);
 }
 
@@ -85,10 +84,6 @@
 .product-card:hover .product-actions {
   opacity: 1;
 }
-
-
-
-
 
 .product-actions {
   position: absolute;

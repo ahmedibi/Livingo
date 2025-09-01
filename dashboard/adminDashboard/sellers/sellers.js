@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </button>
         
           <button class="action-btn2 btn btn-sm delete-btn" data-id="${id}" title="حذف">
-            <i class="fa-solid fa-trash m-1" m-1></i>
+            <i class="fa-solid fa-trash m-1"></i>
           </button>
         </td>
       `;
