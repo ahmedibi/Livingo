@@ -1,7 +1,3 @@
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("active");
-}
-
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let users = JSON.parse(localStorage.getItem("users")) || [];
@@ -157,19 +153,25 @@ sortSelect.addEventListener("change", applyFilters);
 
 // Initial render
 renderOrders();
- const logout= document.getElementById("logOut")
-  logout.addEventListener("click",function(){
-    localStorage.removeItem("currentUser"); 
-         alert("You have been logged out.");
-         window.location.href = "../../../sign/login/login.html"; 
-  });
 
-    // Active menu management
+
 function setActiveMenuItem(clickedElement) {
   document.querySelectorAll('.sidebar ul li').forEach(li => {
     li.classList.remove('active');
   });
   clickedElement.parentElement.classList.add('active');
 }
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+
+const logout = document.getElementById("logOut")
+logout.addEventListener("click", function () {
+  localStorage.removeItem("currentUser");
+  alert("You have been logged out.");
+  window.location.href = "../../../sign/login/login.html";
+})
 
 
