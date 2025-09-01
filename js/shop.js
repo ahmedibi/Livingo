@@ -157,7 +157,9 @@ function updateUserData(updatedUser) {
       productContainer.innerHTML += `
         <div class="col-12 col-md-6 col-lg-3 mb-5">
           <div class="card h-100">
-            <img src="${imagePath}" class="card-img-top" alt="${product.name}">
+                <a href="./product.html?id=${product.id}">  
+                  <img src="${imagePath}" class="card-img-top" alt="${product.name}">
+                    </a>  
             <div class="product-actions">
               <button id="wishlistBtn" data-id="${product.id}">
                 <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
