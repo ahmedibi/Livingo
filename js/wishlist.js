@@ -37,13 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
             class="card-img-top" 
             alt="${product.name}" height=200>
         </a>
-        
+            <div class="product-actions">
+            <button class="wishlistBtn" data-id="${product.id}">
+              <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
+            </button>
+          </div>
         <div class="d-flex">
-          <button class="btn w-50 rounded-0 addtocart" data-id="${product.id}">
+          <button class="btn w-100 rounded-0 addtocart" data-id="${product.id}">
             Add to Cart
-          </button>
-          <button class="btn w-50 rounded-0 remove-btn" data-id="${product.id}">
-            Remove from Wishlist
           </button>
         </div>
 
@@ -71,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // زرار الحذف + الاضافة للكارت
   wishlistContainer.addEventListener('click', (e) => {
-    const removeBtn = e.target.closest('.remove-btn');
+    const removeBtn = e.target.closest('.wishlistBtn');
     if (removeBtn) {
       const id = removeBtn.getAttribute('data-id');
       if (currentUser && currentUser.wishlist) {
