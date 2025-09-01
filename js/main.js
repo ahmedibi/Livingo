@@ -335,17 +335,17 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: "shop3", productId: "p069" },
     { id: "shop4", productId: "p009" },
     { id: "shop5", productId: "p037" },
-    { id: "shop6", productId: "p053" },
+    { id: "shop6", productId: "p053" }
   ];
 
-  shopLinks.forEach((shop) => {
+  shopLinks.forEach(shop => {
     const element = document.getElementById(shop.id);
     if (element) {
       element.innerHTML = `
-          <a href="product.html?id=${shop.productId}"
-            class="fs-3 text-light text-decoration-none border-bottom border-2 pb-1">
-            Shop Now →
-          </a>`;
+        <a href="./product.html?id=${shop.productId}"
+           class="fs-3 text-light text-decoration-none border-bottom border-2 pb-1">
+          Shop Now →
+        </a>`;
     }
   });
 });
