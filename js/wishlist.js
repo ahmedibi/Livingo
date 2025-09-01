@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         <div class="d-flex">
           <button class="btn w-50 rounded-0 addtocart" data-id="${product.id}" 
-            style="background-color:#284b63; color:white">
+            style="background-color:black; color:white">
             Add to Cart
           </button>
           <button class="btn w-50 rounded-0 remove-btn" data-id="${product.id}" 
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         localStorage.setItem("users", JSON.stringify(users));
       }
-      const itemEl = removeBtn.closest('[class*="col-"]'); 
+      const itemEl = removeBtn.closest('[class*="col-"]');
       if (itemEl) itemEl.remove();
       return;
     }
