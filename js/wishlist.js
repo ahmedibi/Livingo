@@ -39,12 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </a>
         
         <div class="d-flex">
-          <button class="btn w-50 rounded-0 addtocart" data-id="${product.id}" 
-            style="background-color:black; color:white">
+          <button class="btn w-50 rounded-0 addtocart" data-id="${product.id}">
             Add to Cart
           </button>
-          <button class="btn w-50 rounded-0 remove-btn" data-id="${product.id}" 
-            style="background-color:#a0804d; color:white">
+          <button class="btn w-50 rounded-0 remove-btn" data-id="${product.id}">
             Remove from Wishlist
           </button>
         </div>

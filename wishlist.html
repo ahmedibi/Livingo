@@ -1,32 +1,54 @@
 <!-- wishlist.html placeholder -->
- <!DOCTYPE html>
- <html lang="en">
- <head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>wishlist</title>
   <script src="js/components.js" defer></script>
-  <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous"
-    ></script>
- </head>
- <body>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"></script>
+
+  <style>
+    .card-img-top {
+      object-fit: cover;
+    }
+
+    .remove-btn {
+      background-color: #a0804d !important;
+      color: white !important;
+    }
+
+    .remove-btn:hover {
+      background-color: #cf9a61 !important;
+    }
+
+    .addtocart {
+      background-color: black !important;
+      color: white !important;
+    }
+
+    .addtocart:hover {
+      background-color: rgb(47, 46, 46) !important;
+    }
+  </style>
+
+</head>
+
+<body>
   <div id="navbar"></div>
-   <div class="container my-5 min-vh-100">
+  <div class="container my-5 min-vh-100">
     <h1 class="fs-1 fw-bold mb-4" style="color: #a0804d;">Your Favourite Products</h1>
     <div id="wishlistContainer" class="row d-flex">
       <!-- Wishlist products will appear here -->
     </div>
   </div>
-   <div id="footer"></div>
+  <div id="footer"></div>
   <script src="js/wishlist.js"></script>
- </body>
- </html>
+</body>
+
+</html>
