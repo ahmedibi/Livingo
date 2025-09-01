@@ -1,4 +1,13 @@
-
-.crumb.activebread{
+.crumb.activebread {
   color: black !important;
+}
+
+
+.placeOrder {
+  background-color: #a0804d !important;
+}
+
+.placeOrder:hover {
+  background-color: #cf9a61 !important;
+  box-shadow: 2px 2px 2px black;
 }

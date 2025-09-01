@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orders</title>
-    <script src="js/components.js" defer></script>
+  <script src="js/components.js" defer></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <style>
@@ -14,22 +15,41 @@
       color: white !important;
       border-color: #a0804d !important;
     }
-    td{
-      color: #284b63 !important;
+
+    .title {
+      font-size: 30px;
+      color: #a0804d !important;
+      position: relative;
     }
-    
+
+    .title::before {
+      position: absolute;
+      content: "";
+      top: 1px;
+      left: -25px;
+      height: 35px;
+      width: 18px;
+      background: #a0804d;
+      border-radius: 5px;
+    }
+
+    td {
+      color: black !important;
+    }
+
     .delete-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.06);
       transition: all 0.2s ease;
     }
   </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <div id="navbar"></div>
 
   <div class="container my-5 min-vh-100">
-    <h1 class="mb-4" style="color: #a0804d">My Orders</h1>
+    <h1 class="mb-4 title">My Orders</h1>
     <div class="table-responsive">
       <table class="table table-striped table-bordered align-middle">
         <thead>
@@ -91,19 +111,19 @@
         const itemsText = order.items.map(i => `${i.name} (${i.quantity || 1})`).join("<br>");
         const tr = document.createElement("tr");
         let statusClass = "";
-         switch (order.status) {
-            case "Pending":
-                 statusClass = "bg-secondary"; 
-                 break;
-             case "Delivered":
-                 statusClass= "bg-success";
-                 break;
-                  case "Processing":
-                 statusClass= "bg-primary";
-                 break;
-                case "Cancelled":
-                 statusClass= "bg-danger";  
-         }
+        switch (order.status) {
+          case "Pending":
+            statusClass = "bg-secondary";
+            break;
+          case "Delivered":
+            statusClass = "bg-success";
+            break;
+          case "Processing":
+            statusClass = "bg-primary";
+            break;
+          case "Cancelled":
+            statusClass = "bg-danger";
+        }
         tr.innerHTML = `
           <td>${order.id}</td>
           <td><strong>${order.customer.name}</strong><br><small>${order.customer.phone}</small></td>
@@ -124,7 +144,7 @@
         tbody.appendChild(tr);
       });
 
-    
+
       tbody.addEventListener("click", (e) => {
         if (e.target.closest(".delete-order")) {
           const isConfirmed = confirm("Are you sure you want to delete this order?");
@@ -133,14 +153,14 @@
             const id = e.target.closest(".delete-order").getAttribute("data-id");
             const updatedOrders = orders.filter(order => String(order.id) !== String(id));
             localStorage.setItem("orders", JSON.stringify(updatedOrders));
-            
+
             const row = e.target.closest("tr");
             row.style.transition = "all 0.3s ease";
             row.style.opacity = "0";
             row.style.transform = "scale(0.95)";
             setTimeout(() => {
               row.remove();
-              
+
               if (tbody.children.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No orders found for you.</td></tr>`;
               }
@@ -151,4 +171,5 @@
     });
   </script>
 </body>
+
 </html>

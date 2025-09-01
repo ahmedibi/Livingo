@@ -14,11 +14,10 @@ function getCurrentUser() {
     }
 }
 
-
         // Handle window resize
         window.addEventListener('resize', function () {
             const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
+            const mainContent = document.getElementById('Content');
             const overlay = document.getElementById('overlay');
 
             if (window.innerWidth > 768) {
@@ -117,171 +116,83 @@ function calculateSellerMetrics(sellers) {
     const productsData = loadProductsData();
     const ordersData = loadOrdersData();
 
-    console.log('Products data:', productsData);
-    console.log('Orders data:', ordersData);
-
     sellers.forEach((seller, index) => {
         console.log(`Processing seller ${index + 1}:`, seller);
 
-        // Get seller's product details for revenue calculation
+        // Get seller's product IDs
         const sellerProducts = seller.products || [];
         console.log('Seller products IDs:', sellerProducts);
 
-        // Calculate revenue from actual product data
-        if (productsData && Object.keys(productsData).length > 0) {
-            console.log('Calculating revenue from actual products data');
-            sellerProducts.forEach(productId => {
-                // Find product in products data
-                let product = null;
-                
-                // Try direct lookup first
-                if (productsData[productId]) {
-                    product = productsData[productId];
-                } else {
-                    // Search through all products to find matching ID
-                    for (const [key, productData] of Object.entries(productsData)) {
-                        if (key === productId || productData.id === productId) {
-                            product = productData;
-                            break;
-                        }
-                    }
-                }
+        // Filter orders for this seller only
+        const sellerOrders = ordersData.filter(order =>
+            order.sellerId === seller.id || 
+            order.seller_id === seller.id ||
+            order.userId === seller.id || 
+            order.user_id === seller.id ||
+            order.items.some(item => sellerProducts.includes(item.id)) // fallback: check product ownership
+        );
+
+        console.log(`Found ${sellerOrders.length} orders for seller ${seller.id}`);
+
+        sellerOrders.forEach(order => {
+            order.items.forEach(item => {
+                const product = findProductById(item.id, productsData);
 
                 if (product && product.price) {
-                    const productPrice = parseFloat(product.price);
-                    console.log(`Product ${productId}: ${product.name || product.title} - Price: $${productPrice}`);
+                    const orderValue = parseFloat(product.price);
+                    totalRevenue += orderValue;
+                    totalUnitsSold += 1;
 
-                    // Track product for chart with actual details
-                    const productName = product.name || product.title || `Product ${productId}`;
+                    // Track product sales
+                    const productName = product.name || product.title || `Product ${item.id}`;
                     if (!productSalesMap[productName]) {
-                        productSalesMap[productName] = { 
-                            total: 0, 
-                            units: 0,
-                            price: productPrice,
-                            details: product
-                        };
+                        productSalesMap[productName] = { total: 0, units: 0, price: product.price, details: product };
                     }
-                    productSalesMap[productName].total += productPrice;
-                } else {
-                    console.log(`Product ${productId} not found in products data`);
-                }
-            });
-        }
+                    productSalesMap[productName].total += orderValue;
+                    productSalesMap[productName].units += 1;
 
-        // Calculate actual sales from orders
-        const orders=loadOrdersData();
-        if (orders && Array.isArray(orders)) {
-            console.log('Processing seller orders:', orders);
-           orders.forEach(order => {
-            order.items.forEach((item)=>{
-                           const product = findProductById(item.id, productsData);
-                 if (product && product.price) {
-                    const orderValue = parseFloat(product.price);
-                    totalRevenue += orderValue;
-                    totalUnitsSold += 1;
-                    
-                    // Update product sales tracking
-                    const productName = product.name || product.title || `Product ${order.productId}`;
-                    if (productSalesMap[productName]) {
-                        productSalesMap[productName].units += 1;
-                    }
-
-                    // Track monthly sales with actual order values
+                    // Track monthly sales
                     const orderDate = new Date(order.date || order.created_at || Date.now());
                     const monthKey = orderDate.toLocaleDateString('en-US', { month: 'short' });
-
-                    if (!monthlySalesMap[monthKey]) {
-                        monthlySalesMap[monthKey] = 0;
-                    }
-                    monthlySalesMap[monthKey] += orderValue;
-                    
-                    console.log(`Order processed: ${productName} - $${orderValue} in ${monthKey}`);
-                }
-            })
-                // Find the product for this order to get accurate revenue
-     
-                
-               
-            });
-        } else if (ordersData && Object.keys(ordersData).length > 0) {
-            console.log('Processing from global orders data');
-            // Check global orders data for this seller
-            const sellerOrders = Object.values(ordersData).filter(order =>
-                order.sellerId === seller.id ||
-                order.seller_id === seller.id ||
-                (order.userId && order.userId === seller.id) ||
-                (order.user_id && order.user_id === seller.id)
-            );
-
-            console.log(`Found ${sellerOrders.length} orders for seller ${seller.name}`);
-            
-            sellerOrders.forEach(order => {
-                const product = findProductById(order.productId || order.product_id, productsData);
-                
-                if (product && product.price) {
-                    const orderValue = parseFloat(product.price);
-                    totalRevenue += orderValue;
-                    totalUnitsSold += 1;
-
-                    const orderDate = new Date(order.date || order.created_at || Date.now());
-                    const monthKey = orderDate.toLocaleDateString('en-US', { month: 'short' });
-
-                    if (!monthlySalesMap[monthKey]) {
-                        monthlySalesMap[monthKey] = 0;
-                    }
+                    if (!monthlySalesMap[monthKey]) monthlySalesMap[monthKey] = 0;
                     monthlySalesMap[monthKey] += orderValue;
                 }
             });
-        }
+        });
     });
 
     console.log('Final totals:', { totalRevenue, totalUnitsSold });
 
-    // Calculate average order value
+    // Average order value
     const avgOrderValue = totalUnitsSold > 0 ? totalRevenue / totalUnitsSold : 0;
-    console.log('Average Order Value:', avgOrderValue);
 
-    // Convert monthly sales to array format and sort by month order
+    // Monthly sales
     const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const monthlySales = Object.entries(monthlySalesMap)
         .sort(([a], [b]) => monthOrder.indexOf(a) - monthOrder.indexOf(b))
-        .map(([month, sales]) => ({
-            month,
-            sales: Math.round(sales)
-        }));
+        .map(([month, sales]) => ({ month, sales: Math.round(sales) }));
 
-    // Get top products based on actual sales
-    const topProducts = Object.entries(productSalesMap).length > 0
-        ? Object.entries(productSalesMap)
-            .map(([name, data]) => ({
-                name,
-                value: data.units > 0 ? data.units : Math.round((data.total / totalRevenue) * 100) || 0,
-                revenue: data.total,
-                units: data.units,
-                color: generateProductColor(name)
-            }))
-            .sort((a, b) => b.revenue - a.revenue) // Sort by revenue
-            .slice(0, 4)
-        : generateMockTopProducts();
+    // Top products
+    const topProducts = Object.entries(productSalesMap).map(([name, data]) => ({
+        name,
+        value: data.units,
+        revenue: data.total,
+        units: data.units,
+        color: generateProductColor(name)
+    }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 4);
 
-    // Calculate growth percentages from actual historical data
-    const revenueGrowth = calculateGrowth('revenue', totalRevenue);
-    const unitsGrowth = calculateGrowth('units', totalUnitsSold);
-    const avgOrderGrowth = calculateGrowth('avgOrder', avgOrderValue);
-
-    const result = {
+    return {
         totalRevenue: Math.round(totalRevenue),
-        revenueGrowth: Math.round(revenueGrowth * 10) / 10,
+        revenueGrowth: calculateGrowth('revenue', totalRevenue),
         unitsSold: totalUnitsSold,
-        unitsGrowth: Math.round(unitsGrowth * 10) / 10,
+        unitsGrowth: calculateGrowth('units', totalUnitsSold),
         avgOrderValue: Math.round(avgOrderValue),
-        avgOrderGrowth: Math.round(avgOrderGrowth * 10) / 10,
-        monthlySales: monthlySales,
-        topProducts: topProducts.length > 0 ? topProducts : []
+        avgOrderGrowth: calculateGrowth('avgOrder', avgOrderValue),
+        monthlySales,
+        topProducts
     };
-
-    console.log('Final calculated result:', result);
-    return result;
 }
 
 // Helper function to find product by ID
