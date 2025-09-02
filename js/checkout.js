@@ -246,6 +246,7 @@ function placeOrder(e) {
 
   var emailPattern = /^[a-zA-Z0-9]{3,25}@[a-zA-Z0-9]{4,25}\.(com)$/;
   if (name == "") { nameError.textContent = "First name is required"; nameInput.focus(); return; }
+  else if (name.includes(" ")) { nameError.textContent = "Please enter only one word"; nameInput.focus(); return; }
   else if (company == "") { companyError.textContent = "Company Name is required"; companyInput.focus(); return; }
   else if (street == "") { streetError.textContent = "Street address is required"; streetInput.focus(); return; }
   else if (city == "") { cityError.textContent = "City is required"; cityInput.focus(); return; }
