@@ -48,7 +48,7 @@ signupForm.addEventListener("submit", function (e) {
     return;
   }
 
-  // Validate email format
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     signUpMsg.style.color = "#e94545";
@@ -56,31 +56,31 @@ signupForm.addEventListener("submit", function (e) {
     return;
   }
 
-  // Load existing users
+
   let users = loadUsers();
 
-  // Check if name already exists
+
   if (users.find((u) => u.name.toLowerCase() === name.toLowerCase())) {
     signUpMsg.style.color = "#e94545";
     signUpMsg.textContent = `The username "${name}" is already taken. Please choose another one.`;
     return;
   }
 
-  // Check if email already exists
+
   if (users.find((u) => u.email && u.email.toLowerCase() === email)) {
     signUpMsg.style.color = "#e94545";
     signUpMsg.textContent = `An account already exists with the email "${email}". Please use another email.`;
     return;
   }
 
-  // Password length validation
+
   if (password.length < 6) {
     signUpMsg.style.color = "#e94545";
     signUpMsg.textContent = "Password must be at least 6 characters long.";
     return;
   }
 
-  // Create new user object with unique id
+
   const newUser = {
     id: "user" + Date.now(),
     name,
