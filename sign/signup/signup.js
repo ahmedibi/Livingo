@@ -20,8 +20,6 @@ function saveUsers(users) {
 const signupForm = document.getElementById("signupForm");
 const signUpMsg = document.getElementById("signUpMsg");
 
-// Add event listener for the login anchor link outside the form submit handler
-
 signupForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -50,28 +48,41 @@ signupForm.addEventListener("submit", function (e) {
     return;
   }
 
-  // Load existing users
-  let users = loadUsers();
-
-  // Debug: log current users for troubleshooting
-  console.log("Loaded users from localStorage:", users);
-
-  // Check if email or phone already exists
-  if (
-    users.find(
-      (u) =>
-        (u.email && u.email.toLowerCase() === email) ||
-        (u.phone && u.phone === phone)
-    )
-  ) {
-    signUpMsg.style.color = "#a0804d";
-    signUpMsg.textContent = "Account already exists for this email or phone.";
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    signUpMsg.style.color = "#e94545";
+    signUpMsg.textContent = "Please enter a valid email address.";
     return;
   }
 
-  // Create new user object
+  // Load existing users
+  let users = loadUsers();
+
+  // Check if name already exists
+  if (users.find((u) => u.name.toLowerCase() === name.toLowerCase())) {
+    signUpMsg.style.color = "#e94545";
+    signUpMsg.textContent = `The username "${name}" is already taken. Please choose another one.`;
+    return;
+  }
+
+  // Check if email already exists
+  if (users.find((u) => u.email && u.email.toLowerCase() === email)) {
+    signUpMsg.style.color = "#e94545";
+    signUpMsg.textContent = `An account already exists with the email "${email}". Please use another email.`;
+    return;
+  }
+
+  // Password length validation
+  if (password.length < 6) {
+    signUpMsg.style.color = "#e94545";
+    signUpMsg.textContent = "Password must be at least 6 characters long.";
+    return;
+  }
+
+  // Create new user object with unique id
   const newUser = {
-    id: "user" + (users.length + 1),
+    id: "user" + Date.now(),
     name,
     email,
     phone,
@@ -87,8 +98,8 @@ signupForm.addEventListener("submit", function (e) {
 
   // Show success message
   signUpMsg.style.color = "#28a745";
-  signUpMsg.textContent = `Account created as ${role}!`;
-  signUpMsg.classList.add("active"); // Make message visible
+  signUpMsg.textContent = `Account created successfully as ${role}!`;
+  signUpMsg.classList.add("active");
   signUpMsg.style.opacity = "1";
 
   // Clear form after successful signup
