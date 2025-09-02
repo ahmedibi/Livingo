@@ -198,7 +198,7 @@ livingo-website/
 │   │   ├── categories/     # Category icons and images
 │   │   └── mainImg/        # Site branding and hero images
 │   └── data/               # JSON data files
-│  ├──  dashboard/ 
+│  ├──  dashboard/
            ├──adminDashboard
            ├── sellerDashboard         # Product catalog styles
 ├── css/                    # Stylesheets
@@ -277,7 +277,7 @@ livingo-website/
 
 **Data Structure Design**
 
-```javascript
+````javascript
 // Core Data Objects
 products: [
   {
@@ -330,8 +330,8 @@ currentUser: {
       company: "ejada",
       street: "Kotor Tanta Egypt",
       city: "Tanta",
-      phone: null, 
-      email: null 
+      phone: null,
+      email: null
     },
     items: [
       {
@@ -339,10 +339,10 @@ currentUser: {
         name: "Modern Wooden Dining Chair",
         price: 350,
         currency: "EGP",
-        quantity: 1, 
-        image: null  
+        quantity: 1,
+        image: null
       }
-    ],         
+    ],
   }];
 
 
@@ -401,7 +401,7 @@ md: 768px     /* Medium devices (tablets) */
 lg: 992px     /* Large devices (desktops) */
 xl: 1200px    /* Extra large devices */
 xxl: 1400px   /* Extra extra large devices */
-```
+````
 
 ---
 
@@ -1271,4 +1271,18 @@ const debouncedSearch = createDebouncedSearch();
 - Regular cleanup of expired session data
 - Efficient serialization/deserialization
 
----
+![home](./assets/images/ReadMeImage/livingo.png)
+![Product-Details](./assets/images/ReadMeImage/ProductDetails.png)
+![All-Products](./assets/images/ReadMeImage/All-Products.png)
+![login](./assets/images/ReadMeImage/Log.png)
+![SignUp](./assets/images/ReadMeImage/Signup.png)
+![LightingRoom](./assets/images/ReadMeImage/LightingRoom.png)
+![DiningRoom](./assets/images/ReadMeImage/LivingRoom.png)
+![SellerDashboard](./assets/images/ReadMeImage/seller-Dashboard.png)
+![SellerProducts](./assets/images/ReadMeImage/seller-products.png)
+![Sellerorders](./assets/images/ReadMeImage/Seller-Orders.png)
+![Admin-Dashboard](./assets/images/ReadMeImage/admain-dashboard.png)
+![Admin-Products](./assets/images/ReadMeImage/Admain-Products.png)
+![Admin-Users](./assets/images/ReadMeImage/Admain-users.png)
+![Admin-seller](./assets/images/ReadMeImage/Admain-seller.png)
+![Admin-Orders](./assets/images/ReadMeImage/Admain-orders.png)
