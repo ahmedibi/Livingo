@@ -1,6 +1,6 @@
-//// NAVBAR /////
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Load navbar
+
   fetch("partials/navbar.html")
     .then((res) => res.text())
     .then((data) => {
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("Error loading navbar:", err));
 
-  //// FOOTER ////
+
   fetch("partials/footer.html")
     .then((res) => res.text())
     .then((data) => {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("Error loading footer:", err));
 
-  // === Helper لتحديث اليوزر في currentUser و users ===
+
   let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -33,21 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("users", JSON.stringify(users));
   }
 
-  ////////////////////// Wishlist & Cart Buttons ///////////////////
+
   document.addEventListener("click", (e) => {
-    // Wishlist button
+ 
     const wishlistBtn = e.target.closest(".wishlistBtn");
     if (wishlistBtn) {
       const productId = wishlistBtn.dataset.id;
       toggleWishlist(
         productId,
-        "❤️ Added to wishlist",
-        "❌ Removed from wishlist"
+        "Added to wishlist",
+        "Removed from wishlist"
       );
       return;
     }
 
-    // Cart button
     const cartBtn = e.target.closest(".cartBtn");
     if (cartBtn) {
       const productId = cartBtn.dataset.id;
@@ -84,15 +83,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       updateUserData(currentUser);
-      alert("✅ Added to cart!");
+      alert("Added to cart!");
     }
   });
 
-  // === Helpers ===
+
   function toggleWishlist(productId, addMsg, removeMsg) {
     let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
     if (!currentUser) {
-      alert("⚠️ You must be logged in!");
+      alert("You must be logged in!");
       return;
     }
 
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUserData(currentUser);
   }
 
-  /////////////////////////// PRODUCTS ////////////////////////////////////////////
+
   let SellBroducts = [];
 
   function loadProductsFromStorage() {
@@ -270,7 +269,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initializeCarousel();
 
-  /////////////////////////// EXPLORE OUR PRODUCTS /////////////////////////////////////
   const productsData = localStorage.getItem("products");
   const container = document.getElementById("product-container");
 
@@ -328,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = '<p class="text-center">No products available.</p>';
   }
 
-  /////////////////////////// SHOP SLIDER /////////////////////////////
+
   const shopLinks = [
     { id: "shop1", productId: "p021" },
     { id: "shop2", productId: "p033" },
@@ -349,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-/////////////////////////////////shop now//////////////////////////////////////////////
+
 
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -371,20 +369,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 window.addEventListener("load", () => {
   const overlay = document.getElementById("loading-overlay");

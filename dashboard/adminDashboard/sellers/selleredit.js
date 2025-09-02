@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("sellerPassword");
   const storeInput = document.getElementById("sellerStore");
 
-  // تحميل بيانات المستخدم المختار من localStorage
+  
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const userId = localStorage.getItem("editingUserId");
   let currentUser = users.find(u => u.id === userId);
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (next && next.classList.contains("input-error")) next.remove();
   }
 
-  // التحقق من المدخلات
+  
   function validateName() {
     if (!nameInput.value.trim()) {
       showError(nameInput, "Name is required.");

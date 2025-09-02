@@ -1,49 +1,4 @@
-// ====================================================
-// components.js - robust version with debugging & fallbacks
-// ====================================================
-// async function loadDataIntoLocalStorage() {
-//   try {
-//     // Only load if not already in localStorage
-//     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
-//       const productsRes = await fetch("../json/products.json");
-//       const products = await productsRes.json();
-//       localStorage.setItem("products", JSON.stringify(products));
 
-//       const usersRes = await fetch("../json/users.json");
-//       const users = await usersRes.json();
-//       localStorage.setItem("users", JSON.stringify(users));
-
-//       console.log("✅ Products and Users loaded into localStorage!");
-//     } else {
-//       console.log("ℹ Data already exists in localStorage, skipping load.");
-//     }
-//   } catch (err) {
-//     console.error("❌ Error loading data into localStorage:", err);
-//   }
-// }
-
-// async function loadDataIntoLocalStorage() {
-//   try {
-//     // Only load if not already in localStorage
-//     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
-//       const productsRes = await fetch("../json/products.json");
-//       const products = await productsRes.json();
-//       localStorage.setItem("products", JSON.stringify(products));
-
-//       const usersRes = await fetch("../json/users.json");
-//       const users = await usersRes.json();
-//       localStorage.setItem("users", JSON.stringify(users));
-
-//       console.log("✅ Products and Users loaded into localStorage!");
-//     } else {
-//       console.log("ℹ Data already exists in localStorage, skipping load.");
-//     }
-//   } catch (err) {
-//     console.error("❌ Error loading data into localStorage:", err);
-//   }
-// }
-
-// document.addEventListener("DOMContentLoaded", loadDataIntoLocalStorage);
 
 if (window.__components_init) {
   console.debug("components.js: already initialized — skipping re-init.");
@@ -52,7 +7,7 @@ if (window.__components_init) {
   (function () {
     console.debug("components.js: init");
 
-    // ========== Back to top (safe) ==========
+    
     window.addEventListener("scroll", () => {
       const backToTop = document.querySelector(".back-to-top");
       if (!backToTop) return;
@@ -60,9 +15,9 @@ if (window.__components_init) {
       else backToTop.classList.remove("show");
     });
 
-    // ========== Global click handlers ==========
+    
     document.addEventListener("click", (e) => {
-      // 1) تفعيل/إلغاء تفعيل اللينكات في النافبار
+      
       const navLink = e.target.closest(".nav-link");
       if (navLink) {
         document
@@ -71,7 +26,7 @@ if (window.__components_init) {
         navLink.classList.add("active");
       }
 
-      // 2) Logout
+      
       const logoutEl = e.target.closest("#logout");
       if (logoutEl) {
         e.preventDefault();
@@ -82,7 +37,7 @@ if (window.__components_init) {
           console.warn("components.js: error removing currentUser", err);
         }
 
-        // حدّث الواجهة فوراً قبل التحويل
+        
         try {
           toggleAuthLinks();
           updateCounters();
@@ -90,15 +45,15 @@ if (window.__components_init) {
           console.warn("components.js: error updating UI after logout", err);
         }
 
-        // ثم اعمل redirect
+        
         setTimeout(() => {
           window.location.assign("../../sign/login/login.html");
         }, 120);
       }
     });
 
-    // ========== بحث المنتجات ==========
-    // ========== بحث المنتجات من localStorage ==========
+    
+    
     function getProductsFromStorage() {
       try {
         return JSON.parse(localStorage.getItem("products")) || [];
@@ -122,7 +77,7 @@ if (window.__components_init) {
         );
 
         if (found && found.id) {
-          // روح لصفحة المنتج
+          
           window.location.assign(`../../product.html?id=${found.id}`);
         } else {
           alert("Product not found!");
@@ -130,7 +85,7 @@ if (window.__components_init) {
       }
     });
 
-    // زرار السيرش
+    
     document.addEventListener("click", (e) => {
       if (e.target.closest("#searchButton")) {
         const input = document.getElementById("search");
@@ -152,7 +107,7 @@ if (window.__components_init) {
       }
     });
 
-    // ========== مساعدة آمنة لقراءة JSON ==========
+    
     function safeParse(key) {
       try {
         const raw = localStorage.getItem(key);
@@ -164,14 +119,14 @@ if (window.__components_init) {
       }
     }
 
-    // ========== عدّاد عناصر (array/object/number/string) ==========
+    
     function countItems(data) {
       if (data == null) return 0;
       if (Array.isArray(data)) return data.length;
       if (typeof data === "object") return Object.keys(data).length;
       if (typeof data === "number") return data;
       if (typeof data === "string") {
-        // لو string يحتوي على JSON لعدد، حاول parse
+        
         try {
           const parsed = JSON.parse(data);
           return countItems(parsed);
@@ -182,8 +137,8 @@ if (window.__components_init) {
       return 0;
     }
 
-    // ========== تحديث العدادات بتاعة ال wishlist و cart ==========
-    // ========== تحديث العدادات بتاعة ال wishlist و cart ========== 
+    
+    
 function updateCounters() {
   const favEls = document.querySelectorAll(".count-favourite");
   const cartEls = document.querySelectorAll(".count-product");
@@ -215,11 +170,11 @@ function updateCounters() {
   }
 }
 
-    // ========== إظهار/إخفاء اللينكات ==========
+    
     function toggleAuthLinks() {
       const signUpLink = document.getElementById("signupLink");
       const userIcon = document.getElementById("userIcon");
-      const userDropdown = userIcon ? userIcon.parentElement : null; // div.dropdown
+      const userDropdown = userIcon ? userIcon.parentElement : null; 
 
       const currentUserRaw = localStorage.getItem("currentUser");
       const isLoggedIn = !!currentUserRaw;
@@ -239,10 +194,10 @@ function updateCounters() {
       }
     }
 
-    // ========== ensureElements fallback (polling) ==========
+    
     let ensureInterval = null;
     function ensureElements(timeoutMs = 8000) {
-      if (ensureInterval) return; // already running
+      if (ensureInterval) return; 
       const start = Date.now();
 
       ensureInterval = setInterval(() => {
@@ -268,26 +223,26 @@ function updateCounters() {
           clearInterval(ensureInterval);
           ensureInterval = null;
         } else if (Date.now() - start > timeoutMs) {
-          // بعد مهلة قصيرة نبطل البولينج عشان مايسبمش موارد
+          
           console.debug(
             "components.js: ensureElements -> timeout, stopping polling"
           );
           clearInterval(ensureInterval);
           ensureInterval = null;
         } else {
-          // لا لوج هنا عشان مايزعج
+          
         }
       }, 250);
     }
 
-    // ========== MutationObserver لمراقبة إضافة الـnavbar ديناميك ==========
+    
     const observer = new MutationObserver((mutations) => {
-      // مجرد أي تغيير نستدعي ensureElements
+      
       ensureElements();
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // ========== تشغيل مبدئي عند التحميل ==========
+    
     document.addEventListener("DOMContentLoaded", () => {
       console.debug(
         "components.js: DOMContentLoaded -> running initial checks"
@@ -297,7 +252,7 @@ function updateCounters() {
       ensureElements();
     });
 
-    // ========== Storage event (يتحرّك بين التابات) ==========
+    
     window.addEventListener("storage", (e) => {
       if (
         !e.key ||
@@ -311,7 +266,7 @@ function updateCounters() {
       }
     });
 
-    // كشف الأخطاء البسيطة
+    
     window.updateCounters = updateCounters;
     window.toggleAuthLinks = toggleAuthLinks;
     window.__components_debug = true;
@@ -320,7 +275,7 @@ function updateCounters() {
 
 async function loadDataIntoLocalStorage() {
   try {
-    // Only load if not already in localStorage
+    
     if (!localStorage.getItem("products") || !localStorage.getItem("users")) {
       const productsRes = await fetch("../json/products.json");
       const products = await productsRes.json();
@@ -330,12 +285,12 @@ async function loadDataIntoLocalStorage() {
       const users = await usersRes.json();
       localStorage.setItem("users", JSON.stringify(users));
 
-      console.log("✅ Products and Users loaded into localStorage!");
+      console.log("Products and Users loaded into localStorage!");
     } else {
-      console.log("ℹ️ Data already exists in localStorage, skipping load.");
+      console.log("ℹData already exists in localStorage, skipping load.");
     }
   } catch (err) {
-    console.error("❌ Error loading data into localStorage:", err);
+    console.error("Error loading data into localStorage:", err);
   }
 }
 

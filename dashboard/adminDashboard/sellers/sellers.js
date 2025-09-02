@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Load sidebar
+  
 
 
   const sellersTable = document.getElementById("sellersTable");
   const searchInput = document.getElementById("searchInput");
 
-  // إنشاء بيانات تجريبية إذا لم تكن موجودة
+  
   function initializeSampleData() {
     let users = [];
     try {
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       users = [];
     }
 
-    // إذا لم توجد بيانات، أنشئ بيانات تجريبية
+    
     if (users.length === 0) {
 
       alert("there is no sellers")
@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return users;
   }
 
-  // تهيئة البيانات
+  
   let users = initializeSampleData();
 
-  // فلترة sellers فقط
+  
   let sellers = users.filter(u => u.role === "seller");
 
   function saveUsers() {
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function attachEventListeners() {
-    // أزرار الحذف
+    
     document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const id = e.currentTarget.dataset.id;
@@ -84,14 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (confirm(`are you sure you want to delete "${seller.name}"`)) {
-          // حذف من جميع المستخدمين
+          
           users = users.filter((u) => u.id !== id);
-          // تحديث قائمة البائعين
+          
           sellers = users.filter((u) => u.role === "seller");
           saveUsers();
           renderSellers(sellers);
 
-          // إظهار رسالة نجاح
+          
           showToast(` "${seller.name}" deleted successfully`, "success");
         }
       });
@@ -101,16 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", (e) => {
         const id = e.currentTarget.dataset.id;
 
-        // خزّن الـ id في localStorage عشان نجيبه في صفحة التعديل
+        
         localStorage.setItem("editingUserId", id);
 
-        // وجّه لصفحة التعديل
+        
         window.location.href = "selleredit.html";
       });
     });
   }
 
-  // وظيفة البحث
+  
   searchInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase().trim();
 
@@ -132,9 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSellers(filtered);
   });
 
-  // وظيفة لإظهار رسائل التوست
+  
   function showToast(message, type = "info") {
-    // إنشاء عنصر التوست
+    
     const toast = document.createElement("div");
     toast.className = `toast-message toast-${type}`;
     toast.style.cssText = `
@@ -155,12 +155,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.appendChild(toast);
 
-    // إظهار التوست
+    
     setTimeout(() => {
       toast.style.transform = "translateX(0)";
     }, 100);
 
-    // إخفاء التوست بعد 3 ثواني
+    
     setTimeout(() => {
       toast.style.transform = "translateX(400px)";
       setTimeout(() => {
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  // تحديث العداد في الصفحة
+  
   function updateStats() {
     const statsElement = document.querySelector(".stats-count");
     if (statsElement) {
@@ -177,12 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // الرندر الأولي
+  
   console.log("عدد البائعين الموجودين:", sellers.length);
   renderSellers(sellers);
   updateStats();
 
-  // إضافة إحصائيات بسيطة في أعلى الصفحة
+  
   const headerSection = document.querySelector(".header-section");
   if (headerSection) {
     const statsDiv = document.createElement("div");

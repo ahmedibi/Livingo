@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = emailInput.value.trim().toLowerCase();
     const password = inputpass.value.trim();
 
-    // البحث عن يوزر
+    
     function findUser(users) {
       return users.find(
         (u) =>
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    // مسح أي currentUser قديم
+    
     localStorage.removeItem("currentUser");
 
     function handleSuccessfulLogin(user) {
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Login successful! Welcome, " + user.name);
 
       
-    // جلب users من localStorage
+    
 const localUsers = JSON.parse(localStorage.getItem("users")) || [];
 const savedUser = localUsers.find(u => u.email === user.email);
 
@@ -45,7 +45,7 @@ const currentUser = {
   loginTime: new Date().toISOString(),
    products: savedUser?.products || (user.role === "seller" ? [] : undefined)
 };
-// تحديث users
+
 const index = localUsers.findIndex(u => u.email === currentUser.email);
 if (index !== -1) {
   localUsers[index] = currentUser;
@@ -74,12 +74,12 @@ localStorage.setItem("users", JSON.stringify(localUsers));
       errorMsg.textContent = "Invalid credentials.";
     }
 
-    // نجمع users من localStorage + users.json
+    
     fetch("../../json/users.json")
       .then((res) => res.json())
       .then((jsonUsers) => {
         const localUsers = JSON.parse(localStorage.getItem("users")) || [];
-        const allUsers = [...jsonUsers, ...localUsers]; // دمج الاثنين
+        const allUsers = [...jsonUsers, ...localUsers]; 
 
         const foundUser = findUser(allUsers);
 

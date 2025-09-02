@@ -1,27 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Load navbar
   fetch("partials/navbar.html")
     .then(res => res.text())
     .then(data => document.getElementById("navbar").innerHTML = data);
 
-  // Load footer
   fetch("partials/footer.html")
     .then(res => res.text())
     .then(data => document.getElementById("footer").innerHTML = data);
 
-  // Get currentUser and products
   let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   const products = JSON.parse(localStorage.getItem("products")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const wishlistContainer = document.getElementById("wishlistContainer");
 
-  // لو مفيش يوزر أو معندوش wishlist
   if (!currentUser || !currentUser.wishlist || currentUser.wishlist.length === 0) {
     wishlistContainer.innerHTML = `<p class="text-muted">Your wishlist is empty.</p>`;
     return;
   }
 
-  // هات المنتجات اللي موجودة في wishlist بتاعت اليوزر
   const wishlistProducts = products.filter(p => currentUser.wishlist.includes(String(p.id)));
 
   wishlistProducts.forEach(product => {
@@ -75,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
   wishlistContainer.appendChild(col);
 });
 
-  // زرار الحذف + الاضافة للكارت
   wishlistContainer.addEventListener('click', (e) => {
     const removeBtn = e.target.closest('.wishlistBtn');
     if (removeBtn) {
@@ -83,11 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentUser && currentUser.wishlist) {
         currentUser.wishlist = currentUser.wishlist.filter(itemId => itemId !== id);
 
-        // تحديث الـ users array
         const userIndex = users.findIndex(u => u.id === currentUser.id);
         if (userIndex !== -1) users[userIndex] = currentUser;
 
-        // حفظ التحديث في localStorage
+        
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         localStorage.setItem("users", JSON.stringify(users));
       }
@@ -109,16 +102,16 @@ if (addBtn) {
   const product = products.find(p => String(p.id) === id);
 
   if (product) {
-    // ✅ check stock قبل الإضافة
+   
     if (product.stock <= 0) {
-      alert("⚠ This product is out of stock!");
+      alert("This product is out of stock!");
       return;
     }
 
     const existing = currentUser.cart.find(item => String(item.id) === String(product.id));
     if (existing) {
       if (existing.quantity >= product.stock) {
-        alert(`⚠ Only ${product.stock} items available in stock!`);
+        alert(` Only ${product.stock} items available in stock!`);
         return;
       }
       existing.quantity += 1;
@@ -126,15 +119,13 @@ if (addBtn) {
       currentUser.cart.push({ ...product, quantity: 1 });
     }
 
-    // تحديث الـ users array
     const userIndex = users.findIndex(u => u.id === currentUser.id);
     if (userIndex !== -1) users[userIndex] = currentUser;
 
-    // حفظ التحديث
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
     localStorage.setItem("users", JSON.stringify(users));
 
-    alert(`✅ ${product.name} added to cart!`);
+    alert(` ${product.name} added to cart!`);
   }
   return;
 }

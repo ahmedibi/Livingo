@@ -89,7 +89,7 @@
   </div>
 
   <script>
-    // --- Helpers ---
+
     function readLS(key, fallback) {
       try {
         const v = JSON.parse(localStorage.getItem(key));
@@ -102,7 +102,7 @@
       localStorage.setItem(key, JSON.stringify(value));
     }
 
-    // Generate next ID like p073, p074... from existing products in LS
+
     function generateNewProductId() {
       const products = readLS("products", []);
       let maxNum = 0;
@@ -119,15 +119,13 @@
       return "p" + String(next).padStart(3, "0");
     }
 
-    // Normalize image value:
-    // - If it starts with http(s) or a slash or contains '/', keep as-is.
-    // - If it's just a filename, we'll store it as filename and renderers can prefix with assets/.
+
     function normalizeImageInput(raw) {
       const val = raw.trim();
       if (!val) return "";
-      if (/^https?:\/\//i.test(val)) return val; // full URL
-      if (val.startsWith("/") || val.includes("/")) return val; // relative path given
-      return val; // filename only; renderers should handle prefix
+      if (/^https?:\/\//i.test(val)) return val;
+      if (val.startsWith("/") || val.includes("/")) return val;
+      return val;
     }
 
     document
@@ -162,16 +160,16 @@
           images: [img],
           sellerId: currentUser.id,
           currency: "EGP",
-          description: "", // optional
-          rating: 1 // 👈 default rating so it won’t be null
+          description: "",
+          rating: 1
         };
 
-        // Save into products
+
         const products = readLS("products", []);
         products.push(newProduct);
         writeLS("products", products);
 
-        // Also add the product id to the seller's record
+
         const users = readLS("users", []);
         const idx = users.findIndex((u) => u.id === currentUser.id);
         if (idx !== -1) {
@@ -194,4 +192,3 @@
 
 
 </html>
-

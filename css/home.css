@@ -1,4 +1,4 @@
-/* /////////////////////////////////////main color//////////////////////////////////////////////// */
+
 
 * {
   --main-color: #a0804d !important;
@@ -7,7 +7,7 @@
   --hover-btn: rgb(47, 46, 46) !important;
 }
 
-/* //////////////////////////////////////////////////////////landing////////////////////////////////////////////////////////////////// */
+
 #carouselExampleIndicators {
   z-index: -1 !important;
 }
@@ -48,7 +48,7 @@
   background-color: var(--hover) !important;
 }
 
-/* /////////////////////////////////best selling////////////////////////////////////////////////////////////////////////// */
+
 .btnc {
   background-color: transparent;
   border: none;
@@ -59,7 +59,7 @@
   color: var(--secondry-color) !important;
 }
 
-/* /////////////////////////////Selling Products//////////////////////////////////// */
+
 
 .product-card {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
@@ -115,7 +115,7 @@
   margin: 0 4rem;
 }
 
-/* //////Browse By Category////// */
+
 #cat {
   position: relative;
 }
@@ -136,7 +136,7 @@
   color: white !important;
 }
 
-/* ///////////////////////////////New arrival/////////////////////////////////////////////// */
+
 .card {
   background: #1a1a1a;
   border: 1px solid #333;
@@ -164,8 +164,8 @@
   }
 }
 
-/* ///////////////////////////////////////////////////////////////// */
-/* Full page overlay to cover all content initially */
+
+
 #loading-overlay {
   position: fixed;
   top: 0;
@@ -173,7 +173,7 @@
   width: 100vw;
   height: 100vh;
   background-color: #fff;
-  /* Use brand color if you like */
+  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,23 +182,23 @@
   transition: opacity 0.8s ease;
 }
 
-/* Loader container */
+
 .loader {
   display: flex;
   gap: 0.6rem;
 }
 
-/* Individual circles */
+
 .circle {
   width: 16px;
   height: 16px;
   background-color: #a0804d;
-  /* Warm brand gold */
+  
   border-radius: 50%;
   animation: bounce 1.2s infinite ease-in-out;
 }
 
-/* Stagger animation delay */
+
 .circle.delay1 {
   animation-delay: 0.3s;
 }
@@ -207,7 +207,7 @@
   animation-delay: 0.6s;
 }
 
-/* Bounce keyframes */
+
 @keyframes bounce {
 
   0%,
@@ -238,7 +238,7 @@
   filter: blur(0);
 }
 
-/* Stagger the appearance using nth-child or separate classes */
+
 
 .fade-item:nth-child(1) {
   transition-delay: 0.2s;

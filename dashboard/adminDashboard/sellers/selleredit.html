@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Seller</title>
 
-  <!-- Bootstrap CSS -->
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" 
         rel="stylesheet" crossorigin="anonymous" />
 
-  <!-- Google Fonts -->
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -86,21 +86,21 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
+  
 
 
-  <!-- Modal trigger button (يمكنك إخفاؤه إذا تريد فتح modal مباشرة بالـ JS) -->
-  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editSellerModal">Edit Seller</button> -->
+  
+  
 
-  <!-- Modal -->
+  
   <div class="modal fade" id="editSellerModal" tabindex="-1" aria-labelledby="editSellerLabel" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content p-4">
         <div class="modal-header border-0">
           <h5 class="modal-title text-uppercase" id="editSellerLabel" style="color:#a0804d; font-weight:700;">Edit Seller</h5>
-          <!-- <a href="sellers.html" style="margin-left: 260px;"> -->
+          
             <button type="button" class="btn-close" onclick="window.location.href='sellers.html'" aria-label="Close"></button>
-          <!-- </a>         -->
+          
         </div>
         <div class="modal-body">
           <form id="editSellerForm">
@@ -119,10 +119,10 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-  <!-- Page script -->
+  
   <script src="selleredit.js"></script>
 
   <script>
@@ -133,7 +133,6 @@
   });
   myModal.show();
 
-  // detect click outside modal-content
   modalEl.addEventListener('click', function (e) {
     if (e.target === modalEl) {
       window.location.href = 'sellers.html';
