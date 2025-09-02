@@ -218,6 +218,7 @@ function updateCounters() {
     // ========== إظهار/إخفاء اللينكات ==========
     function toggleAuthLinks() {
       const signUpLink = document.getElementById("signupLink");
+      const loginLink = document.getElementById("loginLink");
       const userIcon = document.getElementById("userIcon");
       const userDropdown = userIcon ? userIcon.parentElement : null; // div.dropdown
 
@@ -226,12 +227,15 @@ function updateCounters() {
 
       if (isLoggedIn) {
         if (signUpLink) signUpLink.style.display = "none";
+          if (loginLink) loginLink.style.display = "none";
         if (userDropdown) userDropdown.style.display = "block";
+
         console.debug(
           "components.js: user IS logged in -> showing dropdown, hiding signup"
         );
       } else {
         if (signUpLink) signUpLink.style.display = "block";
+        if (loginLink) loginLink.style.display = "block";
         if (userDropdown) userDropdown.style.display = "none";
         console.debug(
           "components.js: user NOT logged in -> hiding dropdown, showing signup"
