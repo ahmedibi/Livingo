@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const editModal = new bootstrap.Modal(document.getElementById('editSellerModal'));
   editModal.show();
-  // عناصر الفورم
+
   const form = document.getElementById("editSellerForm");
   const nameInput = document.getElementById("sellerName");
   const emailInput = document.getElementById("sellerEmail");
@@ -15,18 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentUser = users.find(u => u.id === userId);
 
   if (!currentUser) {
-    alert("لم يتم العثور على البائع!");
+    alert("no seller found");
     window.location.href = "sellers.html";
     return;
   }
 
-  // تعبئة الفورم بالبيانات الحالية
   nameInput.value = currentUser.name || "";
   emailInput.value = currentUser.email || "";
   passwordInput.value = currentUser.password || "";
   storeInput.value = currentUser.storeName || "";
 
-  // دوال لعرض/مسح الأخطاء
+
   function showError(input, message) {
     clearError(input);
     const error = document.createElement("div");
@@ -94,13 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return validateName() && validateEmail() && validatePassword() && validateStore();
   }
 
-  // تحقق لحظي
+
   nameInput.addEventListener("input", validateName);
   emailInput.addEventListener("input", validateEmail);
   passwordInput.addEventListener("input", validatePassword);
   storeInput.addEventListener("input", validateStore);
 
-  // عند الحفظ
+  
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     if (validateForm()) {
@@ -124,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (updated) {
-        // حفظ في localStorage
+        
         const index = users.findIndex(u => u.id === currentUser.id);
         if (index !== -1) {
           users[index] = currentUser;
@@ -134,8 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         alert("No changes were made.");
       }
-
-      // رجوع لصفحة sellers
       window.location.href = "sellers.html";
     } else {
       const firstErrorField = form.querySelector(".input-error-border");
