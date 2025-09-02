@@ -407,27 +407,27 @@
                 </div>
                 <!-- Contact Form -->
                 <div class="col-lg-8">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control rounded-3" placeholder="Your Name" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control rounded-3" placeholder="Your Email" required>
-                            </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control rounded-3" placeholder="Subject">
-                            </div>
-                            <div class="col-12">
-                                <textarea rows="4" class="form-control rounded-3" placeholder="Your Message"
-                                    required></textarea>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn px-5 py-2 text-white  m-3 \z\ rounded-pill"
-                                    style="background-color: var(--secondry-color);">Send a Message</button>
-                            </div>
-                        </div>
-                    </form>
+                  <form id="contactForm">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <input type="text" id="contactName" class="form-control rounded-3" placeholder="Your Name" required>
+                      </div>
+                      <div class="col-md-6">
+                        <input type="email" id="contactEmail" class="form-control rounded-3"  placeholder="Your Email" required readonly>
+                      </div>
+                      <div class="col-12">
+                        <input type="text" id="contactSubject" class="form-control rounded-3" placeholder="Subject">
+                      </div>
+                      <div class="col-12">
+                        <textarea rows="4" id="contactMessage" class="form-control rounded-3" placeholder="Your Message" required></textarea>
+                      </div>
+                      <div class="col-12">
+                        <button type="submit" class="btn px-5 py-2 text-white m-3 rounded-pill"
+                          style="background-color: var(--secondry-color);">Send a Message</button>
+                      </div>
+                    </div>
+                  </form>
+
                 </div>
             </div>
         </div>
