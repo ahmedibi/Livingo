@@ -73,7 +73,7 @@
 
 
 
-/* sidebar */
+
 html,body{
     background: #f6f2e7;
   font-family: "Inter", Arial, sans-serif ;
@@ -202,7 +202,7 @@ i{
     margin-top: 20px;
 }
 
-/* sidemenu Button  */
+
 .sidemenu {
     display: none;
     font-size:20px;
@@ -227,7 +227,7 @@ i{
     
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .sidemenu {
         display: block;

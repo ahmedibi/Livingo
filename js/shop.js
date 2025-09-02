@@ -3,9 +3,9 @@
     behavior: 'smooth'
   });
 
-  // Load navbar and footer
+
   document.addEventListener("DOMContentLoaded", () => {
-    // Load navbar
+
     fetch("partials/navbar.html")
       .then(res => res.text())
       .then(data => {
@@ -13,7 +13,6 @@
       })
       .catch(err => console.error("Error loading navbar:", err));
 
-    // Load footer
     fetch("partials/footer.html")
       .then(res => res.text())
       .then(data => {
@@ -22,16 +21,16 @@
       .catch(err => console.error("Error loading footer:", err));
   });
 
-  /////////////////////////////////////////////
+
 
   const productContainer = document.getElementById("productList");
   const categoriesList = document.getElementById("categoriesList");
   const mobileCategories = document.getElementById("mobileCategoriesList");
 
-  // ================= GET PRODUCTS FROM LOCAL STORAGE =================
+
   const productsData = JSON.parse(localStorage.getItem("products")) || [];
 
-  // ================= CATEGORIES ================= 
+
   const categories = [...new Set(productsData.map(p => p.category))];
   categories.forEach((cat, index) => {
     const item = `
@@ -56,30 +55,30 @@ function updateUserData(updatedUser) {
   localStorage.setItem("users", JSON.stringify(users));
 }
 
-  // ================= PRICE ================= 
+
   const prices = productsData.map(p => p.price);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
 
-  // Elements - Mobile
+
   const rangeMinMobile = document.getElementById("rangeMinMobile"); 
   const rangeMaxMobile = document.getElementById("rangeMaxMobile"); 
   const minPriceMobile = document.getElementById("minPriceMobile"); 
   const maxPriceMobile = document.getElementById("maxPriceMobile");
 
-  // Elements - Desktop
+
   const rangeMinDesktop = document.getElementById("rangeMinDesktop");
   const rangeMaxDesktop = document.getElementById("rangeMaxDesktop");
   const minPriceDesktop = document.getElementById("minPriceDesktop");
   const maxPriceDesktop = document.getElementById("maxPriceDesktop");
 
-  // Init values
+
   [rangeMinMobile, rangeMinDesktop].forEach(r => { r.min = minPrice; r.max = maxPrice; r.value = minPrice; });
   [rangeMaxMobile, rangeMaxDesktop].forEach(r => { r.min = minPrice; r.max = maxPrice; r.value = maxPrice; });
   [minPriceMobile, minPriceDesktop].forEach(input => input.value = minPrice);
   [maxPriceMobile, maxPriceDesktop].forEach(input => input.value = maxPrice);
 
-  // Sync sliders with inputs
+
   function syncSliders(rMin, rMax, inMin, inMax, products) {
     function update() {
       let minVal = +rMin.value;
@@ -98,22 +97,21 @@ function updateUserData(updatedUser) {
   syncSliders(rangeMinMobile, rangeMaxMobile, minPriceMobile, maxPriceMobile, productsData);
   syncSliders(rangeMinDesktop, rangeMaxDesktop, minPriceDesktop, maxPriceDesktop, productsData);
 
-  // ================= RENDER ALL PRODUCTS=================//
   renderProducts(productsData);
 
-  // ================= FILTER EVENTS ================= 
+ 
   [categoriesList, mobileCategories].forEach(list => {
     list.addEventListener("change", () => applyFilters(productsData));
   });
 
-  // زرار الفلتر في الموبايل 
+
   const filterBtn = document.getElementById("filterBtn"); 
   const filterPanel = document.getElementById("filterPanel"); 
   filterBtn.addEventListener("click", () => {
     filterPanel.classList.toggle("d-none");
   });
 
-  // reset function مشتركة
+
   function resetFilters() {
     document.querySelectorAll("input[type=radio], input[type=checkbox]").forEach(r => r.checked = false);
 
@@ -133,7 +131,7 @@ function updateUserData(updatedUser) {
   document.getElementById("resetBtnMobile").addEventListener("click", resetFilters);
   document.getElementById("resetBtnDesktop").addEventListener("click", resetFilters);
 
-  // =============== APPLY FILTERS =============== 
+
   function applyFilters(products) {
     let filtered = [...products];
     const selectedCat = document.querySelector("input[name='category']:checked");
@@ -194,7 +192,7 @@ function updateUserData(updatedUser) {
   });
 }
 
-  ////////////////////// Wishlist & Cart Buttons ///////////////////////
+ 
   document.addEventListener("click", (e) => {
     const wishlistBtn = e.target.closest("#wishlistBtn");
     const cartBtn = e.target.closest(".cartBtn");
@@ -220,7 +218,7 @@ function updateUserData(updatedUser) {
     return; 
   }
 
-  // ✅ check stock
+
   if(product.stock <= 0){
     alert("⚠ This product is out of stock!");
     return;
@@ -240,7 +238,7 @@ function updateUserData(updatedUser) {
   if(userIndex !== -1) users[userIndex] = currentUser;
   localStorage.setItem("currentUser", JSON.stringify(currentUser));
   localStorage.setItem("users", JSON.stringify(users));
-  alert("✅ Added to cart!");
+  alert(" Added to cart!");
 }
 
   });

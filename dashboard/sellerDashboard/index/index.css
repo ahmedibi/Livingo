@@ -1,4 +1,4 @@
-/* Global */
+
 html,
 body {
     background: #f6f2e7;
@@ -7,7 +7,7 @@ body {
     display: flex;
 }
 
-/* Sidebar */
+
 .sidebar {
     width: 250px;
     background: #f0f0f0;
@@ -135,7 +135,7 @@ i {
     margin-top: 20px;
 }
 
-/* sidemenu Button  */
+
 .sidemenu {
     display: none;
     font-size: 20px;
@@ -187,7 +187,7 @@ i {
     transform: scale(1.02);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .sidemenu {
         display: block;
@@ -257,7 +257,7 @@ i {
 
 }
 
-/* Canvas (Charts) */
+
 canvas {
     width: 30em !important;
     height: 20em !important;
@@ -270,7 +270,7 @@ canvas {
     }
 }
 
-/* Dashboard Header */
+
 .dashboard-header {
     background: white;
     padding: 2rem;
@@ -312,7 +312,7 @@ canvas {
     cursor: pointer;
 }
 
-/* Stats Grid */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -362,14 +362,14 @@ canvas {
     font-weight: 500;
 }
 
-/* Charts Grid */
+
 .charts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
 }
 
-/* Medium screens (tablets) */
+
 @media (max-width:1290px) {
     .charts-grid {
         grid-template-columns: repeat(1, 1fr);
@@ -421,7 +421,7 @@ canvas {
     border-radius: 2px;
 }
 
-/* Side Menu Button */
+
 .sidemenu {
     display: none;
     font-size: 20px;
@@ -443,7 +443,7 @@ canvas {
     border: none;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .sidemenu {
         display: block;

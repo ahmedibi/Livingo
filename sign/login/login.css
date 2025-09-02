@@ -12,28 +12,6 @@ html {
   width: 100vw;
   height: 100vh;
 }
-/* 
-.side-visual {
-  background: #eaf3fa;
-  flex: 1 1 60%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  height: 100vh;
-  box-sizing: border-box;
-}
-
-.side-visual img {
-  display: block;
-  max-width: 480px;
-  width: 70%;
-  max-height: 480px;
-  object-fit: contain;
-  margin: 0 auto;
-  background: none;
-  border-radius: 0;
-} */
 
 .login-panel {
   flex: 1 1 40%;
@@ -129,7 +107,7 @@ input[type="password"]:focus {
   margin-top: 10px;
 }
 
-/* Responsive for mobiles/tablets */
+
 @media (max-width: 900px) {
   .login-page-wrap {
     flex-direction: column;
@@ -145,8 +123,8 @@ input[type="password"]:focus {
   .side-visual {
     width: 100vw;
     min-width: unset;
-    /* min-height: 220px; */
-    /* height: 23vh; */
+    
+    
     height: auto;
   }
   .side-visual img {
@@ -184,7 +162,7 @@ input[type="password"]:focus {
   background: #fff;
 }
 
-/* Animation keyframes */
+
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -217,7 +195,7 @@ input[type="password"]:focus {
   }
 }
 
-/* Add animated classes to panels on load */
+
 .side-visual {
   animation: slideInLeft 0.8s cubic-bezier(0.65, 0.05, 0.36, 1) 0.1s both;
 }
@@ -227,7 +205,7 @@ input[type="password"]:focus {
   animation: slideInRight 0.8s cubic-bezier(0.65, 0.05, 0.36, 1) 0.2s both;
 }
 
-/* Enhanced focus for inputs */
+
 input[type="text"]:focus,
 input[type="password"]:focus {
   border-bottom: 1.8px solid #a0804d !important;
@@ -238,7 +216,7 @@ input[type="password"]:focus {
   box-shadow: 0 2px 14px -13px #a0804d !important;
 }
 
-/* Animate CTA button on hover */
+
 .signup-btn,
 .login-btn {
   transition: background 0.18s, transform 0.13s;
@@ -250,13 +228,13 @@ input[type="password"]:focus {
   background: #a0804d !important;
 }
 
-/* (Optional): Nice for radio buttons, just a touch */
+
 .dropdown-form input[type="radio"]:focus + label {
   outline: 1.6px solid #a0804d !important;
   outline-offset: 2px;
 }
 
-/* For mobile: allow fade/slide still */
+
 @media (max-width: 1100px) {
   .side-visual {
     animation: slideInLeft 0.7s cubic-bezier(0.65, 0.05, 0.36, 1) both;

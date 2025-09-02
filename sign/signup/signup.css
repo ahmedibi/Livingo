@@ -159,7 +159,7 @@ input[type="radio"] {
   margin-top: 7px;
 }
 
-/* Responsive */
+
 
 @media (max-width: 1100px) {
   .signup-page-wrap {
@@ -171,8 +171,8 @@ input[type="radio"] {
   .side-visual {
     width: 100vw;
     min-width: unset;
-    /* height: 220px; */
-    /* min-height: 220px; */
+    
+    
   }
   .side-visual img {
     width: 100%;
@@ -228,7 +228,7 @@ select:focus {
   background: #fff;
 }
 
-/* Animation keyframes */
+
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -261,7 +261,7 @@ select:focus {
   }
 }
 
-/* Add animated classes to panels on load */
+
 .side-visual {
   animation: slideInLeft 0.8s cubic-bezier(0.65, 0.05, 0.36, 1) 0.1s both;
 }
@@ -271,7 +271,7 @@ select:focus {
   animation: slideInRight 0.8s cubic-bezier(0.65, 0.05, 0.36, 1) 0.2s both;
 }
 
-/* Enhanced focus for inputs */
+
 input[type="text"]:focus,
 input[type="password"]:focus {
   border-bottom: 1.8px solid #a0804d !important;
@@ -282,7 +282,7 @@ input[type="password"]:focus {
   box-shadow: 0 2px 14px -13px #a0804d !important;
 }
 
-/* Animate CTA button on hover */
+
 .signup-btn,
 .login-btn {
   transition: background 0.18s, transform 0.13s;
@@ -294,13 +294,13 @@ input[type="password"]:focus {
   background: #a0804d !important;
 }
 
-/* (Optional): Nice for radio buttons, just a touch */
+
 .dropdown-form input[type="radio"]:focus + label {
   outline: 1.6px solid #a0804d !important;
   outline-offset: 2px;
 }
 
-/* For mobile: allow fade/slide still */
+
 @media (max-width: 1100px) {
   .side-visual {
     animation: slideInLeft 0.7s cubic-bezier(0.65, 0.05, 0.36, 1) both;
@@ -325,15 +325,7 @@ input[type="password"]:focus {
   opacity: 1;
 }
 
-/* .signup-btn:hover {
-  background: #bf2626;
-  animation: none !important;
-} */
 
 
-/* .signup-btn:hover {
-  background: #bf2626;
-  animation: none !important;
-}
 
 

@@ -13,7 +13,7 @@
     integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    /* Breadcrumb */
+    
     .breadcrumb-nav {
       margin: 20px auto 30px;
       max-width: 1100px;
@@ -86,79 +86,10 @@
       color: darkred;
     }
 
-    /*update cart in small screens*/
-    /* @media (max-width: 768px) {
-        .d-image {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-bottom: 10px;
-        }
-        .product-image {
-          width: 160px;
-          height: 160px;
-          cursor: pointer;
-          text-align: center;
-        }
-
-        .product-info {
-          text-align: center;
-        }
-
-        .quantity-input {
-          width: 50px !important;
-          font-size: 14px;
-          padding: 4px;
-        }
-
-        .table thead {
-          display: none;
-        }
-
-        .table tr {
-          display: block;
-          margin-bottom: 15px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 10px;
-        }
-
-        .table td {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border: none;
-          padding: 6px 0;
-        }
-
-        .table td::before {
-          content: attr(data-label);
-          font-weight: bold;
-          color: #284b63;
-        }
-
-        #cartActions {
-          flex-direction: column;
-          align-items: stretch;
-        }
-
-        #cartActions input {
-          width: 100% !important;
-          margin-bottom: 10px;
-        }
-
-        #cartActions .btn {
-          width: 100%;
-          margin-bottom: 10px;
-        }
-
-        .card {
-          width: 100% !important;
-        }
-      } */
+    
 
 
-    /* bootstrap */
+    
     .btn-outline {
       --bs-btn-color: #a0804d !important;
       --bs-btn-border-color: #a0804d !important;
@@ -191,17 +122,12 @@
 <body>
   <div id="navbar"></div>
 
-  <!-- Navbar  -->
-  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom px-4">
-    <a class="navbar-brand fw-bold" href="index.html">MyShop</a>
-    <div class="ms-auto" style="font-size: 1.1rem; cursor: pointer;color: #284b63;">
-      🛒 Cart (<span id="cart-count">0</span>)
-    </div>
-  </nav> -->
+  
 
-  <!--cart content -->
+
+  
   <div class="container min-vh-100 my-5">
-    <!-- Breadcrumb -->
+    
     <ul class="breadcrumb p-4">
       <li class="breadcrumb-item"><a href="index.html" class="small text-secondary text-decoration-none">Home</a></li>
       <li class="breadcrumb-item"><span class="active">Cart</span></li>
@@ -222,7 +148,7 @@
           </tr>
         </thead>
         <tbody id="cartItems">
-          <!-- add products -->
+          
         </tbody>
       </table>
     </div>
@@ -251,7 +177,7 @@
       </div>
     </div>
 
-    <!--cart total -->
+    
     <div class="d-flex justify-content-center justify-content-md-end mt-4 mt-5">
       <div class="card shadow-sm" style="max-width: 350px; width: 100% ">
         <div class="card-body">
@@ -286,9 +212,9 @@
   let cart = [];
 const products = JSON.parse(localStorage.getItem("products")) || [];
 
-// === Utilities to handle cart inside currentUser ===
 
-// حفظ الكارت داخل currentUser
+
+
 function saveCart(cart) {
   let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   if (currentUser) {
@@ -297,13 +223,13 @@ function saveCart(cart) {
   }
 }
 
-// تحميل الكارت من currentUser
+
 function loadCart() {
   let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
   return (currentUser && currentUser.cart) ? currentUser.cart : [];
 }
 
-// تحديث عداد الكارت (لو عايزه في الـ navbar)
+
 function updateCartCount() {
   let cart = loadCart();
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -311,14 +237,14 @@ function updateCartCount() {
   if (counterEl) counterEl.innerText = count;
 }
 
-// تحديث الكمية يدوي
+
 function updateQty(id, qty) {
   let cart = loadCart();
   const index = cart.findIndex((p) => p.id === id);
   if (index !== -1) {
     let newQty = parseInt(qty);
 
-    // جلب المنتج الأصلي
+    
     const product = products.find(p => String(p.id) === String(id));
     if (product && newQty > product.stock) {
       alert(`⚠ Only ${product.stock} items available in stock!`);
@@ -336,7 +262,7 @@ function updateQty(id, qty) {
   }
 }
 
-// تعديل الكمية بالأزرار + و -
+
 function changeQuantity(id, newQty) {
   let cart = loadCart();
   const index = cart.findIndex((p) => p.id === id);
@@ -345,7 +271,7 @@ function changeQuantity(id, newQty) {
     newQty = parseInt(newQty);
 
     if (isNaN(newQty) || newQty < 1) {
-      newQty = 1; // ممنوع أقل من 1
+      newQty = 1; 
     }
 
     cart[index].quantity = newQty;
@@ -356,7 +282,7 @@ function changeQuantity(id, newQty) {
   }
 }
 
-// إزالة منتج من الكارت مع تحديث users
+
 function removeItem(id) {
   if (confirm("Are you sure you want to remove this item from your cart?")) {
     let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
@@ -379,7 +305,7 @@ function removeItem(id) {
   }
 }
 
-// عرض الكارت
+
 function renderCart() {
   cart = loadCart();
   const cartItemsContainer = document.getElementById("cartItems");
@@ -445,12 +371,12 @@ function renderCart() {
   document.getElementById("total").innerText = subtotal.toFixed(2);
 }
 
-// الانتقال لتفاصيل المنتج
+
 function goToProductDetails(productId) {
   window.location.href = `product-details.html?id=${productId}`;
 }
 
-// الذهاب لصفحة الدفع
+
 function goToCheckout() {
   const cart = loadCart();
   if (cart.length === 0) {
@@ -458,7 +384,7 @@ function goToCheckout() {
     return;
   }
 
-  // ✅ check stock قبل المتابعة
+  
   for (let item of cart) {
     const product = products.find(p => String(p.id) === String(item.id));
     if (product && item.quantity > product.stock) {
@@ -470,13 +396,13 @@ function goToCheckout() {
   window.location.href = "checkout.html";
 }
 
-// تحديث الكارت
+
 function updateCart() {
   renderCart();
   alert("Cart updated successfully!");
 }
 
-// تطبيق كوبون (placeholder)
+
 function applyCoupon() {
   const couponCode = document.getElementById("coupon").value.trim();
   if (couponCode) {
@@ -486,17 +412,17 @@ function applyCoupon() {
   }
 }
 
-// استكمال التسوق
+
 function continueShopping() {
   window.location.href = "index.html";
 }
 
-// عند تحميل الصفحة
+
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   updateCartCount();
 
-  // تحميل الـ navbar
+  
   fetch("partials/navbar.html")
     .then((res) => res.text())
     .then((data) => {
@@ -504,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("Error loading navbar:", err));
 
-  // تحميل الـ footer
+  
   fetch("partials/footer.html")
     .then((res) => res.text())
     .then((data) => {

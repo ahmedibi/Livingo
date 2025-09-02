@@ -7,7 +7,7 @@ const priceFilter = document.getElementById("priceFilter");
 const priceValue = document.getElementById("priceValue");
 
 function renderOrders(list) {
-  tbody.innerHTML = ""; // مسح المحتوى القديم أولاً
+  tbody.innerHTML = ""; 
   if (list.length === 0) {
     tbody.innerHTML = `<tr><td colspan="8" class="text-center">No Orders Found</td></tr>`;
     return;
@@ -21,14 +21,14 @@ function getUserNameById(userId) {
 
 
   list.forEach(order => {
-    // تجاهل أي order مفيهوش منتجات
+    
     if (!order.items || order.items.length === 0) return;
 
-    // المنتجات مع الكمية لكل منتج
+    
     const itemsText = order.items.map(item => `${item.name || "No product"} (x${item.quantity || 0})`).join(", ");
-    // المجموع الكلي للكمية لكل الطلب
+    
     const totalQuantity = order.items.reduce((sum, it) => sum + (Number(it.quantity) || 0), 0);
-    // السعر الإجمالي
+    
     const totalPrice = order.items.reduce((sum, it) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0);
 
     let statusClass = "";
@@ -71,8 +71,8 @@ function getUserNameById(userId) {
 function deleteOrder(orderId) {
   if (!confirm("Are you sure to delete this order?")) return;
 
-  // دور على الـ order
-  orders = orders.filter(o => o.id !== orderId); // حذف الـ order بالكامل
+  
+  orders = orders.filter(o => o.id !== orderId); 
   localStorage.setItem("orders", JSON.stringify(orders));
   renderOrders(orders);
 }
@@ -85,7 +85,7 @@ function enableEditStatus(id) {
   const order = orders.find(o => o.id === id);
   if (!order) return;
 
-  // إنشاء select بدل contentEditable
+  
   const select = document.createElement("select");
   select.className = "form-select form-select-sm";
 
@@ -97,7 +97,7 @@ function enableEditStatus(id) {
     select.appendChild(option);
   });
 
-  // زر حفظ للتأكيد
+  
   const saveBtn = document.createElement("button");
   saveBtn.className = "btn btn-sm btn-success ms-1";
   saveBtn.textContent = "Save";
@@ -105,7 +105,7 @@ function enableEditStatus(id) {
     updateStatus(id, select.value);
   });
 
-  // مسح محتوى td وإضافة select + save button
+  
   td.innerHTML = "";
   td.appendChild(select);
   td.appendChild(saveBtn);
@@ -127,8 +127,8 @@ function updateStatus(id, newStatus) {
 
 
 
-// Filters
-// Filters
+
+
 function applyFilters() {
   let searchVal = searchInput.value.toLowerCase().trim();
   let statusVal = statusFilter.value;
@@ -137,15 +137,15 @@ function applyFilters() {
   let filtered = orders.filter(order => {
     if (!order.items || order.items.length === 0) return false;
 
-    // البحث
+    
     let matchSearch =
       order.id.toString().includes(searchVal) ||
       (order.customer?.name || "").toLowerCase().includes(searchVal);
 
-    // الحالة
+    
     let matchStatus = statusVal ? order.status === statusVal : true;
 
-    // إجمالي السعر
+    
     const total = order.items.reduce((sum, it) => {
       const price = Number(it.price) || 0;
       const qty = Number(it.quantity) || 0;
@@ -159,7 +159,7 @@ function applyFilters() {
   renderOrders(filtered);
 }
 
-// تحديث السعر المعروض مع السلايدر
+
 searchInput.addEventListener("input", applyFilters);
 statusFilter.addEventListener("change", applyFilters);
 priceFilter.addEventListener("input", () => {
@@ -168,7 +168,7 @@ priceFilter.addEventListener("input", () => {
 });
 
 renderOrders(orders);
-// Active menu management
+
 function setActiveMenuItem(clickedElement) {
   document.querySelectorAll('.sidebar ul li').forEach(li => {
     li.classList.remove('active');

@@ -7,7 +7,7 @@
 ### Project Information
 
 - **Project Name:** Livingo - Modern Furniture E-Commerce Website
-- **Project Type:** Web Application
+- **Project Type:** Web&Application
 - **Target Market:** Home furniture buyers and interior design enthusiasts
 - **Team Size:** [6]
 
@@ -198,7 +198,9 @@ livingo-website/
 │   │   ├── categories/     # Category icons and images
 │   │   └── mainImg/        # Site branding and hero images
 │   └── data/               # JSON data files
-│
+│  ├──  dashboard/ 
+           ├──adminDashboard
+           ├── sellerDashboard         # Product catalog styles
 ├── css/                    # Stylesheets
 │   ├── components.css      # Shared component styles
 │   ├── home.css           # Homepage specific styles
@@ -315,7 +317,34 @@ currentUser: {
     }
   ]
 }
-```
+
+ orders : [
+  0: {
+    id: 1756383388528,
+    date: "8/28/2025, 3:16:28 PM",
+    status: "Delivered",
+    paymentMethod: "Cash",
+    customer: {
+      id: null,
+      name: "Nourhan",
+      company: "ejada",
+      street: "Kotor Tanta Egypt",
+      city: "Tanta",
+      phone: null, 
+      email: null 
+    },
+    items: [
+      {
+        id: "p033",
+        name: "Modern Wooden Dining Chair",
+        price: 350,
+        currency: "EGP",
+        quantity: 1, 
+        image: null  
+      }
+    ],         
+  }];
+
 
 ### Data Persistence Strategy
 

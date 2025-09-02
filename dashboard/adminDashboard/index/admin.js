@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-    // Dashboard Data Manager
+    
     class DashboardDataManager {
       constructor() {
         this.charts = {};
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         this.loadDashboardData();
         setInterval(() => { this.loadDashboardData(); }, 30000);
       }
-      // Load dashboard data from localStorage
+      
       loadDashboardData() {
         try {
           const usersData = localStorage.getItem('users');
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const products = productsData ? JSON.parse(productsData) : [];
             const orders = ordersData ? JSON.parse(ordersData) : [];
 
-            // Count users by role
+            
             const userCounts = this.countUsersByRole(users);
             const userCount = Array.isArray(users) ? users.length : (typeof users === 'object' ? Object.keys(users).length : 1);
             const productCount = Array.isArray(products) ? products.length : (typeof products === 'object' ? Object.keys(products).length : 1);
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Count users by role
+      
       countUsersByRole(users) {
         let customers = 0;
         let sellers = 0;
@@ -80,12 +80,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 others++;
               }
             } else {
-              // If no role specified, assume customer
+              
               customers++;
             }
           });
         } else if (typeof users === 'object' && users !== null) {
-          // If users is an object with user IDs as keys
+          
           Object.values(users).forEach(user => {
             if (user && user.role) {
               if (user.role.toLowerCase() === 'customer') {
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return { customers, sellers, others };
       }
 
-      // Generate chart data
+      
       generateChartData(data, userCounts) {
         const { users = 0 } = data;
         if (users === 0) {
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
           };
         }
 
-        // Create role distribution based on actual data
+        
         const roleDistribution = [];
         if (userCounts.customers > 0) {
           roleDistribution.push({ status: 'Customer', count: userCounts.customers });
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
           roleDistribution.push({ status: 'Other', count: userCounts.others });
         }
 
-        // If no roles found, show total users
+        
         if (roleDistribution.length === 0) {
           roleDistribution.push({ status: 'Users', count: users });
         }
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       }
 
-      // Show message when no data
+      
       showNoDataMessage() {
         const existingMessage = document.querySelector('.no-data-message');
         if (!existingMessage) {
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (message) message.remove();
       }
 
-      // Update counts
+      
       updateDisplay(counts, chartData) {
         this.animateCounter('userCount', counts.users || 0);
         this.animateCounter('sellerCount', counts.sellers || 0);
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(animate);
       }
 
-      // Charts setup
+      
       initializeCharts() {
         this.charts.pieChart = new Chart(document.getElementById('pieChart'), {
           type: 'doughnut',
@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Global
+    
     let dashboard;
     document.addEventListener('DOMContentLoaded', () => {
       dashboard = new DashboardDataManager();

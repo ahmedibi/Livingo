@@ -1,13 +1,13 @@
-// Global variables
+
 let cart = [];
 
-// Scroll to top
+
 window.scrollTo({
   top: 0,
   behavior: 'smooth'
 });
 
-// Load navbar and footer
+
 document.addEventListener("DOMContentLoaded", () => {
   fetch("partials/navbar.html")
     .then(res => res.text())
@@ -20,18 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => console.error("Error loading footer:", err));
 
   loadCartData();
-  setupCardInputs(); // live validation للـ bank modal
+  setupCardInputs(); 
   validateForm();
 
  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   if(currentUser && currentUser.email){
     emailInput.value = currentUser.email;
-    emailInput.readOnly = true; // عشان المستخدم ما يقدرش يغيره
+    emailInput.readOnly = true; 
   }
 
 });
 
-// Breadcrumb functionality
+
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('crumb')) {
     document.querySelectorAll('.crumb').forEach(item => item.classList.remove('activebread'));
@@ -39,7 +39,7 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Load cart data and display order summary
+
 function loadCartData() {
   const currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
@@ -100,7 +100,7 @@ function showEmptyCart() {
   document.getElementById('total').textContent = '$0.00';
 }
 
-// ----------------- Bank Modal Validation -----------------
+
 function setupCardInputs() {
   const cardNumberInput = document.getElementById('cardNumber');
   const expiryDateInput = document.getElementById('expiryDate');
@@ -136,11 +136,11 @@ function setupCardInputs() {
 function validateCardDetails() {
   let isValid = true;
   
-  // Clear previous errors
+  
   document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
   document.querySelectorAll('#bankPaymentModal .form-control').forEach(el => el.classList.remove('is-invalid'));
   
-  // Validate card number
+  
   const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
   if (!cardNumber) {
     document.getElementById('cardError').textContent = 'Card number is required';
@@ -152,7 +152,7 @@ function validateCardDetails() {
     isValid = false;
   }
   
-  // Validate expiry date
+  
   const expiryDate = document.getElementById('expiryDate').value;
   if (!expiryDate) {
     document.getElementById('expiryError').textContent = 'Expiry date is required';
@@ -164,7 +164,7 @@ function validateCardDetails() {
     isValid = false;
   }
   
-  // Validate CVV
+  
   const cvv = document.getElementById('cvv').value;
   if (!cvv) {
     document.getElementById('cvvError').textContent = 'CVV is required';
@@ -176,7 +176,7 @@ function validateCardDetails() {
     isValid = false;
   }
   
-  // Validate cardholder name
+  
   const cardName = document.getElementById('cardName').value.trim();
   if (!cardName) {
     document.getElementById('cardNameError').textContent = 'Cardholder name is required';
@@ -187,7 +187,7 @@ function validateCardDetails() {
   return isValid;
 }
 
-// ----------------- Form validation variables -----------------
+
 var nameInput = document.getElementById("firstName");
 var nameError = document.getElementById("nameError");
 var companyInput = document.getElementById("companyName");
@@ -201,7 +201,7 @@ var phoneError = document.getElementById("phoneError");
 var emailInput = document.getElementById("inputEmail");
 var emailError = document.getElementById("emailError");
 
-// Form validation
+
 function validateForm() {
   nameInput.addEventListener("blur", () => {
     const firstVal = nameInput.value.trim();
@@ -229,14 +229,14 @@ function validateForm() {
     else phoneError.textContent = "";
   });
 
-  // emailInput.addEventListener("blur", () => {
-  //   const myPattern = /^[a-zA-Z0-9]{3,30}@[a-zA-Z]{4,20}\.(com)$/;
-  //   emailError.textContent = !myPattern.test(emailInput.value.trim()) ? "Please enter a valid email like example@gmail.com" : "";
-  // });
+  
+  
+  
+  
 }
 
-// Place order function
-// Place order function
+
+
 function placeOrder(e) {
   e.preventDefault();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -251,14 +251,14 @@ function placeOrder(e) {
   const bankPayment = document.getElementById('bank').checked;
   const cashPayment = document.getElementById('cash').checked;
 
-  // var emailPattern = /^[a-zA-Z0-9]{3,25}@[a-zA-Z0-9]{4,25}\.(com)$/;
+  
   if (name == "") { nameError.textContent = "First name is required"; nameInput.focus(); return; }
   else if (name.includes(" ")) { nameError.textContent = "Please enter only one word"; nameInput.focus(); return; }
   else if (company == "") { companyError.textContent = "Company Name is required"; companyInput.focus(); return; }
   else if (street == "") { streetError.textContent = "Street address is required"; streetInput.focus(); return; }
   else if (city == "") { cityError.textContent = "City is required"; cityInput.focus(); return; }
   else if (phone == "") { phoneError.textContent = "Phone number is required"; phoneInput.focus(); return; }
-  // else if (!emailPattern.test(email)) { emailError.textContent = "Please enter a valid email like Example@gmail.com"; emailInput.focus(); return; }
+  
 
   cart = currentUser.cart || [];
   if(cart.length === 0){ alert('Your cart is empty!'); return; }
@@ -272,13 +272,13 @@ function placeOrder(e) {
     }
   }
 
-  // لو كل حاجة تمام يكمل
+  
   if(bankPayment) new bootstrap.Modal(document.getElementById('bankPaymentModal')).show();
   else if(cashPayment) new bootstrap.Modal(document.getElementById('cashPaymentModal')).show();
 }
 
 
-// Confirm payment functions
+
 function confirmPayment() { processPayment("Bank"); }
 function confirmCashPayment() { processPayment("Cash"); }
 
@@ -306,8 +306,8 @@ function processPayment(method){
   setTimeout(() => { window.location.href = 'cart.html'; }, 1000);
 }
 
-// Save order function
-// Save order function
+
+
 function saveOrder(paymentMethod) {
   const name = nameInput.value.trim();
   const company = companyInput.value.trim();
@@ -330,14 +330,14 @@ function saveOrder(paymentMethod) {
   orders.push(newOrder);
   localStorage.setItem("orders", JSON.stringify(orders));
 
-  // ------------------- تحديث المخزون -------------------
+  
   let products = JSON.parse(localStorage.getItem("products")) || [];
   cart.forEach(cartItem => {
     products = products.map(prod => {
       if (prod.id === cartItem.id) {
         return {
           ...prod,
-          stock: Math.max(0, prod.stock - cartItem.quantity) // تقليل المخزون
+          stock: Math.max(0, prod.stock - cartItem.quantity) 
         };
       }
       return prod;
@@ -347,7 +347,7 @@ function saveOrder(paymentMethod) {
 }
 
 
-// Update cart if it changes
+
 window.addEventListener('storage', function(e) {
   if (e.key === 'currentUser') loadCartData();
 });

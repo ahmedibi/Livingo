@@ -1,4 +1,4 @@
-/* office style.css placeholder */
+
 
 
 * {
@@ -76,7 +76,7 @@
     text-align: center;
 }
 
-/* نخلي الـ sliders يتحكموا ببعض */
+
 input[type=range] {
     pointer-events: auto !important;
     background: transparent;
@@ -96,7 +96,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 
-/* نخلي المسار يظهر بلون غامق بين الـ min والـ max */
+
 .range-track {
     height: 5px;
     background: var(--main-color) !important;
@@ -194,8 +194,8 @@ input[type=range]::-webkit-slider-thumb {
 @media (max-width: 767px) {
     .card {
         max-width: 70%;
-        /* الكارد ياخد 90% بس من عرض الشاشة */
+        
         margin: 0 auto;
-        /* يتوسّط */
+        
     }
 }

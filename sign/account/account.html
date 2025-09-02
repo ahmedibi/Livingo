@@ -76,7 +76,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // load navbar + footer
+
       fetch("../../partials/navbar.html")
         .then(res => res.text())
         .then(data => document.getElementById("navbar").innerHTML = data);
@@ -85,7 +85,7 @@
         .then(res => res.text())
         .then(data => document.getElementById("footer").innerHTML = data);
 
-      // ---------------- Load Current User ----------------
+
       let currentUser = JSON.parse(localStorage.getItem("currentUser"));
       let users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -94,7 +94,7 @@
         document.getElementById("inputEmail").value = currentUser.email || "";
       }
 
-      // ---------------- Detect Changes to Enable Save ----------------
+
       const form = document.getElementById("accountForm");
       const saveBtn = document.getElementById("saveBtn");
 
@@ -123,7 +123,7 @@
         input.addEventListener("input", checkChanges);
       });
 
-      // ---------------- Save Changes ----------------
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -135,7 +135,6 @@
         let newPassword = document.getElementById("newPassword").value.trim();
         let confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-        // Check if current password matches before changing
         if (newPassword) {
           if (currentPassword !== currentUser.password) {
             return alert("Current password is incorrect!");
@@ -145,15 +144,15 @@
           }
         }
 
-        // update fields
+
         if (name) currentUser.name = name;
         if (email) currentUser.email = email;
         if (newPassword) currentUser.password = newPassword;
 
-        // update currentUser in localStorage
+
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-        // update user in users array
+
         users = users.map(user => {
           if (user.id === currentUser.id) {
             return {
@@ -169,7 +168,7 @@
         localStorage.setItem("users", JSON.stringify(users));
 
         alert("Profile updated successfully!");
-        saveBtn.disabled = true; // نقفله تاني بعد الحفظ
+        saveBtn.disabled = true;
       });
     })
   </script>

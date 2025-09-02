@@ -119,7 +119,7 @@ function deleteOrder(orderId, itemId) {
   renderOrders();
 }
 
-// Filters
+
 function applyFilters() {
   let searchVal = searchInput.value.toLowerCase();
   let statusVal = statusFilter.value;
@@ -131,7 +131,7 @@ function applyFilters() {
     return matchSearch && matchStatus && matchDate;
   });
 
-  // Sort
+  
   const sortVal = sortSelect.value;
   if (sortVal) {
     filtered.sort((a, b) => {
@@ -153,7 +153,7 @@ statusFilter.addEventListener("change", applyFilters);
 dateFilter.addEventListener("change", applyFilters);
 sortSelect.addEventListener("change", applyFilters);
 
-// Initial render
+
 renderOrders();
 
 

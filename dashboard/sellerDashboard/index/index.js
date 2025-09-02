@@ -1,4 +1,4 @@
-// Get current user from localStorage (assuming it's stored when user logs in)
+
 function getCurrentUser() {
     try {
         const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
@@ -10,14 +10,14 @@ function getCurrentUser() {
     }
 }
 
-// Handle window resize
+
 window.addEventListener('resize', function () {
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('Content');
     const overlay = document.getElementById('overlay');
 });
 
-// Load seller data for the current authenticated user only
+
 function loadSellerData() {
     try {
         console.log('Loading seller data for current user...');
@@ -62,7 +62,7 @@ function loadSellerData() {
     }
 }
 
-// Enhanced function to calculate metrics from seller data with proper product details
+
 function calculateSellerMetrics(sellers) {
     let totalRevenue = 0;
     let totalUnitsSold = 0;
@@ -137,7 +137,7 @@ function calculateSellerMetrics(sellers) {
     };
 }
 
-// Helper function to find product by ID
+
 function findProductById(productId, productsData) {
     if (!productId || !productsData) return null;
     if (productsData[productId]) return productsData[productId];
@@ -240,7 +240,7 @@ function initializeDashboard() {
     const sellerData = loadSellerData();
     console.log('Seller data for current user:', sellerData);
 
-    //  Default to zeros instead of message
+    
     if (!sellerData) {
         const emptyData = {
             totalRevenue: 0,
@@ -324,7 +324,7 @@ logout.addEventListener("click", function () {
   }
 });
 
-// Monthly Sales Chart (Line)
+
 function createSalesChart(data) {
     const ctx = document.getElementById('salesChart');
     if (!ctx) return;
@@ -350,7 +350,7 @@ function createSalesChart(data) {
     });
 }
 
-// Top Products Chart (Doughnut)
+
 function createProductsChart(data) {
     const ctx = document.getElementById('productsChart');
     if (!ctx) return;

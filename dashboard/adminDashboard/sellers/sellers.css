@@ -163,7 +163,7 @@
      margin-top: 20px;
    }
 
-   /* sidemenu Button  */
+   
    .sidemenu {
      display: none;
      font-size: 20px;
@@ -188,7 +188,7 @@
 
    }
 
-   /* Responsive */
+   
    @media (max-width: 768px) {
      .sidemenu {
        display: block;
@@ -391,7 +391,7 @@
    }
 
 
-   /* إضافة تأثيرات بصرية للجدول الفارغ */
+   
    .custom-table tbody tr td[colspan="5"] {
      padding: 60px 20px;
      background: #fafafa;
@@ -403,11 +403,11 @@
      color: #ddd;
    }
 
-   /* تحسينات الاستجابة */
+   
 
 
 
-   /* تحسين شكل شريط التمرير */
+   
 
    @keyframes shimmer {
      0% {

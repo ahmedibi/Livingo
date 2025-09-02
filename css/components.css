@@ -1,4 +1,4 @@
-/* style.css placeholder */
+
 * {
   font-family: "Inter", sans-serif;
   font-weight: 400;
@@ -6,21 +6,13 @@
   scroll-behavior: smooth;
 }
 
-/* #title{
-     animation: ltr 3s 1;
- }
-@keyframes ltr{
-    0%{ transform: translateX(-100px);}
-    30%{ transform: translateX(150px);}
-    70%{ transform: translateX(-100px);}
-    100%{ transform: translateX(0);}
-} */
+
 
 .banner {
   width: 85%;
 }
 
-/* navbar */
+
 
 nav input {
   box-shadow: none !important;
@@ -44,7 +36,7 @@ nav .navbar-toggler {
   margin-left: 30%;
 }
 
-/* line active  */
+
 .nav-link {
   position: relative;
 }
@@ -126,60 +118,13 @@ nav .navbar-toggler {
     line-height: 20px;
   }
 
-  /* .livingo-logo {
-    margin-left: 11% !important;
-  } */
+
    .titlee{
     margin-left: 10% !important;
    }
 }
 
 @media (min-width: 769px) and (max-width: 1200px) {
-
-  /* nav .icon_nav {
-    position: absolute;
-    top: 10%;
-    right: 5%;
-    margin-left: 15% !important;
-
-  }
-
-  nav .navbar-nav {
-    margin-top: 30px;
-  }
-
-
-  .nav-link::after {
-    background-color: transparent !important;
-    width: 0%;
-  }
-
-  nav .navbar-toggler {
-    position: relative;
-    top: 10%;
-    right: 88%;
-  }
-
-  .icoo {
-    position: relative;
-  }
-
-  .icoo .count {
-    position: absolute;
-    top: 20px;
-    right: -30px;
-    background-color: crimson;
-    color: white;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-    line-height: 20px;
-  } */
 
   .titlee{
     margin-left: 15% !important;
@@ -207,7 +152,7 @@ nav .navbar-toggler {
   line-height: 20px;
 }
 
-/***** logo style *****/
+
 
 
 .livingo-logo {
@@ -218,7 +163,7 @@ nav .navbar-toggler {
   font-size: 2.4rem;
   color: #40372e;
   font-weight: 400;
-  /* Thinner look */
+  
   letter-spacing: 0.02em;
   user-select: none;
 }
@@ -306,9 +251,9 @@ nav .navbar-toggler {
   animation: logo-cushion-pop 0.7s cubic-bezier(0.42, 1.56, 0.35, 0.99);
 }
 
-/***** End logo *****/
 
-/***** dropdown *****/
+
+
 
 .dropdown {
   position: relative;
@@ -319,9 +264,9 @@ nav .navbar-toggler {
   display: none;
   position: absolute;
   right: 0;
-  /* background-color: black; */
+  
   background-color: #a0804d;
-  /* opacity: 0.6; */
+  
   min-width: 200px;
   border-radius: 6px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -340,16 +285,16 @@ nav .navbar-toggler {
 .dropdown-content a:hover {
   background-color: rgba(0, 0, 0, 0.677) !important;
   color: white !important;
-  /* opacity: 0.6; */
+  
 }
 
 .show {
   display: block;
 }
 
-/***** End dropdown *****/
 
-/* input { width: 300px; padding: 8px; margin-bottom: 20px; } */
+
+
 .product {
   border: 1px solid #ddd;
   padding: 10px;
@@ -357,9 +302,9 @@ nav .navbar-toggler {
   border-radius: 6px;
 }
 
-/***** End nav *****/
 
-/***** footer style *****/
+
+
 footer {
   background-color: black;
 }
@@ -376,7 +321,7 @@ footer p {
 
 footer img {
   width: 76px;
-  /* display: block; */
+  
 }
 
 .social-icons a {
@@ -396,9 +341,9 @@ footer .link:hover a {
   color: white !important;
 }
 
-/***** End footer style *****/
 
-/***** arrow-up-to-top *****/
+
+
 .back-to-top a {
   color: black;
   position: fixed;
@@ -431,9 +376,9 @@ footer .link:hover a {
   background-color: #A0804D;
 }
 
-/***** End arrow-up-to-top *****/
 
-/***** style shopping+heart icon  *****/
+
+
 .icon_nav {
   position: relative;
 }
@@ -455,4 +400,3 @@ footer .link:hover a {
   line-height: 20px;
 }
 
-/***** End style shopping+heart icon *****/

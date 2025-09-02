@@ -171,7 +171,7 @@ i {
     margin-top: 20px;
 }
 
-/* sidemenu Button  */
+
 .sidemenu {
     display: none;
     font-size: 20px;
@@ -223,7 +223,7 @@ i {
     transform: scale(1.02);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .sidemenu {
         display: block;
