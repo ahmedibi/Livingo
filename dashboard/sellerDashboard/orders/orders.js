@@ -25,43 +25,50 @@ function renderOrders(data = orders) {
   let user = users.find(u => u.id === userId);
   return user ? user.name : "Unknown User";
   } 
+data.forEach(order => {
+  const sellerItems = order.items.filter(item => sellerProductIds.includes(item.id));
+  if (sellerItems.length === 0) return;
 
-  data.forEach(order => {
-    const sellerItems = order.items.filter(item => sellerProductIds.includes(item.id));
-    sellerItems.forEach(item => {
-      let total = item.price * (item.quantity || 1);
-      let statusClass = "";
-      switch (order.status) {
-        case "Pending": statusClass = "bg-secondary"; break;
-        case "Delivered": statusClass = "bg-success"; break;
-        case "Processing": statusClass = "bg-primary"; break;
-        case "Cancelled": statusClass = "bg-danger"; break;
-        default: statusClass = "bg-dark";
-      }
+  
+  const itemsList = sellerItems.map(item => 
+    `${item.name} (x${item.quantity || 1})`
+  ).join("<br>");
 
-      html += `
-        <tr data-id="${order.id}">
-          <td>${order.id}</td>
-          <td>${getUserNameById(order.customer?.id)}</td>
-          <td>${item.name}</td>
-          <td>${item.quantity || 1}</td>
-          <td>${total} ${item.currency}</td>
-          <td>${order.date}</td>
-          <td class="status-cell"><span class="badge ${statusClass}">${order.status}</span></td>
-          <td>
-            <div class="d-flex">
-              <button class="btn btn-sm btn-outline-warning me-1 edit" onclick="enableEditStatus(${order.id})">
-                <i class="fa-solid fa-pen-to-square m-1"></i>           
-              </button>
-              <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id}, '${item.id}')">
-                <i class="fa-solid fa-trash m-1"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      `;
-    });
-  });
+  const totalQuantity = sellerItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const total = sellerItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+
+  let statusClass = "";
+  switch (order.status) {
+    case "Pending": statusClass = "bg-secondary"; break;
+    case "Delivered": statusClass = "bg-success"; break;
+    case "Processing": statusClass = "bg-primary"; break;
+    case "Cancelled": statusClass = "bg-danger"; break;
+    default: statusClass = "bg-dark";
+  }
+
+  html += `
+    <tr data-id="${order.id}" style="text-align:center;">
+      <td>${order.id}</td>
+      <td>${getUserNameById(order.customer?.id)}</td>
+      <td>${itemsList}</td>
+      <td>${totalQuantity}</td>
+      <td>${total} ${sellerItems[0].currency}</td>
+      <td>${order.date}</td>
+      <td class="status-cell"><span class="badge ${statusClass}">${order.status}</span></td>
+      <td>
+        <div class="d-flex">
+          <button class="btn btn-sm btn-outline-warning me-1 edit" onclick="enableEditStatus(${order.id})">
+            <i class="fa-solid fa-pen-to-square m-1"></i>           
+          </button>
+          <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id})">
+            <i class="fa-solid fa-trash m-1"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `;
+});
+
 
   container.innerHTML = html || `<tr><td colspan="7">no orders found</td></tr>`;
 }
