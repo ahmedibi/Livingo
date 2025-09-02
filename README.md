@@ -1277,7 +1277,7 @@ const debouncedSearch = createDebouncedSearch();
 ![login](./assets/images/ReadMeImage/Log.png)
 ![SignUp](./assets/images/ReadMeImage/Signup.png)
 ![LightingRoom](./assets/images/ReadMeImage/lightiningRoom.png)
-![DiningRoom](./assets/images/ReadMeImage/livingRoom.png)
+![LivingRoom](./assets/images/ReadMeImage/livingRoom.png)
 ![SellerDashboard](./assets/images/ReadMeImage/seller-Dashboard.png)
 ![SellerProducts](./assets/images/ReadMeImage/seller-products.png)
 ![Sellerorders](./assets/images/ReadMeImage/Seller-Orders.png)
