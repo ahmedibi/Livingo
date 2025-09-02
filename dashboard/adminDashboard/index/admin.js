@@ -270,7 +270,6 @@ const logout= document.getElementById("logOut")
 
   if (confirmLogout) {
     localStorage.removeItem("currentUser");
-    alert("You have been logged out successfully.");
     window.location.href = "../../../sign/login/login.html";
   }
 });

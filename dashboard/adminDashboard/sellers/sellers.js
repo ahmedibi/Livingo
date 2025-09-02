@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
 
 
   const sellersTable = document.getElementById("sellersTable");
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   let users = initializeSampleData();
 
-  
   let sellers = users.filter(u => u.role === "seller");
 
   function saveUsers() {
@@ -72,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function attachEventListeners() {
-    
+  
     document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const id = e.currentTarget.dataset.id;
@@ -84,9 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (confirm(`are you sure you want to delete "${seller.name}"`)) {
-          
+      
           users = users.filter((u) => u.id !== id);
-          
+        
           sellers = users.filter((u) => u.role === "seller");
           saveUsers();
           renderSellers(sellers);
@@ -101,10 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", (e) => {
         const id = e.currentTarget.dataset.id;
 
-        
+      
         localStorage.setItem("editingUserId", id);
 
-        
+      
         window.location.href = "selleredit.html";
       });
     });
@@ -132,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSellers(filtered);
   });
 
-  
+
   function showToast(message, type = "info") {
     
     const toast = document.createElement("div");
@@ -142,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
       top: 20px;
       right: 20px;
       padding: 15px 25px;
-      background: ${type === "success" ? "#28a745" : "#17a2b8"};
+      background: ${type === "success" ? "#A0804D" : "#17a2b8"};
       color: white;
       border-radius: 5px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -155,12 +153,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.appendChild(toast);
 
-    
+  
     setTimeout(() => {
       toast.style.transform = "translateX(0)";
     }, 100);
 
-    
+
     setTimeout(() => {
       toast.style.transform = "translateX(400px)";
       setTimeout(() => {
@@ -169,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  
+
   function updateStats() {
     const statsElement = document.querySelector(".stats-count");
     if (statsElement) {
@@ -177,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  
-  console.log("عدد البائعين الموجودين:", sellers.length);
+
+
   renderSellers(sellers);
   updateStats();
 
@@ -208,7 +206,6 @@ logout.addEventListener("click", function () {
 
   if (confirmLogout) {
     localStorage.removeItem("currentUser");
-    alert("You have been logged out successfully.");
     window.location.href = "../../../sign/login/login.html";
   }
 });

@@ -368,6 +368,45 @@ document.addEventListener("DOMContentLoaded", () => {
           </a>`;
       }
     });
+
+   
+    const contactForm = document.getElementById("contactForm");
+  const emailInput = document.getElementById("contactEmail");
+
+  // لو في مستخدم عامل login
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (currentUser && currentUser.email && emailInput) {
+    emailInput.value = currentUser.email; // جِب الايميل وحطه تلقائي
+  }
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const contactData = {
+        id: Date.now(),
+        name: document.getElementById("contactName").value.trim(),
+        email: emailInput.value.trim(),
+        subject: document.getElementById("contactSubject").value.trim(),
+        message: document.getElementById("contactMessage").value.trim(),
+        date: new Date().toLocaleString()
+      };
+
+      let contacts = JSON.parse(localStorage.getItem("contactus")) || [];
+      contacts.push(contactData);
+      localStorage.setItem("contactus", JSON.stringify(contacts));
+
+      contactForm.reset();
+
+      // بعد reset نرجّع الايميل تاني عشان ما يروحش
+      if (currentUser && currentUser.email) {
+        emailInput.value = currentUser.email;
+      }
+
+      alert("✅ Your message has been saved successfully!");
+    });
+  }
   });
 
 window.addEventListener("load", () => {

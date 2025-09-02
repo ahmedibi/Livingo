@@ -460,12 +460,12 @@
     <script>
 
 
-        // بجيب الداتا من localStorage
+      
         let users = JSON.parse(localStorage.getItem("users")) || [];
 
         const tbody = document.querySelector("tbody");
 
-        // دالة عرض المستخدمين
+      
         function renderUsers() {
             tbody.innerHTML = "";
             users.forEach(user => {
@@ -495,24 +495,24 @@
             });
         }
 
-        // عرض
+    
         renderUsers();
 
-        // فتح صفحة Info
+      
         function viewUser(id) {
             localStorage.setItem("selectedUser", id);
             window.location.href = "userInfo.html";
         }
 
-        // فتح صفحة Edit
+    
         function editUser(id) {
             localStorage.setItem("selectedUser", id);
             window.location.href = "userEdit.html";
         }
 
-        // حذف
+      
         function deleteUser(id) {
-            if (confirm("هل أنت متأكد من حذف هذا المستخدم؟")) {
+            if (confirm(" are yoy sure you want to delete ")) {
                 users = users.filter(u => u.id !== id);
                 localStorage.setItem("users", JSON.stringify(users));
                 renderUsers();
@@ -526,11 +526,10 @@
 
         const logout = document.getElementById("logOut")
         logout.addEventListener("click", function () {
-           const confirmLogout = confirm("Are you sure you want to log out?");
+           const confirmLogout = confirm("Are you sure you want to logout?");
           
            if (confirmLogout) {
              localStorage.removeItem("currentUser");
-             alert("You have been logged out successfully.");
              window.location.href = "../../../sign/login/login.html";
            }
         });
