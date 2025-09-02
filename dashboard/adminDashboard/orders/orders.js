@@ -13,6 +13,13 @@ function renderOrders(list) {
     return;
   }
 
+function getUserNameById(userId) {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let user = users.find(u => u.id === userId);
+  return user ? user.name : "Unknown User";
+}
+
+
   list.forEach(order => {
     // تجاهل أي order مفيهوش منتجات
     if (!order.items || order.items.length === 0) return;
@@ -34,7 +41,7 @@ function renderOrders(list) {
 
     tbody.innerHTML += `
         <tr data-id="${order.id}">
-            <td>${order.customer?.name || "Unknown"}</td>
+            <td>${getUserNameById(order.customer?.id)}</td>
             <td>${itemsText}</td>
             <td>${totalQuantity}</td>
             <td>${totalPrice} ${order.items[0]?.currency || "EGP"}</td>
@@ -176,7 +183,11 @@ function toggleSidebar() {
 
 const logout = document.getElementById("logOut")
 logout.addEventListener("click", function () {
-  localStorage.removeItem("currentUser");
-  alert("You have been logged out.");
-  window.location.href = "../../../sign/login/login.html";
-})
+  const confirmLogout = confirm("Are you sure you want to log out?");
+
+  if (confirmLogout) {
+    localStorage.removeItem("currentUser");
+    alert("You have been logged out successfully.");
+    window.location.href = "../../../sign/login/login.html";
+  }
+});

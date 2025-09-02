@@ -204,7 +204,11 @@ function toggleSidebar() {
 
 const logout = document.getElementById("logOut")
 logout.addEventListener("click", function () {
-  localStorage.removeItem("currentUser");
-  alert("You have been logged out.");
-  window.location.href = "../../../sign/login/login.html";
-})
+  const confirmLogout = confirm("Are you sure you want to log out?");
+
+  if (confirmLogout) {
+    localStorage.removeItem("currentUser");
+    alert("You have been logged out successfully.");
+    window.location.href = "../../../sign/login/login.html";
+  }
+});

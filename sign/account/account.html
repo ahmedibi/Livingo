@@ -69,7 +69,7 @@
           next time</label>
       </div>
 
-      <button type="submit" class="btn text-white savebutton">Save Changes</button>
+      <button type="submit" class="btn text-white savebutton" id="saveBtn" disabled>Save Changes</button>
     </form>
   </div>
   <div id="footer"></div>
@@ -79,9 +79,7 @@
       // load navbar + footer
       fetch("../../partials/navbar.html")
         .then(res => res.text())
-        .then(data => document.getElementById("navbar").innerHTML = data
-
-        );
+        .then(data => document.getElementById("navbar").innerHTML = data);
 
       fetch("../../partials/footer.html")
         .then(res => res.text())
@@ -96,8 +94,37 @@
         document.getElementById("inputEmail").value = currentUser.email || "";
       }
 
+      // ---------------- Detect Changes to Enable Save ----------------
+      const form = document.getElementById("accountForm");
+      const saveBtn = document.getElementById("saveBtn");
+
+      const initialData = {
+        name: currentUser?.name || "",
+        email: currentUser?.email || "",
+        password: currentUser?.password || ""
+      };
+
+      function checkChanges() {
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("inputEmail").value.trim();
+        let currentPassword = document.getElementById("currentPassword").value.trim();
+        let newPassword = document.getElementById("newPassword").value.trim();
+        let confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+        let changed =
+          name !== initialData.name ||
+          email !== initialData.email ||
+          (newPassword && newPassword === confirmPassword && currentPassword === initialData.password);
+
+        saveBtn.disabled = !changed;
+      }
+
+      form.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", checkChanges);
+      });
+
       // ---------------- Save Changes ----------------
-      document.getElementById("accountForm").addEventListener("submit", function (e) {
+      form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         if (!currentUser) return alert("No current user found!");
@@ -130,7 +157,7 @@
         users = users.map(user => {
           if (user.id === currentUser.id) {
             return {
-              ...user, // نحافظ على باقي البيانات
+              ...user,
               name: currentUser.name,
               email: currentUser.email,
               password: currentUser.password
@@ -142,6 +169,7 @@
         localStorage.setItem("users", JSON.stringify(users));
 
         alert("Profile updated successfully!");
+        saveBtn.disabled = true; // نقفله تاني بعد الحفظ
       });
     })
   </script>

@@ -126,11 +126,65 @@ nav .navbar-toggler {
     line-height: 20px;
   }
 
-  .livingo-logo {
+  /* .livingo-logo {
     margin-left: 11% !important;
-  }
+  } */
+   .titlee{
+    margin-left: 10% !important;
+   }
 }
 
+@media (min-width: 769px) and (max-width: 1200px) {
+
+  /* nav .icon_nav {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    margin-left: 15% !important;
+
+  }
+
+  nav .navbar-nav {
+    margin-top: 30px;
+  }
+
+
+  .nav-link::after {
+    background-color: transparent !important;
+    width: 0%;
+  }
+
+  nav .navbar-toggler {
+    position: relative;
+    top: 10%;
+    right: 88%;
+  }
+
+  .icoo {
+    position: relative;
+  }
+
+  .icoo .count {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background-color: crimson;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    line-height: 20px;
+  } */
+
+  .titlee{
+    margin-left: 15% !important;
+  }
+}
 
 .icoo {
   position: relative;

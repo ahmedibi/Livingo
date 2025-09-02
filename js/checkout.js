@@ -22,6 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCartData();
   setupCardInputs(); // live validation للـ bank modal
   validateForm();
+
+ const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if(currentUser && currentUser.email){
+    emailInput.value = currentUser.email;
+    emailInput.readOnly = true; // عشان المستخدم ما يقدرش يغيره
+  }
+
 });
 
 // Breadcrumb functionality
@@ -222,10 +229,10 @@ function validateForm() {
     else phoneError.textContent = "";
   });
 
-  emailInput.addEventListener("blur", () => {
-    const myPattern = /^[a-zA-Z0-9]{3,30}@[a-zA-Z]{4,20}\.(com)$/;
-    emailError.textContent = !myPattern.test(emailInput.value.trim()) ? "Please enter a valid email like example@gmail.com" : "";
-  });
+  // emailInput.addEventListener("blur", () => {
+  //   const myPattern = /^[a-zA-Z0-9]{3,30}@[a-zA-Z]{4,20}\.(com)$/;
+  //   emailError.textContent = !myPattern.test(emailInput.value.trim()) ? "Please enter a valid email like example@gmail.com" : "";
+  // });
 }
 
 // Place order function
@@ -244,13 +251,14 @@ function placeOrder(e) {
   const bankPayment = document.getElementById('bank').checked;
   const cashPayment = document.getElementById('cash').checked;
 
-  var emailPattern = /^[a-zA-Z0-9]{3,25}@[a-zA-Z0-9]{4,25}\.(com)$/;
+  // var emailPattern = /^[a-zA-Z0-9]{3,25}@[a-zA-Z0-9]{4,25}\.(com)$/;
   if (name == "") { nameError.textContent = "First name is required"; nameInput.focus(); return; }
+  else if (name.includes(" ")) { nameError.textContent = "Please enter only one word"; nameInput.focus(); return; }
   else if (company == "") { companyError.textContent = "Company Name is required"; companyInput.focus(); return; }
   else if (street == "") { streetError.textContent = "Street address is required"; streetInput.focus(); return; }
   else if (city == "") { cityError.textContent = "City is required"; cityInput.focus(); return; }
   else if (phone == "") { phoneError.textContent = "Phone number is required"; phoneInput.focus(); return; }
-  else if (!emailPattern.test(email)) { emailError.textContent = "Please enter a valid email like Example@gmail.com"; emailInput.focus(); return; }
+  // else if (!emailPattern.test(email)) { emailError.textContent = "Please enter a valid email like Example@gmail.com"; emailInput.focus(); return; }
 
   cart = currentUser.cart || [];
   if(cart.length === 0){ alert('Your cart is empty!'); return; }
