@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   nameInput.value = currentUser.name || "";
   emailInput.value = currentUser.email || "";
   passwordInput.value = currentUser.password || "";
-  storeInput.value = currentUser.storeName || "";
+  
 
 
   function showError(input, message) {
@@ -80,24 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  function validateStore() {
-    if (!storeInput.value.trim()) {
-      showError(storeInput, "Store Name is required.");
-      return false;
-    }
-    clearError(storeInput);
-    return true;
-  }
-
+  
   function validateForm() {
-    return validateName() && validateEmail() && validatePassword() && validateStore();
+    return validateName() && validateEmail() && validatePassword() ;
   }
 
 
   nameInput.addEventListener("input", validateName);
   emailInput.addEventListener("input", validateEmail);
   passwordInput.addEventListener("input", validatePassword);
-  storeInput.addEventListener("input", validateStore);
+
 
   
   form.addEventListener("submit", (event) => {
@@ -117,11 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentUser.password = passwordInput.value;
         updated = true;
       }
-      if (storeInput.value.trim() !== currentUser.storeName) {
-        currentUser.storeName = storeInput.value.trim();
-        updated = true;
-      }
-
+    
       if (updated) {
         
         const index = users.findIndex(u => u.id === currentUser.id);

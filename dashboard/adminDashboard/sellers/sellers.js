@@ -45,13 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    list.forEach(({ id, name, email, password, storeName }) => {
+    list.forEach(({ id, name, email, password}) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td style="font-weight: 500;">${name || ""}</td>
         <td>${email || " ]"}</td>
         <td style="color: #999;">${"*".repeat(Math.min(password?.length || 3, 8))}</td>
-        <td style="color: #a0804d; font-weight: 500;">${storeName || " "}</td>
+        
         <td>
         
             <button class="action-btn1 btn btn-sm edit-btn" data-id="${id}" title="تعديل">
