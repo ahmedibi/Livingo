@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       contactForm.reset();
 
-      // بعد reset نرجّع الايميل تاني عشان ما يروحش
+    
       if (currentUser && currentUser.email) {
         emailInput.value = currentUser.email;
       }
