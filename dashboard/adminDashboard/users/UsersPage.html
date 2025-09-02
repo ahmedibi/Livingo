@@ -460,12 +460,12 @@
     <script>
 
 
-        // بجيب الداتا من localStorage
+      
         let users = JSON.parse(localStorage.getItem("users")) || [];
 
         const tbody = document.querySelector("tbody");
 
-        // دالة عرض المستخدمين
+      
         function renderUsers() {
             tbody.innerHTML = "";
             users.forEach(user => {
@@ -495,22 +495,22 @@
             });
         }
 
-        // عرض
+    
         renderUsers();
 
-        // فتح صفحة Info
+      
         function viewUser(id) {
             localStorage.setItem("selectedUser", id);
             window.location.href = "userInfo.html";
         }
 
-        // فتح صفحة Edit
+    
         function editUser(id) {
             localStorage.setItem("selectedUser", id);
             window.location.href = "userEdit.html";
         }
 
-        // حذف
+      
         function deleteUser(id) {
             if (confirm(" are yoy sure you want to delete ")) {
                 users = users.filter(u => u.id !== id);
