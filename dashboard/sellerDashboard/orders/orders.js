@@ -19,6 +19,13 @@ function renderOrders(data = orders) {
   let sellerProductIds = seller.products;
   let html = "";
 
+
+  function getUserNameById(userId) {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let user = users.find(u => u.id === userId);
+  return user ? user.name : "Unknown User";
+  } 
+
   data.forEach(order => {
     const sellerItems = order.items.filter(item => sellerProductIds.includes(item.id));
     sellerItems.forEach(item => {
@@ -35,7 +42,7 @@ function renderOrders(data = orders) {
       html += `
         <tr data-id="${order.id}">
           <td>${order.id}</td>
-          <td>${order.customer.name}</td>
+          <td>${getUserNameById(order.customer?.id)}</td>
           <td>${item.name}</td>
           <td>${item.quantity || 1}</td>
           <td>${total} ${item.currency}</td>
