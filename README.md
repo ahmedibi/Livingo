@@ -1274,6 +1274,7 @@ const debouncedSearch = createDebouncedSearch();
 ![home](./assets/images/ReadMeImage/livingo.png)
 ![Product-Details](./assets/images/ReadMeImage/ProductDetails.png)
 ![All-Products](./assets/images/ReadMeImage/All-Products.png)
+![cart](./assets/images/ReadMeImage/cart.png)
 ![login](./assets/images/ReadMeImage/Log.png)
 ![SignUp](./assets/images/ReadMeImage/Signup.png)
 ![LightingRoom](./assets/images/ReadMeImage/lightiningRoom.png)
