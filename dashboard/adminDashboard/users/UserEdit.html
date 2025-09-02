@@ -399,13 +399,13 @@
         let selectedId = localStorage.getItem("selectedUser");
         let user = users.find(u => u.id === selectedId);
 
-        // عناصر
+  
         document.getElementById("username").value = user.name;
         document.getElementById("email").value = user.email;
         document.getElementById("gender").value = user.gender || "";
         document.getElementById("role").value = user.role;
 
-        // تحديث
+
         document.getElementById("editUserForm").addEventListener("submit", e => {
             e.preventDefault();
             user.name = document.getElementById("username").value;
@@ -428,7 +428,6 @@
          
           if (confirmLogout) {
             localStorage.removeItem("currentUser");
-            alert("You have been logged out successfully.");
             window.location.href = "../../../sign/login/login.html";
           }
         });
