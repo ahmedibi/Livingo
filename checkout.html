@@ -42,8 +42,8 @@
     <div class="row my-3 mt-md-4 d-flex justify-content-lg-between align-items-lg-start">
       <div class="col-12 col-lg-5">
         <form>
-          <label for="firstName" class="form-label text-secondary mb-0 small">First Name</label>
-          <input type="text" class="form-control bg-black bg-opacity-10 mb-2" id="firstName">
+          <label for="Name" class="form-label text-secondary mb-0 small">Name</label>
+          <input type="text" class="form-control bg-black bg-opacity-10 mb-2" id="Name">
           <p class="small text-danger" id="nameError"></p>
           <label for="companyName" class="form-label text-secondary mb-0 small">Company Name </label>
           <input type="text" class="form-control bg-black bg-opacity-10 mb-2" id="companyName">
@@ -84,7 +84,7 @@
           </div>
           <div class="d-flex justify-content-between mb-3 pb-3">
             <strong>Total</strong>
-            <strong id="total" class="text-primary"></strong>
+            <strong id="total" class="text-black"></strong>
           </div>
           <div class="mb-3">
             <div class="form-check mb-3">
@@ -141,7 +141,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" onclick="confirmPayment()">Confirm Payment</button>
+          <button type="button" class="btn text-white" style="background-color: #A0804D;" onclick="confirmPayment()">Confirm Payment</button>
         </div>
       </div>
     </div>
@@ -159,7 +159,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="confirmCashPayment()">confirm Cash Payment</button>
+          <button type="button" class="btn text-white" style="background-color: #A0804D;" onclick="confirmCashPayment()">confirm Cash Payment</button>
         </div>
       </div>
     </div>
