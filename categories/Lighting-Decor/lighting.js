@@ -75,6 +75,19 @@ function renderProducts(products) {
       </div>
     `;
   });
+  applyWishlistState();
+}
+function applyWishlistState() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (!currentUser || !currentUser.wishlist) return;
+
+  currentUser.wishlist.forEach(productId => {
+    const icon = document.querySelector(`.wishlistBtn[data-id="${productId}"] .iconify`);
+    if (icon) {
+      icon.setAttribute("data-icon", "mdi:heart");
+      icon.style.color = "red";
+    }
+  });
 }
 
 //////////////////// Filters ////////////////////
@@ -213,11 +226,25 @@ function toggleUserList(key, productId, addMsg, removeMsg) {
   if (!currentUser) { alert("⚠ You must be logged in!"); return; }
 
   if (!currentUser[key]) currentUser[key] = [];
-  if (currentUser[key].includes(productId)) {
-    currentUser[key] = currentUser[key].filter(id => id !== productId);
+  const index = currentUser[key].indexOf(productId);
+
+  const button = document.querySelector(`.wishlistBtn[data-id="${productId}"] .iconify`);
+
+  if (index !== -1) {
+    
+    currentUser[key].splice(index, 1);
+    if (button) {
+      button.setAttribute("data-icon", "mdi:heart-outline");
+      button.style.color = "black"; 
+    }
     alert(removeMsg);
   } else {
+    
     currentUser[key].push(productId);
+    if (button) {
+      button.setAttribute("data-icon", "mdi:heart");
+      button.style.color = "red"; 
+    }
     alert(addMsg);
   }
 

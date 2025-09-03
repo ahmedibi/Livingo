@@ -46,7 +46,7 @@ function renderProducts(products) {
           </a>
           <div class="product-actions">
             <button id="wishlistBtn" data-id="${product.id}">
-              <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
+              <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px; color:black;"></span>
             </button>
           </div>
           <button class="btn btn-secondary w-100 cartBtn" data-id="${product.id}" ${disabled}>
@@ -69,6 +69,9 @@ function renderProducts(products) {
       </div>
     `;
   });
+
+  // ✅ بعد ما المنتجات تظهر، حدث شكل الويش ليست
+  updateWishlistUI();
 }
 
 ////////////////////// Sorting //////////////////////
@@ -161,6 +164,7 @@ document.addEventListener("click", (e) => {
   if(wishlistBtn){
     const productId = wishlistBtn.dataset.id;
     toggleUserList("wishlist", productId, "❤ Added to wishlist", "❌ Removed from wishlist");
+    updateWishlistUI(); // ✅ خلي الشكل يتحدث بعد الضغط
     return;
   }
 
@@ -210,7 +214,6 @@ function toggleUserList(key, productId, addMsg, removeMsg){
     added=true;
   }
 
- 
   let users = JSON.parse(localStorage.getItem("users"))||[];
   const userIndex = users.findIndex(u=>u.id===currentUser.id);
   if(userIndex!==-1) users[userIndex]=currentUser;
@@ -220,4 +223,23 @@ function toggleUserList(key, productId, addMsg, removeMsg){
   localStorage.setItem("users", JSON.stringify(users));
 
   alert(added ? addMsg : removeMsg);
+}
+
+////////////////////// Wishlist UI Update //////////////////////
+function updateWishlistUI() {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (!currentUser || !currentUser.wishlist) return;
+
+  document.querySelectorAll("#wishlistBtn").forEach(btn => {
+    const productId = btn.dataset.id;
+    const icon = btn.querySelector(".iconify");
+
+    if (currentUser.wishlist.includes(productId)) {
+      icon.setAttribute("data-icon", "mdi:heart");
+      icon.style.color = "red";
+    } else {
+      icon.setAttribute("data-icon", "mdi:heart-outline");
+      icon.style.color = "black";
+    }
+  });
 }

@@ -23,8 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const col = document.createElement("div");
   col.className = "col-12 col-md-6 col-lg-3 mb-5";
 
-
   const disabled = product.stock <= 0 ? "disabled" : "";
+
+  const isInWishlist = currentUser.wishlist.includes(String(product.id));
+  const heartIcon = isInWishlist ? "mdi:heart" : "mdi:heart-outline";
+  const heartColor = isInWishlist ? "red" : "black";
 
   col.innerHTML = `
     <div class="card h-100 d-flex flex-column">
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div class="product-actions">
         <button class="wishlistBtn" data-id="${product.id}">
-          <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
+           <span class="iconify" data-icon="${heartIcon}" style="font-size:20px; color:${heartColor};"></span>
         </button>
       </div>
 
