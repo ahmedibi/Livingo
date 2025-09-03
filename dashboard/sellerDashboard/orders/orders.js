@@ -111,17 +111,10 @@ function updateStatus(id, newStatus) {
   renderOrders();
 }
 
-function deleteOrder(orderId, itemId) {
+function deleteOrder(orderId) {
   if (!confirm("Are you sure to delete this order?")) return;
 
-  let order = orders.find(o => o.id === orderId);
-  if (!order) return;
-
-  order.items = order.items.filter(it => it.id !== itemId);
-  if (order.items.length === 0) {
-    orders = orders.filter(o => o.id !== orderId);
-  }
-
+  orders = orders.filter(o => o.id !== orderId);
   localStorage.setItem("orders", JSON.stringify(orders));
   renderOrders();
 }
