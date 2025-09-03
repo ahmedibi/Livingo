@@ -154,16 +154,36 @@ function validateCardDetails() {
   
   
   const expiryDate = document.getElementById('expiryDate').value;
-  if (!expiryDate) {
-    document.getElementById('expiryError').textContent = 'Expiry date is required';
+if (!expiryDate) {
+  document.getElementById('expiryError').textContent = 'Expiry date is required';
+  document.getElementById('expiryDate').classList.add('is-invalid');
+  isValid = false;
+} else if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+  document.getElementById('expiryError').textContent = 'Please enter valid expiry date (MM/YY)';
+  document.getElementById('expiryDate').classList.add('is-invalid');
+  isValid = false;
+} else {
+  let [month, year] = expiryDate.split('/').map(num => parseInt(num, 10));
+  const now = new Date();
+  const currentYear = now.getFullYear() % 100;
+  const currentMonth = now.getMonth() + 1; 
+  const maxYear = currentYear + 8;
+
+  if (month < 1 || month > 12) {
+    document.getElementById('expiryError').textContent = 'Invalid month (01-12)';
     document.getElementById('expiryDate').classList.add('is-invalid');
     isValid = false;
-  } else if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
-    document.getElementById('expiryError').textContent = 'Please enter valid expiry date (MM/YY)';
+  } else if (year < currentYear || year > maxYear) {
+    document.getElementById('expiryError').textContent = `Year must be between ${currentYear} and ${maxYear}`;
+    document.getElementById('expiryDate').classList.add('is-invalid');
+    isValid = false;
+  } else if (year === currentYear && month < currentMonth) {
+    document.getElementById('expiryError').textContent = 'Card has already expired';
     document.getElementById('expiryDate').classList.add('is-invalid');
     isValid = false;
   }
-  
+}
+
   
   const cvv = document.getElementById('cvv').value;
   if (!cvv) {
@@ -178,17 +198,22 @@ function validateCardDetails() {
   
   
   const cardName = document.getElementById('cardName').value.trim();
-  if (!cardName) {
-    document.getElementById('cardNameError').textContent = 'Cardholder name is required';
-    document.getElementById('cardName').classList.add('is-invalid');
-    isValid = false;
-  }
+if (!cardName) {
+  document.getElementById('cardNameError').textContent = 'Cardholder name is required';
+  document.getElementById('cardName').classList.add('is-invalid');
+  isValid = false;
+} else if (!/^[A-Za-z\s]+$/.test(cardName)) {
+  document.getElementById('cardNameError').textContent = 'Name must contain letters only';
+  document.getElementById('cardName').classList.add('is-invalid');
+  isValid = false;
+}
+
   
   return isValid;
 }
 
 
-var nameInput = document.getElementById("firstName");
+var nameInput = document.getElementById("Name");
 var nameError = document.getElementById("nameError");
 var companyInput = document.getElementById("companyName");
 var companyError = document.getElementById("companyError");
@@ -201,13 +226,23 @@ var phoneError = document.getElementById("phoneError");
 var emailInput = document.getElementById("inputEmail");
 var emailError = document.getElementById("emailError");
 
+function normalizeName(value) {
+  return value.trim().replace(/\s+/g, " "); 
+}
 
 function validateForm() {
   nameInput.addEventListener("blur", () => {
-    const firstVal = nameInput.value.trim();
-    if (firstVal === "") nameError.textContent = "First name is required";
-    else if (firstVal.includes(" ")) nameError.textContent = "Please enter only one word";
-    else nameError.textContent = "";
+  const fullName = normalizeName(nameInput.value);
+    nameInput.value = fullName; 
+    if (fullName === "") {
+       nameError.textContent = "Full name is required";
+     } else if (!/^[A-Za-z\s]+$/.test(fullName)) {
+       nameError.textContent = "Name must contain letters only";
+     } else if (fullName.split(" ").length > 4) {
+       nameError.textContent = "Name must not exceed 4 words";
+     } else {
+       nameError.textContent = "";
+     }
   });
 
   companyInput.addEventListener("blur", () => {
@@ -247,13 +282,13 @@ function placeOrder(e) {
   const street = streetInput.value.trim();
   const city = cityInput.value.trim();
   const phone = phoneInput.value.trim();
-  const email = emailInput.value.trim();
   const bankPayment = document.getElementById('bank').checked;
   const cashPayment = document.getElementById('cash').checked;
 
   
-  if (name == "") { nameError.textContent = "First name is required"; nameInput.focus(); return; }
-  else if (name.includes(" ")) { nameError.textContent = "Please enter only one word"; nameInput.focus(); return; }
+  if (name == "") { nameError.textContent = "Name is required"; nameInput.focus(); return; }
+  else if (!/^[A-Za-z\s]+$/.test(name)) { nameError.textContent = "Name must contain letters only"; nameInput.focus(); return;} 
+  else if (name.split(" ").length > 4) { nameError.textContent = "Name must not exceed 4 words"; nameInput.focus(); return;}
   else if (company == "") { companyError.textContent = "Company Name is required"; companyInput.focus(); return; }
   else if (street == "") { streetError.textContent = "Street address is required"; streetInput.focus(); return; }
   else if (city == "") { cityError.textContent = "City is required"; cityInput.focus(); return; }
