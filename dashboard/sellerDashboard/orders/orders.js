@@ -60,9 +60,9 @@ data.forEach(order => {
           <button class="btn btn-sm btn-outline-warning me-1 edit" onclick="enableEditStatus(${order.id})">
             <i class="fa-solid fa-pen-to-square m-1"></i>           
           </button>
-          <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id})">
-            <i class="fa-solid fa-trash m-1"></i>
-          </button>
+        <button class="btn btn-sm btn-outline-danger delete" onclick="deleteOrder(${order.id}, '${sellerItems[0].id}')">
+          <i class="fa-solid fa-trash m-1"></i>
+        </button>
         </div>
       </td>
     </tr>
@@ -111,10 +111,17 @@ function updateStatus(id, newStatus) {
   renderOrders();
 }
 
-function deleteOrder(orderId) {
+function deleteOrder(orderId, itemId) {
   if (!confirm("Are you sure to delete this order?")) return;
 
-  orders = orders.filter(o => o.id !== orderId);
+  let order = orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  order.items = order.items.filter(it => it.id !== itemId);
+  if (order.items.length === 0) {
+    orders = orders.filter(o => o.id !== orderId);
+  }
+
   localStorage.setItem("orders", JSON.stringify(orders));
   renderOrders();
 }
