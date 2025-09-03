@@ -1,159 +1,183 @@
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+window.scrollTo({
+  top: 0,
+  behavior: "smooth",
+});
 
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("partials/navbar.html")
+    .then((res) => res.text())
+    .then((data) => {
+      document.getElementById("navbar").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading navbar:", err));
 
-  document.addEventListener("DOMContentLoaded", () => {
+  fetch("partials/footer.html")
+    .then((res) => res.text())
+    .then((data) => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading footer:", err));
+});
 
-    fetch("partials/navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar").innerHTML = data;
-      })
-      .catch(err => console.error("Error loading navbar:", err));
+// ========== Variables ==========
+const productContainer = document.getElementById("productList");
+const paginationContainer = document.getElementById("pagination");
+const categoriesList = document.getElementById("categoriesList");
+const mobileCategories = document.getElementById("mobileCategoriesList");
 
-    fetch("partials/footer.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("footer").innerHTML = data;
-      })
-      .catch(err => console.error("Error loading footer:", err));
-  });
+const productsData = JSON.parse(localStorage.getItem("products")) || [];
+let filteredProducts = [...productsData];
+let currentPage = 1;
+const itemsPerPage = 12;
 
+// ========== Categories ==========
+const categories = [...new Set(productsData.map((p) => p.category))];
+categories.forEach((cat, index) => {
+  const item = `
+    <li class="list-group-item d-flex align-items-center">
+      <input type="radio" name="category" value="${cat}" id="cat-${index}" class="form-check-input me-2">
+      <label for="cat-${index}" class="mb-0">${cat}</label>
+    </li>`;
+  categoriesList.innerHTML += item;
+  mobileCategories.innerHTML += item;
+});
 
+// ========== Price Range ==========
+const prices = productsData.map((p) => p.price);
+const minPrice = Math.min(...prices);
+const maxPrice = Math.max(...prices);
 
-  const productContainer = document.getElementById("productList");
-  const categoriesList = document.getElementById("categoriesList");
-  const mobileCategories = document.getElementById("mobileCategoriesList");
+const rangeMinMobile = document.getElementById("rangeMinMobile");
+const rangeMaxMobile = document.getElementById("rangeMaxMobile");
+const minPriceMobile = document.getElementById("minPriceMobile");
+const maxPriceMobile = document.getElementById("maxPriceMobile");
 
+const rangeMinDesktop = document.getElementById("rangeMinDesktop");
+const rangeMaxDesktop = document.getElementById("rangeMaxDesktop");
+const minPriceDesktop = document.getElementById("minPriceDesktop");
+const maxPriceDesktop = document.getElementById("maxPriceDesktop");
 
-  const productsData = JSON.parse(localStorage.getItem("products")) || [];
+[rangeMinMobile, rangeMinDesktop].forEach((r) => {
+  r.min = minPrice;
+  r.max = maxPrice;
+  r.value = minPrice;
+});
+[rangeMaxMobile, rangeMaxDesktop].forEach((r) => {
+  r.min = minPrice;
+  r.max = maxPrice;
+  r.value = maxPrice;
+});
+[minPriceMobile, minPriceDesktop].forEach((input) => (input.value = minPrice));
+[maxPriceMobile, maxPriceDesktop].forEach((input) => (input.value = maxPrice));
 
-
-  const categories = [...new Set(productsData.map(p => p.category))];
-  categories.forEach((cat, index) => {
-    const item = `
-      <li class="list-group-item d-flex align-items-center">
-        <input type="radio" name="category" value="${cat}" id="cat-${index}" class="form-check-input me-2">
-        <label for="cat-${index}" class="mb-0">${cat}</label>
-      </li>`;
-    categoriesList.innerHTML += item;
-    mobileCategories.innerHTML += item;
-  });
-  
-function updateUserData(updatedUser) {
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-
-  const index = users.findIndex(u => u.email === updatedUser.email);
-  if (index !== -1) {
-    users[index] = updatedUser;
-  } else {
-    users.push(updatedUser);
+// ========== Sync Sliders ==========
+function syncSliders(rMin, rMax, inMin, inMax, products) {
+  function update() {
+    let minVal = +rMin.value;
+    let maxVal = +rMax.value;
+    if (minVal > maxVal) [minVal, maxVal] = [maxVal, minVal];
+    inMin.value = minVal;
+    inMax.value = maxVal;
+    applyFilters(products);
   }
-  localStorage.setItem("users", JSON.stringify(users));
+  rMin.addEventListener("input", update);
+  rMax.addEventListener("input", update);
+  inMin.addEventListener("change", () => {
+    rMin.value = inMin.value;
+    update();
+  });
+  inMax.addEventListener("change", () => {
+    rMax.value = inMax.value;
+    update();
+  });
+}
+syncSliders(rangeMinMobile, rangeMaxMobile, minPriceMobile, maxPriceMobile, productsData);
+syncSliders(rangeMinDesktop, rangeMaxDesktop, minPriceDesktop, maxPriceDesktop, productsData);
+
+
+
+// ========== Filters ==========
+[categoriesList, mobileCategories].forEach((list) => {
+  list.addEventListener("change", () => applyFilters(productsData));
+});
+
+function resetFilters() {
+  document.querySelectorAll("input[type=radio], input[type=checkbox]").forEach((r) => (r.checked = false));
+
+  minPriceDesktop.value = rangeMinDesktop.min;
+  maxPriceDesktop.value = rangeMaxDesktop.max;
+  rangeMinDesktop.value = rangeMinDesktop.min;
+  rangeMaxDesktop.value = rangeMaxDesktop.max;
+
+  minPriceMobile.value = rangeMinMobile.min;
+  maxPriceMobile.value = rangeMaxMobile.max;
+  rangeMinMobile.value = rangeMinMobile.min;
+  rangeMaxMobile.value = rangeMaxMobile.max;
+
+  filteredProducts = [...productsData];
+  currentPage = 1;
+  renderProducts(filteredProducts, currentPage);
 }
 
+document.getElementById("resetBtnMobile").addEventListener("click", resetFilters);
+document.getElementById("resetBtnDesktop").addEventListener("click", resetFilters);
 
-  const prices = productsData.map(p => p.price);
-  const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
+function applyFilters(products) {
+  filteredProducts = [...products];
+  const selectedCat = document.querySelector("input[name='category']:checked");
+  if (selectedCat) filteredProducts = filteredProducts.filter((p) => p.category === selectedCat.value);
 
+  let minMobile = +minPriceMobile?.value || minPrice;
+  let maxMobile = +maxPriceMobile?.value || maxPrice;
+  let minDesktop = +minPriceDesktop?.value || minPrice;
+  let maxDesktop = +maxPriceDesktop?.value || maxPrice;
 
-  const rangeMinMobile = document.getElementById("rangeMinMobile"); 
-  const rangeMaxMobile = document.getElementById("rangeMaxMobile"); 
-  const minPriceMobile = document.getElementById("minPriceMobile"); 
-  const maxPriceMobile = document.getElementById("maxPriceMobile");
+  if (window.innerWidth < 768)
+    filteredProducts = filteredProducts.filter((p) => p.price >= minMobile && p.price <= maxMobile);
+  else filteredProducts = filteredProducts.filter((p) => p.price >= minDesktop && p.price <= maxDesktop);
 
+  currentPage = 1;
+  renderProducts(filteredProducts, currentPage);
+}
 
-  const rangeMinDesktop = document.getElementById("rangeMinDesktop");
-  const rangeMaxDesktop = document.getElementById("rangeMaxDesktop");
-  const minPriceDesktop = document.getElementById("minPriceDesktop");
-  const maxPriceDesktop = document.getElementById("maxPriceDesktop");
+// ========== Pagination ==========
+function renderPagination(totalItems, currentPage) {
+  paginationContainer.innerHTML = "";
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  if (totalPages <= 1) return;
 
-  [rangeMinMobile, rangeMinDesktop].forEach(r => { r.min = minPrice; r.max = maxPrice; r.value = minPrice; });
-  [rangeMaxMobile, rangeMaxDesktop].forEach(r => { r.min = minPrice; r.max = maxPrice; r.value = maxPrice; });
-  [minPriceMobile, minPriceDesktop].forEach(input => input.value = minPrice);
-  [maxPriceMobile, maxPriceDesktop].forEach(input => input.value = maxPrice);
-
-
-  function syncSliders(rMin, rMax, inMin, inMax, products) {
-    function update() {
-      let minVal = +rMin.value;
-      let maxVal = +rMax.value;
-      if (minVal > maxVal) [minVal, maxVal] = [maxVal, minVal];
-      inMin.value = minVal;
-      inMax.value = maxVal;
-      applyFilters(products);
-    }
-    rMin.addEventListener("input", update);
-    rMax.addEventListener("input", update);
-    inMin.addEventListener("change", () => { rMin.value = inMin.value; update(); });
-    inMax.addEventListener("change", () => { rMax.value = inMax.value; update(); });
+  for (let i = 1; i <= totalPages; i++) {
+    paginationContainer.innerHTML += `
+      <li class="page-item ${i === currentPage ? "active" : ""}">
+        <a class="page-link" href="#">${i}</a>
+      </li>
+    `;
   }
 
-  syncSliders(rangeMinMobile, rangeMaxMobile, minPriceMobile, maxPriceMobile, productsData);
-  syncSliders(rangeMinDesktop, rangeMaxDesktop, minPriceDesktop, maxPriceDesktop, productsData);
-
-  renderProducts(productsData);
-
- 
-  [categoriesList, mobileCategories].forEach(list => {
-    list.addEventListener("change", () => applyFilters(productsData));
+  document.querySelectorAll("#pagination .page-link").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      currentPage = +btn.textContent;
+      renderProducts(filteredProducts, currentPage);
+    });
   });
+}
 
-
-  const filterBtn = document.getElementById("filterBtn"); 
-  const filterPanel = document.getElementById("filterPanel"); 
-  filterBtn.addEventListener("click", () => {
-    filterPanel.classList.toggle("d-none");
-  });
-
-
-  function resetFilters() {
-    document.querySelectorAll("input[type=radio], input[type=checkbox]").forEach(r => r.checked = false);
-
-    minPriceDesktop.value = rangeMinDesktop.min;
-    maxPriceDesktop.value = rangeMaxDesktop.max;
-    rangeMinDesktop.value = rangeMinDesktop.min;
-    rangeMaxDesktop.value = rangeMaxDesktop.max;
-
-    minPriceMobile.value = rangeMinMobile.min;
-    maxPriceMobile.value = rangeMaxMobile.max;
-    rangeMinMobile.value = rangeMinMobile.min;
-    rangeMaxMobile.value = rangeMaxMobile.max;
-
-    renderProducts(productsData);
-  }
-
-  document.getElementById("resetBtnMobile").addEventListener("click", resetFilters);
-  document.getElementById("resetBtnDesktop").addEventListener("click", resetFilters);
-
-
-  function applyFilters(products) {
-    let filtered = [...products];
-    const selectedCat = document.querySelector("input[name='category']:checked");
-    if (selectedCat) filtered = filtered.filter(p => p.category === selectedCat.value);
-
-    let minMobile = +minPriceMobile?.value || minPrice;
-    let maxMobile = +maxPriceMobile?.value || maxPrice;
-    let minDesktop = +minPriceDesktop?.value || minPrice;
-    let maxDesktop = +maxPriceDesktop?.value || maxPrice;
-
-    if (window.innerWidth < 768) filtered = filtered.filter(p => p.price >= minMobile && p.price <= maxMobile);
-    else filtered = filtered.filter(p => p.price >= minDesktop && p.price <= maxDesktop);
-
-    renderProducts(filtered);
-  }
-
-  function renderProducts(list) {
+// ========== Render Products ==========
+function renderProducts(list, page = 1) {
   productContainer.innerHTML = "";
-  list.forEach(product => {
-    const imagePath = `assets/${product.images[0]}`;
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginated = list.slice(start, end);
 
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  let wishlist = currentUser?.wishlist || [];
+
+  paginated.forEach((product) => {
+    const imagePath = `assets/${product.images[0]}`;
     const disabled = product.stock <= 0 ? "disabled" : "";
+    const isInWishlist = wishlist.includes(String(product.id));
 
     productContainer.innerHTML += `
       <div class="col-12 col-md-6 col-lg-3 mb-5">
@@ -164,7 +188,10 @@ function updateUserData(updatedUser) {
 
           <div class="product-actions">
             <button id="wishlistBtn" data-id="${product.id}">
-              <span class="iconify" data-icon="mdi:heart-outline" style="font-size:20px;"></span>
+              <span class="iconify" 
+                data-icon="${isInWishlist ? "mdi:heart" : "mdi:heart-outline"}" 
+                style="font-size:20px; color:${isInWishlist ? "red" : "black"}">
+              </span>
             </button>
           </div>
 
@@ -190,81 +217,93 @@ function updateUserData(updatedUser) {
       </div>
     `;
   });
+
+  renderPagination(list.length, page);
 }
 
- 
-  document.addEventListener("click", (e) => {
-    const wishlistBtn = e.target.closest("#wishlistBtn");
-    const cartBtn = e.target.closest(".cartBtn");
+// ========== Wishlist & Cart ==========
+document.addEventListener("click", (e) => {
+  const wishlistBtn = e.target.closest("#wishlistBtn");
+  const cartBtn = e.target.closest(".cartBtn");
 
-    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-    if(!currentUser){ alert("⚠ You must be logged in!"); return; }
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    const userIndex = users.findIndex(u => u.id === currentUser.id);
-
-    if(wishlistBtn){
-      const productId = wishlistBtn.dataset.id;
-      toggleUserList("wishlist", productId, "❤ Added to wishlist", "❌ Removed from wishlist");
-      return;
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (!currentUser) {
+    if (wishlistBtn || cartBtn) {
+      alert("⚠ You must be logged in!");
     }
-
-  if(cartBtn){
-  const productId = cartBtn.dataset.id;
-  if(!currentUser.cart) currentUser.cart = [];
-  const product = productsData.find(p => String(p.id) === String(productId));
-  if(!product){ 
-    alert("⚠ Product not found!"); 
-    return; 
-  }
-
-
-  if(product.stock <= 0){
-    alert("⚠ This product is out of stock!");
     return;
   }
 
-  const existing = currentUser.cart.find(p => String(p.id) === String(product.id));
-  if(existing){
-    if(existing.quantity >= product.stock){
-      alert(`⚠ Only ${product.stock} items available in stock!`);
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  const userIndex = users.findIndex((u) => u.id === currentUser.id);
+
+  if (wishlistBtn) {
+    const productId = wishlistBtn.dataset.id;
+    toggleUserList("wishlist", productId, "❤ Added to wishlist", "❌ Removed from wishlist");
+    renderProducts(filteredProducts, currentPage); // تحديث القلب
+    return;
+  }
+
+  if (cartBtn) {
+    const productId = cartBtn.dataset.id;
+    if (!currentUser.cart) currentUser.cart = [];
+    const product = productsData.find((p) => String(p.id) === String(productId));
+    if (!product) {
+      alert("⚠ Product not found!");
       return;
     }
-    existing.quantity += 1;
-  } else {
-    currentUser.cart.push({...product, quantity: 1});
-  }
 
-  if(userIndex !== -1) users[userIndex] = currentUser;
-  localStorage.setItem("currentUser", JSON.stringify(currentUser));
-  localStorage.setItem("users", JSON.stringify(users));
-  alert(" Added to cart!");
-}
-
-  });
-
-  function toggleUserList(key, productId, addMsg, removeMsg){
-    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-    if(!currentUser){ alert("⚠ You must be logged in!"); return; }
-
-    if(!currentUser[key]) currentUser[key]=[];
-
-    let added;
-    if(currentUser[key].includes(productId)){
-      currentUser[key] = currentUser[key].filter(id=>id!==productId);
-      added=false;
-    } else {
-      currentUser[key].push(productId);
-      added=true;
+    if (product.stock <= 0) {
+      alert("⚠ This product is out of stock!");
+      return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users"))||[];
-    const userIndex = users.findIndex(u=>u.id===currentUser.id);
-    if(userIndex!==-1) users[userIndex]=currentUser;
-    else users.push(currentUser);
+    const existing = currentUser.cart.find((p) => String(p.id) === String(product.id));
+    if (existing) {
+      if (existing.quantity >= product.stock) {
+        alert(`⚠ Only ${product.stock} items available in stock!`);
+        return;
+      }
+      existing.quantity += 1;
+    } else {
+      currentUser.cart.push({ ...product, quantity: 1 });
+    }
 
+    if (userIndex !== -1) users[userIndex] = currentUser;
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
     localStorage.setItem("users", JSON.stringify(users));
-
-    alert(added ? addMsg : removeMsg);
+    alert(" Added to cart!");
   }
+});
+
+function toggleUserList(key, productId, addMsg, removeMsg) {
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  if (!currentUser) {
+    alert("⚠ You must be logged in!");
+    return;
+  }
+
+  if (!currentUser[key]) currentUser[key] = [];
+
+  let added;
+  if (currentUser[key].includes(productId)) {
+    currentUser[key] = currentUser[key].filter((id) => id !== productId);
+    added = false;
+  } else {
+    currentUser[key].push(productId);
+    added = true;
+  }
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  const userIndex = users.findIndex((u) => u.id === currentUser.id);
+  if (userIndex !== -1) users[userIndex] = currentUser;
+  else users.push(currentUser);
+
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert(added ? addMsg : removeMsg);
+}
+
+// أول تحميل
+renderProducts(filteredProducts, currentPage);
