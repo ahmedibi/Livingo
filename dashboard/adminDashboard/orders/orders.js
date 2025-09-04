@@ -112,13 +112,36 @@ function enableEditStatus(id) {
   select.focus();
 }
 
+function recalcOrderStatus(order) {
+  if (!order.items || order.items.length === 0) return "Pending";
+
+  const statuses = order.items.map(it => it.status);
+
+  if (statuses.every(s => s === "Delivered")) return "Delivered";
+  if (statuses.every(s => s === "Cancelled")) return "Cancelled";
+  if (statuses.includes("Processing")) return "Processing";
+  return "Pending";
+}
 
 
 function updateStatus(id, newStatus) {
   let order = orders.find(o => o.id === id);
   if (!order) return;
 
+  // غير حالة الأوردر نفسه
   order.status = newStatus.trim();
+
+  // خلي كل item ياخد نفس الحالة الجديدة
+  if (order.items && order.items.length > 0) {
+    order.items = order.items.map(it => ({
+      ...it,
+      status: newStatus.trim()
+    }));
+  }
+
+  // أعد حساب حالة الأوردر كله من الـ items
+  order.status = recalcOrderStatus(order);
+
   localStorage.setItem("orders", JSON.stringify(orders));
   renderOrders(orders);
 }
