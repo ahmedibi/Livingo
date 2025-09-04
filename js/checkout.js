@@ -355,13 +355,17 @@ function saveOrder(paymentMethod) {
 
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
   const newOrder = {
-    id: Date.now(),
-    customer: { id: currentUser ? currentUser.id : null, name, company, street, city, phone, email },
-    items: cart,
-    paymentMethod: paymentMethod,
-    status: "Pending",
-    date: new Date().toLocaleString()
-  };
+  id: Date.now(),
+  customer: { id: currentUser ? currentUser.id : null, name, company, street, city, phone, email },
+  items: cart.map(item => ({
+    ...item,
+    status: "Pending" // كل منتج يبدأ بـ Pending
+  })),
+  paymentMethod: paymentMethod,
+  status: "Pending", // حالة الأوردر ككل
+  date: new Date().toLocaleString()
+};
+
   orders.push(newOrder);
   localStorage.setItem("orders", JSON.stringify(orders));
 
