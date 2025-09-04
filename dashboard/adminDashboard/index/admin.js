@@ -1,13 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("../sidebar/sidebar.html")
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("sideBar").innerHTML = data; 
-       const script = document.createElement("script");
-      script.src = "../sidebar/sidebar.js";
-      document.body.appendChild(script);  
-    })
-    .catch(err => console.error("Error loading sidebar:", err));
+   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (!currentUser) {
+    window.location.href = "../../../sign/login/login.html";
+    return;
+  }
+
+  if (currentUser.role) {
+    const role = currentUser.role.toLowerCase();
+
+    if (role === "admin") {
+      console.log("Welcome Admin");
+    } else if (role === "customer") {
+      window.location.href = "../../../index.html";
+    } else if (role === "seller") {
+      window.location.href = "../../sellerDashboard/index/index.html";
+    } else {
+      window.location.href = "../../../sign/login/login.html";
+    }
+  } else {
+    window.location.href = "../../../sign/login/login.html";
+  }
+
+
 });
 
 
