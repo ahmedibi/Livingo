@@ -202,7 +202,6 @@
     <div id="footer"></div>
 
     <script>
-   
       document.addEventListener("DOMContentLoaded", () => {
         fetch("partials/navbar.html")
           .then((res) => res.text())
@@ -211,7 +210,6 @@
           .then((res) => res.text())
           .then((data) => (document.getElementById("footer").innerHTML = data));
       });
-
 
       const urlParams = new URLSearchParams(window.location.search);
       const productId = urlParams.get("id");
@@ -248,7 +246,6 @@
         }
         document.getElementById("product-rating").innerHTML = starsHTML;
 
-   
         let quantity = 1;
         const qtyDisplay = document.getElementById("productQty");
         document.getElementById("increaseQty").onclick = () => {
@@ -262,9 +259,7 @@
           }
         };
 
-  
         document.addEventListener("click", (e) => {
-     
           const wishlistBtn = e.target.closest("#wishlistBtn");
           if (wishlistBtn) {
             toggleUserList(
@@ -276,46 +271,44 @@
             return;
           }
 
-    
-           const cartBtn = e.target.closest("#buyNowBtn");
-           if (cartBtn) {
-             let currentUser =
-               JSON.parse(localStorage.getItem("currentUser")) || null;
-             if (!currentUser) {
-               alert("⚠ You must be logged in!");
-               return;
-             }           
+          const cartBtn = e.target.closest("#buyNowBtn");
+          if (cartBtn) {
+            let currentUser =
+              JSON.parse(localStorage.getItem("currentUser")) || null;
+            if (!currentUser) {
+              alert("⚠ You must be logged in!");
+              return;
+            }
 
-             if (!currentUser.cart) currentUser.cart = [];
-             const existing = currentUser.cart.find(
-               (item) => String(item.id) === String(product.id)
-             );
-  
-          if (existing) {
-            if (existing.quantity + quantity > product.stock) {
-              alert(`⚠ Only ${product.stock} items available in stock!`);
-              return;
+            if (!currentUser.cart) currentUser.cart = [];
+            const existing = currentUser.cart.find(
+              (item) => String(item.id) === String(product.id)
+            );
+
+            if (existing) {
+              if (existing.quantity + quantity > product.stock) {
+                alert(`⚠ Only ${product.stock} items available in stock!`);
+                return;
+              }
+              existing.quantity += quantity;
+            } else {
+              if (quantity > product.stock) {
+                alert(`⚠ Only ${product.stock} items available in stock!`);
+                return;
+              }
+              currentUser.cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                currency: product.currency,
+                images: product.images,
+                quantity: quantity,
+              });
             }
-            existing.quantity += quantity;
-          } else {
-            if (quantity > product.stock) {
-              alert(`⚠ Only ${product.stock} items available in stock!`);
-              return;
-            }
-            currentUser.cart.push({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              currency: product.currency,
-              images: product.images,
-              quantity: quantity,
-            });
+
+            updateUserData(currentUser);
+            alert("✅ Added to cart!");
           }
-        
-          updateUserData(currentUser);
-          alert("✅ Added to cart!");
-        }
-
         });
 
         function toggleUserList(key, productId, addMsg, removeMsg) {
@@ -349,42 +342,67 @@
           );
           localStorage.setItem("users", JSON.stringify(users));
         }
-          
-         function updateWishlistUI() {
-           let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-           const wishlistBtn = document.getElementById("wishlistBtn");
-           const heartIcon = wishlistBtn.querySelector("svg path");
 
-           if (currentUser && currentUser.wishlist?.includes(product.id)) {
-             heartIcon.setAttribute("stroke", "red");
-             heartIcon.setAttribute("fill", "red");
-           } else {
-             heartIcon.setAttribute("stroke", "black");
-             heartIcon.setAttribute("fill", "none");
-           }
-         } 
+        function updateWishlistUI() {
+          let currentUser =
+            JSON.parse(localStorage.getItem("currentUser")) || null;
+          const wishlistBtn = document.getElementById("wishlistBtn");
+          const heartIcon = wishlistBtn.querySelector("svg path");
 
-         updateWishlistUI();
+          if (currentUser && currentUser.wishlist?.includes(product.id)) {
+            heartIcon.setAttribute("stroke", "red");
+            heartIcon.setAttribute("fill", "red");
+          } else {
+            heartIcon.setAttribute("stroke", "black");
+            heartIcon.setAttribute("fill", "none");
+          }
+        }
+
+        updateWishlistUI();
 
         const exploreContainer = document.getElementById("explore-products");
-        const related = products.filter((p) => p.id !== productId).slice(0, 4);
+
+        // same category first
+        let related = products.filter(
+          (p) => p.category === product.category && p.id !== productId
+        );
+
+        // shuffle
+        related = related.sort(() => 0.5 - Math.random());
+
+        // if less than 4, add random products from other categories
+        if (related.length < 4) {
+          const others = products.filter(
+            (p) => p.category !== product.category
+          );
+          const filler = others
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 4 - related.length);
+          related = related.concat(filler);
+        }
+
+        // only keep max 4
+        related = related.slice(0, 4);
+
+        // render
+        exploreContainer.innerHTML = "";
         related.forEach((p) => {
           exploreContainer.innerHTML += `
-            <div class="col-lg-3 col-md-6 col-12 mb-4">
-              <div class="card shadow-sm h-100">
-                <a href="product.html?id=${p.id}">
-                  <img src="../assets/${p.images[0]}" class="card-img-top explore-card-img" alt="${p.name}">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-title">${p.name}</h6>
-                  <p class="mb-2">
-                    <span class="fw-bold text-danger">${p.price} ${p.currency}</span>
-                  </p>
-                  <a href="product.html?id=${p.id}" class="btn btn-sm w-100 view-product">View Product</a>
-                </div>
-              </div>
-            </div>
-          `;
+    <div class="col-lg-3 col-md-6 col-12 mb-4">
+      <div class="card shadow-sm h-100">
+        <a href="product.html?id=${p.id}">
+          <img src="../assets/${p.images[0]}" class="card-img-top explore-card-img" alt="${p.name}">
+        </a>
+        <div class="card-body">
+          <h6 class="card-title">${p.name}</h6>
+          <p class="mb-2">
+            <span class="fw-bold text-danger">${p.price} ${p.currency}</span>
+          </p>
+          <a href="product.html?id=${p.id}" class="btn btn-sm w-100 view-product">View Product</a>
+        </div>
+      </div>
+    </div>
+  `;
         });
       }
 
