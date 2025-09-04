@@ -229,4 +229,30 @@ logout.addEventListener("click", function () {
   }
 });
 
+document.addEventListener("DOMContentLoaded",function(){
+
+  const currentUser= JSON.parse(localStorage.getItem("currentUser"));
+   if(!currentUser){
+    window.location.href="../../../sign/login/login.html"
+   }
+
+   if(currentUser.role){
+     const role = currentUser.role.toLowerCase();
+     if(role=="seller"){
+      console.log("welcome seller")
+     } else if (role=="customer"){
+      window.location.href="../../../index.html"
+     } else if (role=="admin"){
+      window.location.href="../../adminDashboard/index/admin.html"
+     } else{
+      window.location.href="../../../sign/login/login.html"
+     }
+   } else{
+    window.location.href="../../../sign/login/login.html"
+   }
+
+});
+
+
+
 
