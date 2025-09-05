@@ -105,18 +105,18 @@
 
       
       userOrders.forEach((order) => {
-  const total = order.items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-  const itemsText = order.items.map(i => `${i.name} (${i.quantity || 1})`).join("<br>");
+      const total = order.items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+      const itemsText = order.items.map(i => `${i.name} (${i.quantity || 1})`).join("<br>");
+    
+      
+      let finalStatus = "Pending"; 
+      if (order.items.length > 0 && order.items[0].status) {
+        const firstStatus = order.items[0].status;
+        const allSame = order.items.every(item => item.status === firstStatus);
+        finalStatus = allSame ? firstStatus : "Pending";
+      }
 
-  // استخراج حالة الأوردر من الـ items
-  let finalStatus = "Pending"; // الافتراضي لو في اختلاف أو ناقص بيانات
-  if (order.items.length > 0 && order.items[0].status) {
-    const firstStatus = order.items[0].status;
-    const allSame = order.items.every(item => item.status === firstStatus);
-    finalStatus = allSame ? firstStatus : "Pending";
-  }
 
-  // تحديد الكلاس للعرض
   let statusClass = "";
   switch (finalStatus) {
     case "Pending":
