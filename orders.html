@@ -159,28 +159,51 @@
 
 
       tbody.addEventListener("click", (e) => {
-        if (e.target.closest(".delete-order")) {
-          const isConfirmed = confirm("Are you sure you want to delete this order?");
+  if (e.target.closest(".delete-order")) {
+    const isConfirmed = confirm("Are you sure you want to delete this order?");
 
-          if (isConfirmed) {
-            const id = e.target.closest(".delete-order").getAttribute("data-id");
-            const updatedOrders = orders.filter(order => String(order.id) !== String(id));
-            localStorage.setItem("orders", JSON.stringify(updatedOrders));
+    if (isConfirmed) {
+      const id = e.target.closest(".delete-order").getAttribute("data-id");
 
-            const row = e.target.closest("tr");
-            row.style.transition = "all 0.3s ease";
-            row.style.opacity = "0";
-            row.style.transform = "scale(0.95)";
-            setTimeout(() => {
-              row.remove();
+      // 1- هات الأوردر اللي هيتشال
+      const orderToDelete = orders.find(order => String(order.id) === String(id));
 
-              if (tbody.children.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No orders found for you.</td></tr>`;
-              }
-            }, 300);
+      if (orderToDelete) {
+        // 2- هات المنتجات من localStorage
+        let products = JSON.parse(localStorage.getItem("products")) || [];
+
+        // 3- رجّع الكمية للـ stock
+        orderToDelete.items.forEach(item => {
+          const productIndex = products.findIndex(p => p.id === item.id);
+          if (productIndex !== -1) {
+            products[productIndex].stock += item.quantity; 
           }
+        });
+
+        // 4- احفظ المنتجات بعد التعديل
+        localStorage.setItem("products", JSON.stringify(products));
+      }
+
+      // 5- احذف الأوردر من قائمة الأوردرات
+      const updatedOrders = orders.filter(order => String(order.id) !== String(id));
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+      // 6- انيميشن حذف الصف
+      const row = e.target.closest("tr");
+      row.style.transition = "all 0.3s ease";
+      row.style.opacity = "0";
+      row.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        row.remove();
+
+        if (tbody.children.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No orders found for you.</td></tr>`;
         }
-      });
+      }, 300);
+    }
+  }
+});
+
     });
   </script>
 </body>
