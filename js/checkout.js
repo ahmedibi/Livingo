@@ -260,8 +260,9 @@ function validateForm() {
   phoneInput.addEventListener("blur", () => {
     const phoneVal = phoneInput.value.trim();
     if (phoneVal === "") phoneError.textContent = "Phone number is required";
-    else if (isNaN(phoneVal) || phoneVal.length !== 11) phoneError.textContent = "You must enter only numbers (11 digits)";
-    else phoneError.textContent = "";
+    else if (!/^(010|011|012|015)\d{8}$/.test(phoneVal)) {
+    phoneError.textContent = "Phone number must start with 010, 011, 012, or 015 and be 11 digits";
+    } else phoneError.textContent = "";
   });
 
   
@@ -293,7 +294,11 @@ function placeOrder(e) {
   else if (street == "") { streetError.textContent = "Street address is required"; streetInput.focus(); return; }
   else if (city == "") { cityError.textContent = "City is required"; cityInput.focus(); return; }
   else if (phone == "") { phoneError.textContent = "Phone number is required"; phoneInput.focus(); return; }
-  
+  else if (!/^(010|011|012|015)\d{8}$/.test(phone)) {
+    phoneError.textContent = "Phone must start with 010, 011, 012, or 015 and be 11 digits";
+    phoneInput.focus(); return;
+  }
+
 
   cart = currentUser.cart || [];
   if(cart.length === 0){ alert('Your cart is empty!'); return; }
@@ -314,7 +319,7 @@ function placeOrder(e) {
 
 
 
-function confirmPayment() { processPayment("Bank"); }
+function confirmPaymذent() { processPayment("Bank"); }
 function confirmCashPayment() { processPayment("Cash"); }
 
 function processPayment(method){
