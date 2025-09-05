@@ -202,8 +202,8 @@ if (!cardName) {
   document.getElementById('cardNameError').textContent = 'Cardholder name is required';
   document.getElementById('cardName').classList.add('is-invalid');
   isValid = false;
-} else if (!/^[A-Za-z\s]+$/.test(cardName)) {
-  document.getElementById('cardNameError').textContent = 'Name must contain letters only';
+} else if (!/^[A-Za-z]+( [A-Za-z]+)*$/.test(cardName)) {
+  document.getElementById('cardNameError').textContent = 'Name must contain letters only and one space between words';
   document.getElementById('cardName').classList.add('is-invalid');
   isValid = false;
 }
