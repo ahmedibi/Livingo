@@ -160,6 +160,22 @@ function deleteOrder(orderId, itemId) {
   let order = orders.find(o => o.id === orderId);
   if (!order) return;
 
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+  const itemToDelete = order.items.find(it => it.id === itemId);
+
+  if (itemToDelete) {
+    products = products.map(prod => {
+      if (prod.id === itemToDelete.id) {
+        return {
+          ...prod,
+          stock: prod.stock + itemToDelete.quantity 
+        };
+      }
+      return prod;
+    });
+    localStorage.setItem("products", JSON.stringify(products));
+  }
+
   order.items = order.items.filter(it => it.id !== itemId);
   if (order.items.length === 0) {
     orders = orders.filter(o => o.id !== orderId);
@@ -168,6 +184,7 @@ function deleteOrder(orderId, itemId) {
   localStorage.setItem("orders", JSON.stringify(orders));
   renderOrders();
 }
+
 
 
 function applyFilters() {

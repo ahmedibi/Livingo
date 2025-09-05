@@ -71,7 +71,27 @@ function getUserNameById(userId) {
 function deleteOrder(orderId) {
   if (!confirm("Are you sure to delete this order?")) return;
 
-  
+  let order = orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+
+  if (order.items && order.items.length > 0) {
+    order.items.forEach(item => {
+      products = products.map(prod => {
+        if (prod.id === item.id) {
+          return {
+            ...prod,
+            stock: (prod.stock || 0) + (item.quantity || 0)
+          };
+        }
+        return prod;
+      });
+    });
+  }
+
+  localStorage.setItem("products", JSON.stringify(products));
+
   orders = orders.filter(o => o.id !== orderId); 
   localStorage.setItem("orders", JSON.stringify(orders));
   renderOrders(orders);
