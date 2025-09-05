@@ -446,7 +446,7 @@
         document.getElementById("userGender").textContent = user.gender || "-";
         document.getElementById("userLocation").value = user.address || "";
 
-        // تعديل العنوان
+      
         document.getElementById("locationForm").addEventListener("submit", e => {
             e.preventDefault();
             user.address = document.getElementById("userLocation").value;
@@ -454,7 +454,7 @@
             alert("Location updated!");
         });
 
-        // تغيير الباسورد
+    
         document.getElementById("passwordForm").addEventListener("submit", e => {
             e.preventDefault();
             let newPass = document.getElementById("newPassword").value;
@@ -490,11 +490,11 @@
         //     }
 
 
-        // عرض الطلبات من localStorage
+    
         const orderTable = document.getElementById("orderHistory");
         let allOrders = JSON.parse(localStorage.getItem("orders")) || [];
 
-        // فلترة الطلبات الخاصة بالـ user
+      
         let userOrders = allOrders.filter(o => o.customer.id === selectedId);
 
         if (userOrders.length > 0) {
