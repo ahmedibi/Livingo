@@ -319,7 +319,7 @@ function placeOrder(e) {
 
 
 
-function confirmPaymذent() { processPayment("Bank"); }
+function confirmPayment() { processPayment("Bank"); }
 function confirmCashPayment() { processPayment("Cash"); }
 
 function processPayment(method){
