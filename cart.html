@@ -336,11 +336,11 @@ function renderCart() {
         <tr>
           <td style="width: 300px;" class="align-middle">
             <div class="d-flex align-items-center justify-content-center d-image">
-              <img src="../assets/${item.images}" 
+            <a href="product.html?id=${item.id}">  <img src="../assets/${item.images}" 
                    alt="${item.name}" 
                    class="product-image me-3"
                    onclick="goToProductDetails('${item.id}')"
-                   onerror="this.src='../assets/images/placeholder.jpg'">
+                   onerror="this.src='../assets/images/placeholder.jpg'"> </a>
             </div>
           </td>
           <td class="product-info">
