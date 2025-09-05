@@ -90,7 +90,7 @@
 
   <script>
 
-    function readLS(key, fallback) {
+     function readLS(key, fallback) {
       try {
         const v = JSON.parse(localStorage.getItem(key));
         return v ?? fallback;
@@ -98,26 +98,30 @@
         return fallback;
       }
     }
+
     function writeLS(key, value) {
       localStorage.setItem(key, JSON.stringify(value));
     }
 
-
     function generateNewProductId() {
-      const products = readLS("products", []);
-      let maxNum = 0;
-
-      for (const p of products) {
-        if (!p?.id) continue;
-        const m = /^p(\d+)$/.exec(p.id);
-        if (m) {
-          const n = parseInt(m[1], 10);
-          if (!Number.isNaN(n) && n > maxNum) maxNum = n;
-        }
-      }
-      const next = maxNum + 1;
-      return "p" + String(next).padStart(3, "0");
+  const products = readLS("products", []);
+  const pendingProducts = readLS("pendingProducts", []);
+  
+  const allProducts = [...products, ...pendingProducts];
+  let maxNum = 0;
+  
+  for (const p of allProducts) {
+    if (!p?.id) continue;
+    const m = /^p(\d+)$/.exec(p.id);
+    if (m) {
+      const n = parseInt(m[1], 10);
+      if (!Number.isNaN(n) && n > maxNum) maxNum = n;
     }
+  }
+  
+  const next = maxNum + 1;
+  return "p" + String(next).padStart(3, "0");
+}
 
 
     function normalizeImageInput(raw) {
@@ -128,65 +132,52 @@
       return val;
     }
 
-    document
-      .getElementById("addProductForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
+    document.getElementById("addProductForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-        const currentUser = readLS("currentUser", null);
-        if (!currentUser || currentUser.role !== "seller") {
-          alert("You must be logged in as a seller to add products.");
-          return;
-        }
+      const currentUser = readLS("currentUser", null);
+      if (!currentUser || currentUser.role !== "seller") {
+        alert("You must be logged in as a seller to add products.");
+        return;
+      }
 
-        const name = document.getElementById("productName").value.trim();
-        const price = parseFloat(
-          document.getElementById("productPrice").value
-        );
-        const stock = parseInt(
-          document.getElementById("productStock").value,
-          10
-        );
-        const category = document.getElementById("productCategory").value;
-        const imageRaw = document.getElementById("productImage").value;
-        const img = normalizeImageInput(imageRaw);
+      const name = document.getElementById("productName").value.trim();
+      const price = parseFloat(document.getElementById("productPrice").value);
+      const stock = parseInt(document.getElementById("productStock").value, 10);
+      const category = document.getElementById("productCategory").value;
+      const imageRaw = document.getElementById("productImage").value;
+      const img = normalizeImageInput(imageRaw);
 
-        const newProduct = {
-          id: generateNewProductId(),
-          name,
-          price,
-          stock,
-          category,
-          images: [img],
-          sellerId: currentUser.id,
-          currency: "EGP",
-          description: "",
-          rating: 1
-        };
+      const newProduct = {
+        id: generateNewProductId(),
+        name,
+        price,
+        stock,
+        category,
+        images: [img],
+        sellerId: currentUser.id,
+        currency: "EGP",
+        description: "",
+        rating: 1
+      };
 
+  
+      // خزن المنتج في pendingProducts
+const pendingProducts = readLS("pendingProducts", []);
+pendingProducts.push({ ...newProduct, sellerId: currentUser.id });
+writeLS("pendingProducts", pendingProducts);
 
-        const products = readLS("products", []);
-        products.push(newProduct);
-        writeLS("products", products);
+// مش محتاج تحدث users أو currentUser دلوقتي
 
 
-        const users = readLS("users", []);
-        const idx = users.findIndex((u) => u.id === currentUser.id);
-        if (idx !== -1) {
-          users[idx].products = users[idx].products || [];
-          if (!users[idx].products.includes(newProduct.id)) {
-            users[idx].products.push(newProduct.id);
-          }
-          writeLS("users", users);
-        }
+      const msg = document.getElementById("message");
+      msg.classList.remove("text-danger");
+      msg.classList.add("text-success");
+      msg.textContent = `✅ Product ${newProduct.id} added successfully!`;
 
-        const msg = document.getElementById("message");
-        msg.classList.remove("text-danger");
-        msg.classList.add("text-success");
-        msg.textContent = `✅ Product ${newProduct.id} added successfully!`;
-        window.location.href = "sellerproducts.html";
-        this.reset();
-      });
+      window.location.href = "sellerproducts.html";
+      this.reset();
+    });
   </script>
 </body>
 

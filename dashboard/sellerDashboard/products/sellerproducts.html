@@ -476,13 +476,28 @@
     }
 
     function deleteSellerProduct(productId) {
-    if (confirm("Are you sure you want to delete this product?")) {
-    let products = JSON.parse(localStorage.getItem("products")) || [];
-    products = products.filter((p) => p.id !== productId);
-    localStorage.setItem("products", JSON.stringify(products));
-    renderSellerProducts(); 
+  if (!confirm("Are you sure you want to delete this product?")) return;
+
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+  products = products.filter(p => p.id !== productId);
+  localStorage.setItem("products", JSON.stringify(products));
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const userIdx = users.findIndex(u => u.id === currentUser.id);
+  if (userIdx !== -1 && users[userIdx].products) {
+    users[userIdx].products = users[userIdx].products.filter(id => id !== productId);
+    localStorage.setItem("users", JSON.stringify(users));
   }
+
+  if (currentUser.products) {
+    currentUser.products = currentUser.products.filter(id => id !== productId);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  renderSellerProducts();
 }
+
 
 
     function editSellerProduct(productId) {
