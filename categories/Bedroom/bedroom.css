@@ -148,7 +148,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .card:hover {
     transform: scale(1.04);
-    box-shadow: 5px 5px 5px black;
+    box-shadow: 5px 5px 5px rgb(148, 143, 143);
 }
 
 .card .btn {
