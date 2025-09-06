@@ -139,6 +139,9 @@
           if (currentPassword !== currentUser.password) {
             return alert("Current password is incorrect!");
           }
+          if (newPassword.length < 6) {
+            return alert("Password must be at least 6 characters!");
+           }
           if (newPassword !== confirmPassword) {
             return alert("Passwords do not match!");
           }
