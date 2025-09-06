@@ -9,6 +9,14 @@ const statusFilter = document.getElementById("statusFilter");
 const dateFilter = document.getElementById("dateFilter");
 const sortSelect = document.getElementById("sortSelect");
 
+  function getUserNameById(userId) {
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let user = users.find(u => u.id === userId);
+    return user ? user.name : "Unknown User";
+  }
+
+
+
 function renderOrders(data = orders) {
   const seller = users.find(u => u.id === currentUser?.id && u.role === "seller");
   if (!currentUser || !seller || !seller.products) {
@@ -19,17 +27,12 @@ function renderOrders(data = orders) {
   let sellerProductIds = seller.products;
   let html = "";
 
-  function getUserNameById(userId) {
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let user = users.find(u => u.id === userId);
-    return user ? user.name : "Unknown User";
-  }
 
   data.forEach(order => {
     const sellerItems = order.items.filter(item => sellerProductIds.includes(item.id));
     if (sellerItems.length === 0) return;
 
-    // قائمة المنتجات
+
     const itemsList = sellerItems.map(item =>
       `${item.name} (x${item.quantity || 1})`
     ).join("<br>");
@@ -52,11 +55,11 @@ function renderOrders(data = orders) {
     }
 
     html += `
-      <tr data-id="${order.id}" style="text-align:center;">
+      <tr data-id="${order.id}" style="vertical-align:middle;">
         <td>${order.id}</td>
         <td>${getUserNameById(order.customer?.id)}</td>
         <td>${itemsList}</td>
-        <td>${totalQuantity}</td>
+        <td style="text-align:center;">${totalQuantity}</td>
         <td>${total} ${sellerItems[0].currency}</td>
         <td>${order.date}</td>
         <td class="status-cell"><span class="badge ${statusClass}">${displayStatus}</span></td>
@@ -129,7 +132,7 @@ function recalcOrderStatus(order) {
     // كل الـ items ليها نفس الـ status
     order.status = uniqueStatuses[0];
   } else {
-    // statuses مختلفة
+  
     order.status = "Pending";
   }
 }
@@ -144,11 +147,11 @@ function updateItemStatus(orderId, itemId, newStatus) {
 
   item.status = newStatus.trim();
 
-  // أعد حساب حالة الأوردر
+  
   recalcOrderStatus(order);
 
   localStorage.setItem("orders", JSON.stringify(orders));
-  renderOrders(); // أو renderOrders(filtered) حسب الكود عندك
+  renderOrders();
 }
 
 
@@ -192,7 +195,12 @@ function applyFilters() {
   let statusVal = statusFilter.value;
   let dateVal = dateFilter.value;
   let filtered = orders.filter(order => {
-    let matchSearch = order.id.toString().includes(searchVal) || (order.customer?.name || "").toLowerCase().includes(searchVal);
+    let matchSearch =
+  order.id.toString().includes(searchVal) ||
+  (getUserNameById(order.customer?.id) || "").toLowerCase().includes(searchVal) || 
+  (order.customer?.name || "").toLowerCase().includes(searchVal) ||
+  order.items.some(item => (item.name || "").toLowerCase().includes(searchVal));
+
     let matchStatus = statusVal ? order.status === statusVal : true;
     let matchDate = dateVal ? order.date === dateVal : true;
     return matchSearch && matchStatus && matchDate;
