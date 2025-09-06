@@ -6,6 +6,13 @@ const statusFilter = document.getElementById("statusFilter");
 const priceFilter = document.getElementById("priceFilter");
 const priceValue = document.getElementById("priceValue");
 
+
+function getUserNameById(userId) {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let user = users.find(u => u.id === userId);
+  return user ? user.name : "Unknown User";
+}
+
 function renderOrders(list) {
   tbody.innerHTML = ""; 
   if (list.length === 0) {
@@ -40,13 +47,14 @@ function getUserNameById(userId) {
     }
 
     tbody.innerHTML += `
-        <tr data-id="${order.id}">
-            <td>${getUserNameById(order.customer?.id)}</td>
-            <td>${itemsText}</td>
-            <td>${totalQuantity}</td>
-            <td>${totalPrice} ${order.items[0]?.currency || "EGP"}</td>
-            <td>${order.paymentMethod || "cash"}</td>
-            <td>${order.date || ""}</td>
+        <tr data-id="${order.id}" style="vertical-align:middle;">
+            <td >${order.id}</td>
+            <td >${getUserNameById(order.customer?.id)}</td>
+            <td class="small">${itemsText}</td>
+            <td class="small" style="text-align:center;">${totalQuantity}</td>
+            <td class="small" style="text-align:center;">${totalPrice} ${order.items[0]?.currency || "EGP"}</td>
+            <td class="small" style="text-align:center;">${order.paymentMethod || "cash"}</td>
+            <td class="small">${order.date || ""}</td>
             <td>
                 <div class="status-cell badge ${statusClass} rounded-2 text-center p-1 text-white" 
                      style="width: fit-content; min-width: 80px;" 
@@ -148,10 +156,10 @@ function updateStatus(id, newStatus) {
   let order = orders.find(o => o.id === id);
   if (!order) return;
 
-  // غير حالة الأوردر نفسه
+ 
   order.status = newStatus.trim();
 
-  // خلي كل item ياخد نفس الحالة الجديدة
+
   if (order.items && order.items.length > 0) {
     order.items = order.items.map(it => ({
       ...it,
@@ -159,7 +167,6 @@ function updateStatus(id, newStatus) {
     }));
   }
 
-  // أعد حساب حالة الأوردر كله من الـ items
   order.status = recalcOrderStatus(order);
 
   localStorage.setItem("orders", JSON.stringify(orders));
@@ -181,9 +188,12 @@ function applyFilters() {
     if (!order.items || order.items.length === 0) return false;
 
     
-    let matchSearch =
+     let matchSearch =
       order.id.toString().includes(searchVal) ||
-      (order.customer?.name || "").toLowerCase().includes(searchVal);
+      (getUserNameById(order.customer?.id) || "").toLowerCase().includes(searchVal) ||
+      order.items.some(item =>
+        (item.name || "").toLowerCase().includes(searchVal)
+      );
 
     
     let matchStatus = statusVal ? order.status === statusVal : true;
@@ -256,3 +266,6 @@ document.addEventListener("DOMContentLoaded",function(){
     window.location.href="../../../sign/login/login.html"
    }
 })
+
+
+
