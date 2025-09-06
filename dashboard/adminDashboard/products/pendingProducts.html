@@ -408,7 +408,9 @@
   </div>
 
   <script>
-    // جلب المنتجات المعلقة من localStorage
+        function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
     const pendingProducts = JSON.parse(localStorage.getItem("pendingProducts")) || [];
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const container = document.getElementById("pendingProductsContainer");
@@ -445,7 +447,7 @@
             <td>${p.stock}</td>
             <td>${seller ? seller.name : p.sellerId}</td>
             <td>
-              <button class="btn btn-sm btn-success" onclick="approveProduct('${p.id}')">Approve</button>
+              <button class="btn btn-sm" style="background-color:#A0804D; color: white" onclick="approveProduct('${p.id}')">Approve</button>
               <button class="btn btn-sm btn-danger" onclick="rejectProduct('${p.id}')">Reject</button>
             </td>
           </tr>
