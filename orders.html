@@ -132,7 +132,7 @@
       statusClass = "bg-danger";
       break;
     default:
-      statusClass = "bg-secondary"; // fallback
+      statusClass = "bg-secondary"; 
   }
 
   const tr = document.createElement("tr");
@@ -165,14 +165,13 @@
     if (isConfirmed) {
       const id = e.target.closest(".delete-order").getAttribute("data-id");
 
-      // 1- هات الأوردر اللي هيتشال
+    
       const orderToDelete = orders.find(order => String(order.id) === String(id));
 
       if (orderToDelete) {
-        // 2- هات المنتجات من localStorage
+      
         let products = JSON.parse(localStorage.getItem("products")) || [];
 
-        // 3- رجّع الكمية للـ stock
         orderToDelete.items.forEach(item => {
           const productIndex = products.findIndex(p => p.id === item.id);
           if (productIndex !== -1) {
@@ -180,15 +179,14 @@
           }
         });
 
-        // 4- احفظ المنتجات بعد التعديل
+        
         localStorage.setItem("products", JSON.stringify(products));
       }
 
-      // 5- احذف الأوردر من قائمة الأوردرات
+    
       const updatedOrders = orders.filter(order => String(order.id) !== String(id));
       localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
-      // 6- انيميشن حذف الصف
       const row = e.target.closest("tr");
       row.style.transition = "all 0.3s ease";
       row.style.opacity = "0";
