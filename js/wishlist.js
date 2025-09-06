@@ -128,7 +128,7 @@ if (addBtn) {
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
     localStorage.setItem("users", JSON.stringify(users));
 
-    alert(` ${product.name} added to cart!`);
+    alert(` ${product.name} added to cart ✅`);
   }
   return;
 }

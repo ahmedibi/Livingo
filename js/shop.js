@@ -272,7 +272,7 @@ document.addEventListener("click", (e) => {
     if (userIndex !== -1) users[userIndex] = currentUser;
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
     localStorage.setItem("users", JSON.stringify(users));
-    alert(" Added to cart!");
+    alert("✅ Added to cart!");
   }
 });
 
@@ -305,5 +305,4 @@ function toggleUserList(key, productId, addMsg, removeMsg) {
   alert(added ? addMsg : removeMsg);
 }
 
-// أول تحميل
 renderProducts(filteredProducts, currentPage);

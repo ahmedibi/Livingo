@@ -343,7 +343,7 @@ function processPayment(method){
   const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
   modal.hide();
 
-  setTimeout(() => { window.location.href = 'cart.html'; }, 1000);
+  setTimeout(() => { window.location.href = 'orders.html'; }, 1000);
 }
 
 
