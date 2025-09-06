@@ -1,5 +1,6 @@
+// ====================== AUTH CHECK ======================
 document.addEventListener("DOMContentLoaded", () => {
-   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   if (!currentUser) {
     window.location.href = "../../../sign/login/login.html";
@@ -21,256 +22,226 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     window.location.href = "../../../sign/login/login.html";
   }
-
-
 });
 
+// ====================== DATA MANAGER ======================
+class DashboardDataManager {
+  constructor() {
+    this.charts = {};
+    this.init();
+  }
 
-    
-    class DashboardDataManager {
-      constructor() {
-        this.charts = {};
-        this.init();
-      }
-      init() {
-        this.initializeCharts();
-        this.loadDashboardData();
-        setInterval(() => { this.loadDashboardData(); }, 30000);
-      }
-      
-      loadDashboardData() {
-        try {
-          const usersData = localStorage.getItem('users');
-          const productsData = localStorage.getItem('products');
-          const ordersData = localStorage.getItem('orders');
-          if (usersData || productsData || ordersData) {
-            const users = usersData ? JSON.parse(usersData) : [];
-            const products = productsData ? JSON.parse(productsData) : [];
-            const orders = ordersData ? JSON.parse(ordersData) : [];
+  init() {
+    this.initializeCharts();
+    this.loadDashboardData();
+    setInterval(() => { this.loadDashboardData(); }, 30000);
+  }
 
-            
-            const userCounts = this.countUsersByRole(users);
-            const userCount = Array.isArray(users) ? users.length : (typeof users === 'object' ? Object.keys(users).length : 1);
-            const productCount = Array.isArray(products) ? products.length : (typeof products === 'object' ? Object.keys(products).length : 1);
-            const orderCount = Array.isArray(orders) ? orders.length : (typeof orders === 'object' ? object.keys(orders).length : 1);
-            const counts = {
-              users: userCount,
-              sellers: userCounts.sellers,
-              customers: userCounts.customers,
-              orders: 0,
-              products: productCount,
-              orders: orderCount,
-            };
+  loadDashboardData() {
+    try {
+      const usersData = JSON.parse(localStorage.getItem('users') || '[]');
+      const productsData = JSON.parse(localStorage.getItem('products') || '{}');
+      const ordersData = JSON.parse(localStorage.getItem('orders') || '[]');
 
-            const chartData = this.generateChartData(counts, userCounts);
-            this.updateDisplay(counts, chartData);
-            this.hideNoDataMessage();
+      const users = Array.isArray(usersData) ? usersData : Object.values(usersData);
+      const products = Array.isArray(productsData) ? productsData : Object.values(productsData);
+      const orders = Array.isArray(ordersData) ? ordersData : Object.values(ordersData);
 
-            console.log(`Found ${userCount} users (${userCounts.customers} customers, ${userCounts.sellers} sellers) and ${productCount} products in localStorage`);
-          } else {
-            this.showNoDataMessage();
-            this.resetDisplay();
-          }
+      const userCounts = this.countUsersByRole(users);
+      const counts = {
+        users: users.length,
+        sellers: userCounts.sellers,
+        customers: userCounts.customers,
+        products: products.length,
+        orders: orders.length
+      };
 
-        } catch (error) {
-          console.error('Error loading data from localStorage:', error);
-          this.showError();
-        }
-      }
+      // 🔹 Generate dynamic chart data
+      const chartData = this.generateChartData(counts, userCounts, products, orders, users);
+      this.updateDisplay(counts, chartData);
+      this.hideNoDataMessage();
 
-      
-      countUsersByRole(users) {
-        let customers = 0;
-        let sellers = 0;
-        let others = 0;
+    } catch (error) {
+      console.error('Error loading data from localStorage:', error);
+      this.showError();
+    }
+  }
 
-        if (Array.isArray(users)) {
-          users.forEach(user => {
-            if (user && user.role) {
-              if (user.role.toLowerCase() === 'customer') {
-                customers++;
-              } else if (user.role.toLowerCase() === 'seller') {
-                sellers++;
-              } else {
-                others++;
-              }
-            } else {
-              
-              customers++;
-            }
-          });
-        } else if (typeof users === 'object' && users !== null) {
-          
-          Object.values(users).forEach(user => {
-            if (user && user.role) {
-              if (user.role.toLowerCase() === 'customer') {
-                customers++;
-              } else if (user.role.toLowerCase() === 'seller') {
-                sellers++;
-              } else {
-                others++;
-              }
-            } else {
-              customers++;
-            }
-          });
-        }
+  countUsersByRole(users) {
+    let customers = 0, sellers = 0, others = 0;
+    users.forEach(user => {
+      if (user?.role) {
+        if (user.role.toLowerCase() === 'customer') customers++;
+        else if (user.role.toLowerCase() === 'seller') sellers++;
+        else others++;
+      } else customers++;
+    });
+    return { customers, sellers, others };
+  }
 
-        return { customers, sellers, others };
-      }
-
-      
-      generateChartData(data, userCounts) {
-        const { users = 0 } = data;
-        if (users === 0) {
-          return {
-            ordersByStatus: [{ status: 'No Data', count: 1 }],
-            topProducts: [{ name: 'No Data', orders: 0 }],
-            monthlyOrders: [{ month: 'Current', count: 0 }]
-          };
-        }
-
-        
-        const roleDistribution = [];
-        if (userCounts.customers > 0) {
-          roleDistribution.push({ status: 'Customer', count: userCounts.customers });
-        }
-        if (userCounts.sellers > 0) {
-          roleDistribution.push({ status: 'Seller', count: userCounts.sellers });
-        }
-        if (userCounts.others > 0) {
-          roleDistribution.push({ status: 'Other', count: userCounts.others });
-        }
-
-        
-        if (roleDistribution.length === 0) {
-          roleDistribution.push({ status: 'Users', count: users });
-        }
-
-        return {
-          ordersByStatus: roleDistribution,
-          topProducts: [
-            { name: 'Soft Beige L-Shaped Sofa', orders: Math.floor(users * 0.35) || 1 },
-            { name: 'Square Wooden Table', orders: Math.floor(users * 0.25) || 1 },
-            { name: 'Elegant Light Wood TV Unit', orders: Math.floor(users * 0.20) || 1 },
-            { name: 'Modern Wooden Bed', orders: Math.floor(users * 0.20) || 1 }
-          ],
-          monthlyOrders: [
-            { month: 'January', count: Math.floor(users * 0.15) || 0 },
-            { month: 'February', count: Math.floor(users * 0.18) || 0 },
-            { month: 'March', count: Math.floor(users * 0.22) || 0 },
-            { month: 'April', count: Math.floor(users * 0.20) || 0 },
-            { month: 'May', count: Math.floor(users * 0.12) || 0 },
-            { month: 'June', count: Math.floor(users * 0.13) || 0 }
-          ]
-        };
-      }
-
-      
-      showNoDataMessage() {
-        const existingMessage = document.querySelector('.no-data-message');
-        if (!existingMessage) {
-          const message = document.createElement('div');
-          message.className = 'no-data-message';
-          message.innerHTML = `<h5>📊 No Data Available</h5>`;
-          const container = document.querySelector('.container');
-          const cardsRow = document.querySelector('.row.text-center.mb-4');
-          container.insertBefore(message, cardsRow);
-        }
-      }
-
-      hideNoDataMessage() {
-        const message = document.querySelector('.no-data-message');
-        if (message) message.remove();
-      }
-
-      
-      updateDisplay(counts, chartData) {
-        this.animateCounter('userCount', counts.users || 0);
-        this.animateCounter('sellerCount', counts.sellers || 0);
-        this.animateCounter('orderCount', counts.orders || 0);
-        this.animateCounter('productCount', counts.products || 0);
-        this.updateCharts(chartData);
-      }
-
-      resetDisplay() {
-        document.getElementById('userCount').textContent = '0';
-        document.getElementById('sellerCount').textContent = '0';
-        document.getElementById('orderCount').textContent = '0';
-        document.getElementById('productCount').textContent = '0';
-      }
-
-      showError() {
-        document.getElementById('userCount').innerHTML = '<span style="color:#ff6b6b; font-size:0.8em;">Error</span>';
-        document.getElementById('sellerCount').textContent = '0';
-        document.getElementById('orderCount').textContent = '0';
-        document.getElementById('productCount').textContent = '0';
-      }
-
-      animateCounter(elementId, targetValue) {
-        const element = document.getElementById(elementId);
-        const startValue = parseInt(element.textContent) || 0;
-        const duration = 800;
-        const startTime = performance.now();
-
-        const animate = (currentTime) => {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-          const currentValue = Math.floor(easeOutQuart * (targetValue - startValue) + startValue);
-          element.textContent = currentValue.toLocaleString();
-          if (progress < 1) requestAnimationFrame(animate);
-        };
-        requestAnimationFrame(animate);
-      }
-
-      
-      initializeCharts() {
-        this.charts.pieChart = new Chart(document.getElementById('pieChart'), {
-          type: 'doughnut',
-          data: { labels: [], datasets: [{ data: [], backgroundColor: ['#b07d62', '#414833', '#deab90', '#a4ac86'] }] },
-          options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-        });
-
-        this.charts.barChart = new Chart(document.getElementById('barChart'), {
-          type: 'bar',
-          data: { labels: [], datasets: [{ label: 'Count', data: [], backgroundColor: ['#6f1d1b', '#bb9457', '#432818', '#ffe6a7'] }] },
-          options: { responsive: true, plugins: { legend: { display: false } } }
-        });
-
-        this.charts.lineChart = new Chart(document.getElementById('lineChart'), {
-          type: 'line',
-          data: { labels: [], datasets: [{ label: 'Monthly Users', data: [], borderColor: '#bb9457', backgroundColor: 'rgba(187, 148, 87, 0.1)', tension: 0.4, fill: true }] },
-          options: { responsive: true, plugins: { legend: { display: false } } }
-        });
-      }
-
-      updateCharts(chartData) {
-        if (!chartData) return;
-        this.charts.pieChart.data.labels = chartData.ordersByStatus.map(item => item.status);
-        this.charts.pieChart.data.datasets[0].data = chartData.ordersByStatus.map(item => item.count);
-        this.charts.pieChart.update();
-
-        this.charts.barChart.data.labels = chartData.topProducts.map(item => item.name);
-        this.charts.barChart.data.datasets[0].data = chartData.topProducts.map(item => item.orders);
-        this.charts.barChart.update();
-
-        this.charts.lineChart.data.labels = chartData.monthlyOrders.map(item => item.month);
-        this.charts.lineChart.data.datasets[0].data = chartData.monthlyOrders.map(item => item.count);
-        this.charts.lineChart.update();
-      }
+  generateChartData(data, userCounts, products, orders, users) {
+    const { users: totalUsers = 0 } = data;
+    if (totalUsers === 0) {
+      return {
+        ordersByStatus: [{ status: 'No Data', count: 1 }],
+        topOrders: [{ name: 'No Data', revenue: 0 }],
+        monthlyOrders: [{ month: 'Current', sales: 0 }]
+      };
     }
 
-    
-    let dashboard;
-    document.addEventListener('DOMContentLoaded', () => {
-      dashboard = new DashboardDataManager();
+    // 🔹 Role distribution
+    const roleDistribution = [];
+    if (userCounts.customers > 0) roleDistribution.push({ status: 'Customer', count: userCounts.customers });
+    if (userCounts.sellers > 0) roleDistribution.push({ status: 'Seller', count: userCounts.sellers });
+    if (userCounts.others > 0) roleDistribution.push({ status: 'Other', count: userCounts.others });
+    if (roleDistribution.length === 0) roleDistribution.push({ status: 'Users', count: totalUsers });
+
+    // 🔹 Monthly sales
+    const monthlySalesMap = {};
+    orders.forEach(order => {
+      const orderDate = new Date(order.date || Date.now());
+      const monthKey = orderDate.toLocaleDateString('en-US', { month: 'short' });
+      if (!monthlySalesMap[monthKey]) monthlySalesMap[monthKey] = 0;
+
+      order.items?.forEach(item => {
+        if (item?.price) {
+          monthlySalesMap[monthKey] += parseFloat(item.price) * (item.quantity || 1);
+        }
+      });
     });
 
+    const monthOrder = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monthlyOrders = Object.entries(monthlySalesMap)
+      .sort(([a],[b]) => monthOrder.indexOf(a) - monthOrder.indexOf(b))
+      .map(([month, sales]) => ({ month, sales: Math.round(sales) }));
+
+    // 🔹 Revenue per product (instead of per order)
+    const productRevenueMap = {};
+    orders.forEach(order => {
+      order.items?.forEach(item => {
+        if (!productRevenueMap[item.name]) productRevenueMap[item.name] = 0;
+        productRevenueMap[item.name] += (parseFloat(item.price) || 0) * (item.quantity || 1);
+      });
+    });
+
+    // Convert map → array of { name, revenue }
+    const productRevenues = Object.entries(productRevenueMap).map(([name, revenue]) => ({
+      name,
+      revenue
+    }));
+
+    // Pick top 4 products
+    const topOrders = productRevenues
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 4);
+
+    return { ordersByStatus: roleDistribution, topOrders, monthlyOrders };
+  }
+
+  // ================= UI Helpers =================
+  showNoDataMessage() {
+    const existingMessage = document.querySelector('.no-data-message');
+    if (!existingMessage) {
+      const message = document.createElement('div');
+      message.className = 'no-data-message';
+      message.innerHTML = `<h5>📊 No Data Available</h5>`;
+      const container = document.querySelector('.container');
+      const cardsRow = document.querySelector('.row.text-center.mb-4');
+      container.insertBefore(message, cardsRow);
+    }
+  }
+
+  hideNoDataMessage() {
+    const message = document.querySelector('.no-data-message');
+    if (message) message.remove();
+  }
+
+  updateDisplay(counts, chartData) {
+    this.animateCounter('userCount', counts.users || 0);
+    this.animateCounter('sellerCount', counts.sellers || 0);
+    this.animateCounter('orderCount', counts.orders || 0);
+    this.animateCounter('productCount', counts.products || 0);
+    this.updateCharts(chartData);
+  }
+
+  resetDisplay() {
+    document.getElementById('userCount').textContent = '0';
+    document.getElementById('sellerCount').textContent = '0';
+    document.getElementById('orderCount').textContent = '0';
+    document.getElementById('productCount').textContent = '0';
+  }
+
+  showError() {
+    document.getElementById('userCount').innerHTML = '<span style="color:#ff6b6b; font-size:0.8em;">Error</span>';
+    document.getElementById('sellerCount').textContent = '0';
+    document.getElementById('orderCount').textContent = '0';
+    document.getElementById('productCount').textContent = '0';
+  }
+
+  animateCounter(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+    const startValue = parseInt(element.textContent) || 0;
+    const duration = 800;
+    const startTime = performance.now();
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentValue = Math.floor(easeOutQuart * (targetValue - startValue) + startValue);
+      element.textContent = currentValue.toLocaleString();
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }
+
+  initializeCharts() {
+    this.charts.pieChart = new Chart(document.getElementById('pieChart'), {
+      type: 'doughnut',
+      data: { labels: [], datasets: [{ data: [], backgroundColor: ['#b07d62', '#414833', '#deab90', '#a4ac86'] }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    this.charts.barChart = new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: { labels: [], datasets: [{ label: 'Total Price (EGP)', data: [], backgroundColor: ['#6f1d1b', '#bb9457', '#432818', '#ffe6a7'] }] },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    this.charts.lineChart = new Chart(document.getElementById('lineChart'), {
+      type: 'line',
+      data: { labels: [], datasets: [{ label: 'Monthly Sales (EGP)', data: [], borderColor: '#bb9457', backgroundColor: 'rgba(187, 148, 87, 0.1)', tension: 0.4, fill: true }] },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+  }
+
+  updateCharts(chartData) {
+    if (!chartData) return;
+
+    this.charts.pieChart.data.labels = chartData.ordersByStatus.map(item => item.status);
+    this.charts.pieChart.data.datasets[0].data = chartData.ordersByStatus.map(item => item.count);
+    this.charts.pieChart.update();
+
+    // 🔹 Top Products chart (each product is its own column)
+    this.charts.barChart.data.labels = chartData.topOrders.map(item => item.name);
+    this.charts.barChart.data.datasets[0].data = chartData.topOrders.map(item => item.revenue);
+    this.charts.barChart.update();
+
+    this.charts.lineChart.data.labels = chartData.monthlyOrders.map(item => item.month);
+    this.charts.lineChart.data.datasets[0].data = chartData.monthlyOrders.map(item => item.sales);
+    this.charts.lineChart.update();
+  }
+}
+
+// ====================== INIT ======================
+let dashboard;
+document.addEventListener('DOMContentLoaded', () => {
+  dashboard = new DashboardDataManager();
+});
+
+// ====================== MENU / LOGOUT ======================
 function setActiveMenuItem(clickedElement) {
-  document.querySelectorAll('.sidebar ul li').forEach(li => {
-    li.classList.remove('active');
-  });
+  document.querySelectorAll('.sidebar ul li').forEach(li => li.classList.remove('active'));
   clickedElement.parentElement.classList.add('active');
 }
 
@@ -278,14 +249,10 @@ function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
 }
 
-
-const logout= document.getElementById("logOut")
-  logout.addEventListener("click", function () {
-  const confirmLogout = confirm("Are you sure you want to log out?");
-
-  if (confirmLogout) {
+const logout = document.getElementById("logOut");
+if (logout) logout.addEventListener("click", function () {
+  if (confirm("Are you sure you want to log out?")) {
     localStorage.removeItem("currentUser");
     window.location.href = "../../../sign/login/login.html";
   }
 });
-
