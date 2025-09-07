@@ -204,10 +204,10 @@
                 padding-top: 60px;
                 width: 100% !important;
                 margin-top: 30px !important;
-            
+
             }
-          
-            
+
+
         }
 
         @media (min-width: 769px) and (max-width:1300px) {
@@ -215,7 +215,7 @@
                 margin-left: 110px;
                 padding-top: 60px;
                 width: 85% !important;
-                
+
             }
 
             .livingo-icon {
@@ -266,19 +266,19 @@
     </style>
 </head>
 
-<body>
+<body class="overflow-x-hidden">
     <div class="sidemenu" onclick="toggleSidebar()">&#9776;</div>
     <aside class="sidebar" id="sidebar">
         <button class="btn-close btn-close-black" aria-label="Close" onclick="toggleSidebar()"></button>
         <a href="../../../index.html" class="logo">
             <svg width="38" height="38" viewBox="0 0 38 38" class="livingo-icon" aria-hidden="true">
-                
+
                 <ellipse cx="19" cy="13" rx="10" ry="7" fill="#cdbc92" />
-                
+
                 <rect x="17" y="13" width="4" height="13" rx="2" fill="#a0804d" />
-                
+
                 <ellipse cx="19" cy="31" rx="7" ry="3" fill="#59442a" />
-                
+
                 <ellipse class="lamp-glow" cx="19" cy="20" rx="12" ry="4" fill="#edd67d" opacity="0.14" />
             </svg>
             <span class="livingo-word">Living<span class="cushion-o">o</span></span>
@@ -304,11 +304,14 @@
                 </a>
             </li>
             <li>
-        <a href="../products/pendingProducts.html">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#000" d="M17 22q-2.075 0-3.537-1.463T12 17t1.463-3.537T17 12t3.538 1.463T22 17t-1.463 3.538T17 22m.5-5.2v-2.3q0-.2-.15-.35T17 14t-.35.15t-.15.35v2.275q0 .2.075.388t.225.337l1.525 1.525q.15.15.35.15t.35-.15t.15-.35t-.15-.35zM5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h4.175q.275-.875 1.075-1.437T12 1q1 0 1.788.563T14.85 3H19q.825 0 1.413.588T21 5v4q0 .425-.288.713T20 10t-.712-.288T19 9V5h-2v2q0 .425-.288.713T16 8H8q-.425 0-.712-.288T7 7V5H5v14h4.5q.425 0 .713.288T10.5 20t-.288.713T9.5 21zm7-16q.425 0 .713-.288T13 4t-.288-.712T12 3t-.712.288T11 4t.288.713T12 5"/></svg>
-          <span style="margin-left: 10px;">Pending Products</span>
-        </a>
-      </li>
+                <a href="../products/pendingProducts.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                        <path fill="#000"
+                            d="M17 22q-2.075 0-3.537-1.463T12 17t1.463-3.537T17 12t3.538 1.463T22 17t-1.463 3.538T17 22m.5-5.2v-2.3q0-.2-.15-.35T17 14t-.35.15t-.15.35v2.275q0 .2.075.388t.225.337l1.525 1.525q.15.15.35.15t.35-.15t.15-.35t-.15-.35zM5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h4.175q.275-.875 1.075-1.437T12 1q1 0 1.788.563T14.85 3H19q.825 0 1.413.588T21 5v4q0 .425-.288.713T20 10t-.712-.288T19 9V5h-2v2q0 .425-.288.713T16 8H8q-.425 0-.712-.288T7 7V5H5v14h4.5q.425 0 .713.288T10.5 20t-.288.713T9.5 21zm7-16q.425 0 .713-.288T13 4t-.288-.712T12 3t-.712.288T11 4t.288.713T12 5" />
+                    </svg>
+                    <span style="margin-left: 10px;" class="small">Pending Products</span>
+                </a>
+            </li>
             <li class="active">
                 <a href="../users/UsersPage.html">
 
@@ -358,23 +361,39 @@
 
     <div class="container-fluid vh-100 d-flex p-0 content">
 
-        
+
         <main class="flex-grow-1 p-3">
             <h1 style="color: #a0804d;"><i class="fa-solid fa-circle-info" style="color: #b69d6f;"></i>User Information
             </h1>
 
 
 
-            
+
             <div class="card mb-4">
                 <div class="card-header text-black fw-bold fs-4">Personal Details</div>
                 <div class="card-body">
-                    <div class="d-flex"><p><strong>Name:</strong> <p id="userName"></p></p></div>
-                    <div class="d-flex"><p><strong>Email:</strong> <p id="userEmail"></p></p></div>
-                    <div class="d-flex"><p><strong>Role:</strong> <p id="userRole"></p></p></div>
-                    <div class="d-flex"><p><strong>Gender:</strong> <p id="userGender"></p></p></div>
+                    <div class="d-flex">
+                        <p><strong>Name:</strong>
+                        <p id="userName"></p>
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <p><strong>Email:</strong>
+                        <p id="userEmail"></p>
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <p><strong>Role:</strong>
+                        <p id="userRole"></p>
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <p><strong>Gender:</strong>
+                        <p id="userGender"></p>
+                        </p>
+                    </div>
 
-                    
+
                     <form id="locationForm" class="mb-3">
                         <label class="form-label"><strong>Location:</strong></label>
                         <input type="text" id="userLocation" class="form-control mb-2">
@@ -383,7 +402,7 @@
                             Location</button>
                     </form>
 
-                    
+
                     <form id="passwordForm">
                         <label class="form-label"><strong>Change Password:</strong></label>
                         <input type="password" id="newPassword" class="form-control mb-2" placeholder="New Password">
@@ -396,7 +415,7 @@
                 </div>
             </div>
 
-            
+
             <div class="card">
                 <div class="card-header fw-bold fs-4 text-black" style="background-color: #af995d;">Order History</div>
                 <div class="card-body p-0">
@@ -442,7 +461,7 @@
         document.getElementById("userGender").textContent = user.gender || "-";
         document.getElementById("userLocation").value = user.address || "";
 
-      
+
         document.getElementById("locationForm").addEventListener("submit", e => {
             e.preventDefault();
             user.address = document.getElementById("userLocation").value;
@@ -450,14 +469,14 @@
             alert("Location updated!");
         });
 
-    
+
         document.getElementById("passwordForm").addEventListener("submit", e => {
             e.preventDefault();
             let newPass = document.getElementById("newPassword").value;
             let confirmPass = document.getElementById("confirmPassword").value;
-            if(newPass<6){
-              alert("password must be at least 6 characters");
-              return;
+            if (newPass < 6) {
+                alert("password must be at least 6 characters");
+                return;
             }
             if (newPass !== confirmPass) {
                 alert("Passwords do not match!");
@@ -486,11 +505,11 @@
         //     }
 
 
-    
+
         const orderTable = document.getElementById("orderHistory");
         let allOrders = JSON.parse(localStorage.getItem("orders")) || [];
 
-      
+
         let userOrders = allOrders.filter(o => o.customer.id === selectedId);
 
         if (userOrders.length > 0) {
@@ -519,35 +538,35 @@
         }
         const logout = document.getElementById("logOut")
         logout.addEventListener("click", function () {
-         const confirmLogout = confirm("Are you sure you want to log out?");
-        
-         if (confirmLogout) {
-           localStorage.removeItem("currentUser");
-           window.location.href = "../../../sign/login/login.html";
-         }
-         });
+            const confirmLogout = confirm("Are you sure you want to log out?");
 
-         document.addEventListener("DOMContentLoaded",function(){
-  const currentUser= JSON.parse(localStorage.getItem("currentUser"));
-   if(!currentUser){
-    window.location.href="../../../sign/login/login.html"
-   }
+            if (confirmLogout) {
+                localStorage.removeItem("currentUser");
+                window.location.href = "../../../sign/login/login.html";
+            }
+        });
 
-   if(currentUser.role){
-     const role = currentUser.role.toLowerCase();
-     if(role=="admin"){
-      console.log("welcom admin")
-     } else if (role=="customer"){
-      window.location.href="../../../index.html"
-     } else if (role=="seller"){
-      window.location.href="../../sellerDashboard/index/index.html"
-     } else{
-      window.location.href="../../../sign/login/login.html"
-     }
-   } else{
-    window.location.href="../../../sign/login/login.html"
-   }
-})
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (!currentUser) {
+                window.location.href = "../../../sign/login/login.html"
+            }
+
+            if (currentUser.role) {
+                const role = currentUser.role.toLowerCase();
+                if (role == "admin") {
+                    console.log("welcom admin")
+                } else if (role == "customer") {
+                    window.location.href = "../../../index.html"
+                } else if (role == "seller") {
+                    window.location.href = "../../sellerDashboard/index/index.html"
+                } else {
+                    window.location.href = "../../../sign/login/login.html"
+                }
+            } else {
+                window.location.href = "../../../sign/login/login.html"
+            }
+        })
 
     </script>
 </body>

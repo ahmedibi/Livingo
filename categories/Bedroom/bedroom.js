@@ -126,7 +126,7 @@ function updateTrack() {
   const max = parseInt(rangeMax.value);
   const percentMin = (min / rangeMin.max) * 100;
   const percentMax = (max / rangeMax.max) * 100;
-  trackFill.style.left = percentMin + "%";
+  trackFill.style.left = percentMin + "%";  
   trackFill.style.width = (percentMax - percentMin) + "%";
 }
 
@@ -153,7 +153,7 @@ function syncInputs() {
 rangeMin.addEventListener("input", syncInputs);
 rangeMax.addEventListener("input", syncInputs);
 
-minPriceInput.addEventListener("input", () => {
+minPriceInput.addEventListener("change", () => {
   let val = parseInt(minPriceInput.value) || 0;
   if (val < 0) val = 0;
   if (val > parseInt(rangeMax.value) - 100) val = parseInt(rangeMax.value) - 100;
@@ -161,7 +161,7 @@ minPriceInput.addEventListener("input", () => {
   syncInputs();
 });
 
-maxPriceInput.addEventListener("input", () => {
+maxPriceInput.addEventListener("change", () => {
   let val = parseInt(maxPriceInput.value) || 1800;
   if (val > 1800) val = 1800;
   if (val < parseInt(rangeMin.value) + 100) val = parseInt(rangeMin.value) + 100;
